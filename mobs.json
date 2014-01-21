@@ -1,0 +1,63 @@
+{
+  "mobs":	[
+    {
+      "name":		"rich-zombies",
+      "enabled":	true,
+      "type":		"ZOMBIE",
+      "min":		10,
+      "max":		50,
+      "probability":	0.50,
+      "treasures":	[
+	{
+	  "material":		"DIAMOND",
+	  "min":		0,
+	  "max":		2,
+	  "probability":	0.05,
+	  
+	}
+      ]
+    },
+    {
+      "name":		"skeletons",
+      "enabled":	true,
+      "type":		"SKELETON",
+      "min":		10,
+      "max":		20,
+      "probability":	0.50,
+      "treasures":	[
+	{
+	  "material":		"ARROW",
+	  "min":		5,
+	  "max":		10,
+	  "probability":	0.05,
+	  
+	}
+      ]
+    },
+    {
+      "name":		"blaze-guardians",
+      "enabled":	true,
+      "type":		"BLAZE",
+      "min":		1,
+      "max":		2,
+      "probability":	0.25,
+      "treasures":	[
+	{
+	  "material": "MELON_BLOCK",
+	  "min": 1,
+	  "max": 5,
+	  "probability": 0.5
+	}
+      ]
+    },
+    {
+      "name":		"aFewZombies",
+      "enabled":	true,
+      "type":		"ZOMBIE",
+      "min":		1,
+      "max":		5,
+      "probability":	0.25,
+      "treasures":	null
+    },
+  ]
+}

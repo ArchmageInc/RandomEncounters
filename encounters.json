@@ -1,0 +1,814 @@
+{
+  "encounters":	[
+    {
+      "name":		"pagoda",
+      "enabled":	true,
+      "probability":	0.00005,
+      "structure":	"pagoda",
+      "mobs":		[
+	"rich-zombies"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"lost-temple",
+      "enabled":	true,
+      "probability":	0.001,
+      "structure":	"lost-temple",
+      "mobs":		[
+	"rich-zombies",
+	"skeletons",
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"healingshrine",
+      "enabled": 	true,
+      "probability":	0.005,
+      "structure":	"healingshrine",
+      "mobs":		[
+	"blaze-guardians"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"small-medieval-house",
+      "enabled": 	true,
+      "probability":	0.005,
+      "structure":	"small-medieval-house",
+      "mobs":		[
+	"aFewZombies"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"medieval-house",
+      "enabled": 	true,
+      "probability":	0.005,
+      "structure":	"medieval-house",
+      "mobs":		[
+	"aFewZombies"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"small-chapel",
+      "enabled": 	true,
+      "probability":	0.0005,
+      "structure":	"small-chapel",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"13th-century-monastery",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		1,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"church-with-cemetery",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		1,
+	  "distance":		10
+	}
+	
+      ]
+    },
+    {
+      "name":		"sandstone-watchtower",
+      "enabled": 	true,
+      "probability":	0.001,
+      "structure":	"sandstone-watchtower",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	[
+	"DESERT",
+	"BEACH",
+	"DESERT_MOUNTAINS"
+      ],
+      "invalidBiomes":	null,
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+    {
+      "name":		"medieval-stonebrick",
+      "enabled": 	true,
+      "probability":	0.005,
+      "structure":	"medieval-stonebrick",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"medieval-small-windmill",
+      "enabled": 	true,
+      "probability":	0.005,
+      "structure":	"medieval-small-windmill",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+    {
+      "name":		"magictower-1",
+      "enabled": 	true,
+      "probability":	0.005,
+      "structure":	"magictower-1",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+    {
+      "name":		"templo-romano",
+      "enabled": 	true,
+      "probability":	0.001,
+      "structure":	"templo-romano",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"ruins-trap",
+      "enabled": 	true,
+      "probability":	0.001,
+      "structure":	"ruins-trap",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"decorative-ruin",
+      "enabled": 	true,
+      "probability":	0.001,
+      "structure":	"decorative-ruin",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"seahorse-isle",
+      "enabled": 	true,
+      "probability":	0.0001,
+      "structure":	"seahorse-isle",
+      "mobs":		[
+	"rich-zombies",
+	"skeletons"
+      ],
+      "validBiomes":	[
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "invalidBiomes":	null,
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"floating-island",
+      "enabled": 	true,
+      "probability":	0.0001,
+      "structure":	"floating-island",
+      "mobs":		[
+	"rich-zombies",
+	"skeletons"
+      ],
+      "validBiomes":	[
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "invalidBiomes":	null,
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"floating-temple",
+	  "probability":	0.0001,
+	  "duration":		30000,
+	  "max":		1,
+	  "distance":		20
+	}
+      ]
+    },
+    {
+      "name":		"floating-temple",
+      "enabled": 	true,
+      "probability":	0.0001,
+      "structure":	"floating-temple",
+      "mobs":		[
+	"rich-zombies",
+	"skeletons"
+      ],
+      "validBiomes":	[
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "invalidBiomes":	null,
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"evil-shrine",
+      "enabled": 	true,
+      "probability":	0.0001,
+      "structure":	"evil-shrine",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"healingshrine",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	}
+      ]
+    },
+    {
+      "name":		"jonas-tower",
+      "enabled": 	true,
+      "probability":	0.0001,
+      "structure":	"jonas-tower",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+    {
+      "name":		"steampunk-house",
+      "enabled": 	true,
+      "probability":	0.0001,
+      "structure":	"steampunk-house",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+    {
+      "name":		"13th-century-monastery",
+      "enabled": 	true,
+      "probability":	0.0001,
+      "structure":	"13th-century-monastery",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+    {
+      "name":		"hobbit-house-w-secret",
+      "enabled": 	true,
+      "probability":	0.001,
+      "structure":	"hobbit-house-w-secret",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	null
+    },
+    {
+      "name":		"church-with-cemetery",
+      "enabled": 	true,
+      "probability":	0.001,
+      "structure":	"church-with-cemetery",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"special-shop",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+    {
+      "name":		"special-shop",
+      "enabled": 	true,
+      "probability":	0.001,
+      "structure":	"special-shop",
+      "mobs":		[
+	"aFewZombies",
+	"skeletons"
+      ],
+      "validBiomes":	null,
+      "invalidBiomes":	[
+	"HELL",
+	"OCEAN",
+	"DEEP_OCEAN"
+      ],
+      "treasures":	null,
+      "expansions":	[
+	{
+	  "encounter":		"small-medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-house",
+	  "probability":	0.01,
+	  "duration":		30000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"medieval-stonebrick",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		4,
+	  "distance":		10
+	},
+	{
+	  "encounter":		"small-chapel",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	},
+	{
+	  "encounter":		"medieval-small-windmill",
+	  "probability":	0.05,
+	  "duration":		3000,
+	  "max":		1,
+	  "distance":		5
+	}
+      ]
+    },
+  ]
+}
