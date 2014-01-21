@@ -24,7 +24,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -56,7 +56,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -88,7 +88,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -120,7 +120,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -152,7 +152,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -184,7 +184,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -216,7 +216,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -248,7 +248,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -280,7 +280,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -312,7 +312,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -344,7 +344,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -376,7 +376,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -420,7 +420,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -452,7 +452,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	null
     },
@@ -480,7 +480,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	null
     },
@@ -508,7 +508,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -540,7 +540,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -572,7 +572,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -604,7 +604,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -636,7 +636,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -668,7 +668,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -700,7 +700,7 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
@@ -732,13 +732,13 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2",
+	"LEAVES_2"
       ],
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
 	"WATER"
       ]
-    },
+    }
   ]
 }

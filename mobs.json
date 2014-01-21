@@ -12,8 +12,7 @@
 	  "material":		"DIAMOND",
 	  "min":		0,
 	  "max":		2,
-	  "probability":	0.05,
-	  
+	  "probability":	0.05
 	}
       ]
     },
@@ -29,8 +28,7 @@
 	  "material":		"ARROW",
 	  "min":		5,
 	  "max":		10,
-	  "probability":	0.05,
-	  
+	  "probability":	0.05
 	}
       ]
     },
@@ -58,6 +56,6 @@
       "max":		5,
       "probability":	0.25,
       "treasures":	null
-    },
+    }
   ]
 }

@@ -24,7 +24,7 @@
       "structure":	"lost-temple",
       "mobs":		[
 	"rich-zombies",
-	"skeletons",
+	"skeletons"
       ],
       "validBiomes":	null,
       "invalidBiomes":	[
@@ -809,6 +809,6 @@
 	  "distance":		5
 	}
       ]
-    },
+    }
   ]
 }
