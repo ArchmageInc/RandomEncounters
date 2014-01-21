@@ -1,0 +1,7 @@
+structureConfig: "structures.json"
+mobConfig: "mobs.json"
+encounterConfig: "encounters.json"
+savedEncounters: "savedEncounters.json"
+debug:
+    loglevel: 0
+    midas: false
