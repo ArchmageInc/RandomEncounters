@@ -39,6 +39,21 @@ public class Treasure {
         
     }
     
+    protected void setEnchantments(ItemStack item){
+        if(enchantments.size()>0){
+            for(TreasureEnchantment tEnchantment : enchantments){
+                Enchantment enchantment =   tEnchantment.get();
+                if(enchantment!=null){
+                    try{
+                        item.addEnchantment(enchantment, tEnchantment.getLevel());
+                    }catch(IllegalArgumentException e){
+                        RandomEncounters.getInstance().logWarning("Invalid enchantment for Treasure item: "+e.getMessage());
+                    }
+                }
+            }
+        }
+    }
+    
     public List<ItemStack> get(){
         List<ItemStack> list    =   new ArrayList();
         ItemStack stack         =   new ItemStack(material,0);
@@ -50,23 +65,21 @@ public class Treasure {
                     list.add(stack.clone());
                     stack   =   new ItemStack(material,1);
                 }
-                if(enchantments.size()>0){
-                    for(TreasureEnchantment tEnchantment : enchantments){
-                        Enchantment enchantment =   tEnchantment.get();
-                        if(enchantment!=null){
-                            try{
-                                stack.addEnchantment(enchantment, tEnchantment.getLevel());
-                            }catch(IllegalArgumentException e){
-                                RandomEncounters.getInstance().logWarning("Invalid enchantment for Treasure item: "+e.getMessage());
-                            }
-                        }
-                    }
-                }
+                setEnchantments(stack);
             }
         }
         if(stack.getAmount()>0){
             list.add(stack);
         }
         return list;
+    }
+    
+    public ItemStack getOne(){
+        ItemStack item  =   null;
+        if(Math.random()<probability){
+            item    =   new ItemStack(material,1);
+            setEnchantments(item);
+        }
+        return item;
     }
 }
