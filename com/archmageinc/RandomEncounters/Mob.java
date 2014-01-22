@@ -25,8 +25,9 @@ public class Mob{
     protected Long max;
     protected Double probability;
     protected Boolean enabled;
-    protected Set<Treasure> treasures   =   new HashSet();
     protected JSONObject equipment;
+    protected Set<Treasure> treasures       =   new HashSet();
+    protected Set<MobPotionEffect> effects  =   new HashSet();
     
     public static Mob getInstance(JSONObject jsonConfiguration){
         try{
@@ -60,15 +61,19 @@ public class Mob{
             probability                 =   (Double) jsonConfiguration.get("probability");
             equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
+            JSONArray jsonEffects       =   (JSONArray) jsonConfiguration.get("potionEffects");
             if(jsonTreasures!=null){
                 for(int i=0;i<jsonTreasures.size();i++){
                     treasures.add(new Treasure((JSONObject) jsonTreasures.get(i)));
                 }
             }
-
-            /*
-            TODO: We should add configuration options for potion effects
-            */
+            
+            if(jsonEffects!=null){
+                for(int i=0;i<jsonEffects.size();i++){
+                    effects.add(new MobPotionEffect((JSONObject) jsonEffects.get(i)));
+                }
+            }
+            
             instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Mob configuration: "+e.getMessage());
@@ -139,6 +144,12 @@ public class Mob{
              entity.getEquipment().setBootsDropChance(getDropProbability("boots"));
         }
         
+    }
+    
+    public void setEffects(LivingEntity entity){
+        for(MobPotionEffect effect : effects){
+            effect.checkApply(entity);
+        }
     }
     
     public Long getCount(){

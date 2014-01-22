@@ -68,16 +68,13 @@ public class PlacedMob {
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
         mob.setEquipment(entity);
+        mob.setEffects(entity);
         if(mob.getType().equals(EntityType.WOLF)){
             ((Wolf) entity).setAngry(true);
         }
         if(mob.getType().equals(EntityType.PIG_ZOMBIE)){
             ((PigZombie) entity).setAngry(true);
         }
-        
-        /*
-        TODO: We should setup entitiy potion effects
-        */
         instances.add(this);
     }
     
@@ -90,6 +87,7 @@ public class PlacedMob {
                 RandomEncounters.getInstance().logError("Missing Mob ("+(String) jsonConfiguration.get("mob")+") from PlacedMob configuration");
             }
             entity  =   getEntity();
+            mob.setEffects(entity);
             instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid PlacedMob configuration: "+e.getMessage());
