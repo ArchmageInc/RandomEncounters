@@ -67,7 +67,6 @@ public class PlacedMob {
         }
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
-        mob.setEquipment(entity);
         
         if(mob.getType().equals(EntityType.WOLF)){
             ((Wolf) entity).setAngry(true);
