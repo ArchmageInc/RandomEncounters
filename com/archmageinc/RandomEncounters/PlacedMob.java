@@ -67,16 +67,14 @@ public class PlacedMob {
         }
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
-        
+        mob.setEquipment(entity);
         if(mob.getType().equals(EntityType.WOLF)){
             ((Wolf) entity).setAngry(true);
         }
         if(mob.getType().equals(EntityType.PIG_ZOMBIE)){
             ((PigZombie) entity).setAngry(true);
         }
-        /*
-        TODO: We should setup entity equipment (Armor, etc...)
-        */
+        
         /*
         TODO: We should setup entitiy potion effects
         */
