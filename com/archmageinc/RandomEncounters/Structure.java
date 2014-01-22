@@ -119,7 +119,7 @@ public class Structure {
             RandomEncounters.getInstance().logMessage("Generating new WorldEdit session for structure "+name);
         }
         session        =    new EditSession((new BukkitWorld(world)),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight());
-        //session.enableQueue();
+        session.enableQueue();
         flipRandom();
     }
     private void flipRandom(){
@@ -161,6 +161,7 @@ public class Structure {
             if(RandomEncounters.getInstance().getLogLevel()>5){
                 RandomEncounters.getInstance().logMessage("Placed structure "+name+": "+session.size());
             }
+            session.flushQueue();
             placeTreasures(encounter,location);
         }catch(MaxChangedBlocksException e){
             RandomEncounters.getInstance().logWarning("Unable to place structure: Maximum number of blocks changed: "+e.getMessage());
