@@ -1,389 +1,2813 @@
 {
   "encounters":	[
-    {
-      "name":		"pagoda",
-      "enabled":	true,
-      "probability":	0.00005,
-      "structure":	"pagoda",
-      "mobs":		[
-	"rich-zombies"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"lost-temple",
-      "enabled":	true,
-      "probability":	0.001,
-      "structure":	"lost-temple",
-      "mobs":		[
-	"rich-zombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"healingshrine",
-      "enabled": 	true,
-      "probability":	0.005,
-      "structure":	"healingshrine",
-      "mobs":		[
-	"blaze-guardians"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"small-medieval-house",
-      "enabled": 	true,
-      "probability":	0.005,
-      "structure":	"small-medieval-house",
-      "mobs":		[
-	"aFewZombies"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"medieval-house",
-      "enabled": 	true,
-      "probability":	0.005,
-      "structure":	"medieval-house",
-      "mobs":		[
-	"aFewZombies"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"small-chapel",
-      "enabled": 	true,
-      "probability":	0.0005,
-      "structure":	"small-chapel",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"13th-century-monastery",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		1,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"church-with-cemetery",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		1,
-	  "distance":		10
-	}
-	
-      ]
-    },
-    {
-      "name":		"sandstone-watchtower",
-      "enabled": 	true,
-      "probability":	0.001,
-      "structure":	"sandstone-watchtower",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	[
-	"DESERT",
-	"BEACH",
-	"DESERT_MOUNTAINS"
-      ],
-      "invalidBiomes":	null,
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
-    },
-    {
-      "name":		"medieval-stonebrick",
-      "enabled": 	true,
-      "probability":	0.005,
-      "structure":	"medieval-stonebrick",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"medieval-small-windmill",
-      "enabled": 	true,
-      "probability":	0.005,
-      "structure":	"medieval-small-windmill",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
-    },
-    {
-      "name":		"magictower-1",
-      "enabled": 	true,
-      "probability":	0.005,
-      "structure":	"magictower-1",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
-    },
-    {
-      "name":		"templo-romano",
-      "enabled": 	true,
-      "probability":	0.001,
-      "structure":	"templo-romano",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"ruins-trap",
-      "enabled": 	true,
-      "probability":	0.001,
-      "structure":	"ruins-trap",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
+      {
+        "name":             "farm1",
+        "structure":        "Farm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             [
+            "pigs"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ]
+      },
+      {
+        "name":             "farm2",
+        "structure":        "Farm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             [
+            "cows"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ]
+      },
+      {
+        "name":             "farm3",
+        "structure":        "Farm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             [
+            "chickens"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ]
+      },
+      {
+        "name":             "house1",
+        "structure":        "House1",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house2",
+        "structure":        "House2",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house3",
+        "structure":        "House3",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house4",
+        "structure":        "House4",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house5",
+        "structure":        "House5",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house6",
+        "structure":        "House6",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house7",
+        "structure":        "House7",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house8",
+        "structure":        "House8",
+        "probability":      0.00005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.0005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      {
+        "name":             "house9",
+        "structure":        "House9",
+        "probability":      0.0005,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers",
+            "chickens"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "farm1",
+                "probability":  0.00005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm2",
+                "probability":  0.00005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            },
+            {
+                "encounter":    "farm3",
+                "probability":  0.00005,
+                "duration":     1440,
+                "max":          1,
+                "distance":     2
+            }
+        ]
+      },
+      
+      {
+        "name":         "tower1",
+        "structuer":    "Tower1",
+        "probability":      0.0001,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers",
+            "chickens",
+            "zombies"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "tower1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]
+      },
+      {
+        "name":         "tower2",
+        "structuer":    "Tower2",
+        "probability":      0.0001,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers",
+            "skeletons",
+            "zombies"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "tower1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]
+      },
+      {
+        "name":         "tower3",
+        "structuer":    "Tower3",
+        "probability":      0.0001,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers",
+            "spiders",
+            "zombies"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "tower1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]
+      },
+      {
+        "name":         "tower4",
+        "structuer":    "Tower4",
+        "probability":      0.0001,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "villagers",
+            "skeletons",
+            "zombies"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "expansions":   [
+            {
+                "encounter":    "tower1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]
+      },
+      
+      
+      {
+        "name":             "shrine1",
+        "structure":        "Shrine1",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+           {
+                "encounter":    "temple1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "shrine2",
+        "structure":        "Shrine2",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+           {
+                "encounter":    "temple1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "shrine3",
+        "structure":        "Shrine3",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+           {
+                "encounter":    "temple1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "temple6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      
+      
+      {
+        "name":             "temple1",
+        "structure":        "Temple1",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "villagers"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      {
+        "name":             "temple2",
+        "structure":        "Temple2",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "villagers",
+          "skeletons"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      {
+        "name":             "temple3",
+        "structure":        "Temple3",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      {
+        "name":             "temple4",
+        "structure":        "Temple4",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      {
+        "name":             "temple5",
+        "structure":        "Temple5",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      {
+        "name":             "temple6",
+        "structure":        "Temple6",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      
+      
+      {
+        "name":             "shop1",
+        "structure":        "Shop1",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "villagers",
+          "skeletons"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      {
+        "name":             "shop2",
+        "structure":        "Shop2",
+        "enabled":          true,
+        "probability":      0.00005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "villagers",
+          "skeletons"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "house1",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.00001,
+                "duration":     10080,
+                "max":          1,
+                "distance":     4
+            }
+        ]  
+      },
+      
+      {
+        "name":             "castle1",
+        "structure":        "Castle1",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "castle2",
+        "structure":        "Castle2",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "castle3",
+        "structure":        "Castle3",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "castle4",
+        "structure":        "Castle4",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "castle5",
+        "structure":        "Castle5",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "castle6",
+        "structure":        "Castle6",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "castle7",
+        "structure":        "Castle7",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+      {
+        "name":             "castle8",
+        "structure":        "Castle8",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "zombies",
+          "pigmen",
+          "skeletons",
+          "blaze",
+          "spiders",
+          "villagers",
+          "cows",
+          "pigs",
+          "chickens",
+          "golems"
+        ],
+        "invalidBiomes":    [
+          "HELL",
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "tower1",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower2",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower3",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "tower4",
+                "probability":  0.001,
+                "duration":     10000,
+                "max":          1,
+                "distance":     25
+            },
+            {
+                "encounter":    "shop1",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shop2",
+                "probability":  0.001,
+                "duration":     10010,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "house1",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house2",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house3",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          4,
+                "distance":     10
+            },
+            {
+                "encounter":    "house4",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house5",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house6",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house7",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "house8",
+                "probability":  0.0005,
+                "duration":     10020,
+                "max":          1,
+                "distance":     10
+            },
+            {
+                "encounter":    "shrine1",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine2",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            },
+            {
+                "encounter":    "shrine3",
+                "probability":  0.0005,
+                "duration":     10030,
+                "max":          1,
+                "distance":     15
+            }
+        ]  
+      },
+    
     {
       "name":		"decorative-ruin",
       "enabled": 	true,
-      "probability":	0.001,
+      "probability":	0.0005,
       "structure":	"decorative-ruin",
       "mobs":		[
-	"aFewZombies",
+	"zombies",
 	"skeletons"
       ],
       "validBiomes":	null,
@@ -401,8 +2825,12 @@
       "probability":	0.0001,
       "structure":	"seahorse-isle",
       "mobs":		[
-	"rich-zombies",
-	"skeletons"
+	"zombies",
+	"skeletons",
+        "cows",
+        "chickens",
+        "blaze",
+        "villagers"
       ],
       "validBiomes":	[
 	"OCEAN",
@@ -415,36 +2843,13 @@
     {
       "name":		"floating-island",
       "enabled": 	true,
-      "probability":	0.0001,
+      "probability":	0.0005,
       "structure":	"floating-island",
       "mobs":		[
-	"rich-zombies",
-	"skeletons"
-      ],
-      "validBiomes":	[
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "invalidBiomes":	null,
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"floating-temple",
-	  "probability":	0.0001,
-	  "duration":		30000,
-	  "max":		1,
-	  "distance":		20
-	}
-      ]
-    },
-    {
-      "name":		"floating-temple",
-      "enabled": 	true,
-      "probability":	0.0001,
-      "structure":	"floating-temple",
-      "mobs":		[
-	"rich-zombies",
-	"skeletons"
+	"zombies",
+	"skeletons",
+        "blaze",
+        "spiders"
       ],
       "validBiomes":	[
 	"OCEAN",
@@ -453,362 +2858,6 @@
       "invalidBiomes":	null,
       "treasures":	null,
       "expansions":	null
-    },
-    {
-      "name":		"evil-shrine",
-      "enabled": 	true,
-      "probability":	0.0001,
-      "structure":	"evil-shrine",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"healingshrine",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	}
-      ]
-    },
-    {
-      "name":		"jonas-tower",
-      "enabled": 	true,
-      "probability":	0.0001,
-      "structure":	"jonas-tower",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
-    },
-    {
-      "name":		"steampunk-house",
-      "enabled": 	true,
-      "probability":	0.0001,
-      "structure":	"steampunk-house",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
-    },
-    {
-      "name":		"13th-century-monastery",
-      "enabled": 	true,
-      "probability":	0.0001,
-      "structure":	"13th-century-monastery",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
-    },
-    {
-      "name":		"hobbit-house-w-secret",
-      "enabled": 	true,
-      "probability":	0.001,
-      "structure":	"hobbit-house-w-secret",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"church-with-cemetery",
-      "enabled": 	true,
-      "probability":	0.001,
-      "structure":	"church-with-cemetery",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"special-shop",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
-    },
-    {
-      "name":		"special-shop",
-      "enabled": 	true,
-      "probability":	0.001,
-      "structure":	"special-shop",
-      "mobs":		[
-	"aFewZombies",
-	"skeletons"
-      ],
-      "validBiomes":	null,
-      "invalidBiomes":	[
-	"HELL",
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "treasures":	null,
-      "expansions":	[
-	{
-	  "encounter":		"small-medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-house",
-	  "probability":	0.01,
-	  "duration":		30000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"medieval-stonebrick",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		4,
-	  "distance":		10
-	},
-	{
-	  "encounter":		"small-chapel",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	},
-	{
-	  "encounter":		"medieval-small-windmill",
-	  "probability":	0.05,
-	  "duration":		3000,
-	  "max":		1,
-	  "distance":		5
-	}
-      ]
     }
   ]
 }

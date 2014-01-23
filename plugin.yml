@@ -1,6 +1,6 @@
 name: RandomEncounters
 author: ArchmageInc
 main: com.archmageinc.RandomEncounters.RandomEncounters
-version: 0.1
+version: 0.2
 description: Generates configurable random encounters in newly generated chunks
 depend: [WorldEdit]

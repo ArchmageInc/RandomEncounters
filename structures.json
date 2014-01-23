@@ -1,8 +1,8 @@
 {
   "structures":	[
-    {
-      "name":		"pagoda",
-      "file":		"schematics/pagoda.schematic",
+      {
+      "name":		"House1",
+      "file":		"schematics/houses/FarmHouse1.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -33,8 +33,8 @@
       ]
     },
     {
-      "name":		"healingshrine",
-      "file":		"schematics/healingshrine-1.schematic",
+      "name":		"House2",
+      "file":		"schematics/houses/FarmHouse2.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -65,8 +65,8 @@
       ]
     },
     {
-      "name":		"lost-temple",
-      "file":		"schematics/lost-temple-small.schematic",
+      "name":		"House3",
+      "file":		"schematics/houses/FarmHouse3.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -97,8 +97,8 @@
       ]
     },
     {
-      "name":		"small-medieval-house",
-      "file":		"schematics/small-medieval-house.schematic",
+      "name":		"House4",
+      "file":		"schematics/houses/FarmHouse4.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -129,8 +129,8 @@
       ]
     },
     {
-      "name":		"small-chapel",
-      "file":		"schematics/small-chapel.schematic",
+      "name":		"House5",
+      "file":		"schematics/houses/FarmHouse5.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -161,8 +161,205 @@
       ]
     },
     {
-      "name":		"sandstone-watchtower",
-      "file":		"schematics/sandstone-watchtower.schematic",
+      "name":		"House6",
+      "file":		"schematics/houses/small-medieval-house.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+  {
+      "name":	"House7",
+      "file":	"schematics/houses/steampunk-house.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+  {
+      "name":	"House8",
+      "file":	"schematics/houses/medieval-house.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+  {
+      "name":	"House9",
+      "file":	"schematics/houses/hobbit-house-w-secret.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+      
+      
+    {
+      "name":		"Farm1",
+      "file":		"schematics/farms/small-elevated-farm.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    
+    
+    
+    {
+      "name":	"Tower1",
+      "file":	"schematics/towers/jonas-tower.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Tower2",
+      "file":		"schematics/towers/magictower-1.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -193,8 +390,8 @@
       ]
     },
     {
-      "name":		"medieval-stonebrick",
-      "file":		"schematics/medieval-stonebrick.schematic",
+      "name":		"Tower3",
+      "file":		"schematics/towers/medieval-stonebrick.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -225,7 +422,597 @@
       ]
     },
     {
-      "name":		"medieval-small-windmill",
+      "name":		"Tower4",
+      "file":		"schematics/towers/sandstone-watchtower.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    
+    {
+      "name":		"Shrine1",
+      "file":		"schematics/shrines/healingshrine-1.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Shrine2",
+      "file":		"schematics/shrines/small-chapel.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":	"Shrine3",
+      "file":	"schematics/shrines/evil-shrine.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+      
+      
+      
+      
+    {
+      "name":		"Temple1",
+      "file":		"schematics/temples/pagoda.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    
+    {
+      "name":		"Temple2",
+      "file":		"schematics/temples/lost-temple-small.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Temple3",
+      "file":		"schematics/temples/templo-romano.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":	"Temple4",
+      "file":	"schematics/temples/floating-temple.schematic",
+      "minY":	96,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	null
+    },
+    {
+      "name":	"Temple5",
+      "file":	"schematics/temples/13th-century-monastery.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":	"Temple6",
+      "file":	"schematics/temples/church-with-cemetery.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    }, 
+      
+      
+      
+      
+    {
+      "name":		"Castle1",
+      "file":		"schematics/keeps/klutzyfingers-castle.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Castle2",
+      "file":		"schematics/keeps/laputa.schematic",
+      "minY":		96,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Castle3",
+      "file":		"schematics/keeps/netherbrick-castle.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Castle4",
+      "file":		"schematics/keeps/small-castle.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Castle5",
+      "file":		"schematics/keeps/hayakashi-castle.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Castle6",
+      "file":		"schematics/keeps/castle-zizhu.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Castle7",
+      "file":		"schematics/keeps/blue-stone-castle.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+    {
+      "name":		"Castle8",
+      "file":		"schematics/keeps/butron-castle-schematic.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		[
+	"GRASS",
+	"AIR",
+	"SAPLING",
+	"SAND",
+	"LEAVES",
+	"LONG_GRASS",
+	"DEAD_BUSH",
+	"YELLOW_FLOWER",
+	"RED_ROSE",
+	"BROWN_MUSHROOM",
+	"RED_MUSHROOM",
+	"FIRE",
+	"SNOW",
+	"CACTUS",
+	"SUGAR_CANE_BLOCK",
+	"PUMPKIN",
+	"PUMPKIN_STEM",
+	"VINE",
+	"LEAVES_2",
+        "LOG"
+      ],
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },  
+      
+    {
+      "name":		"Shop1",
       "file":		"schematics/medieval-small-windmill.schematic",
       "minY":		0,
       "maxY":		196,
@@ -257,11 +1044,11 @@
       ]
     },
     {
-      "name":		"magictower-1",
-      "file":		"schematics/magictower-1.schematic",
-      "minY":		0,
-      "maxY":		196,
-      "trump":		[
+      "name":	"Shop2",
+      "file":	"schematics/special-shop.schematic",
+      "minY":	0,
+      "maxY":	196,
+      "trump":	[
 	"GRASS",
 	"AIR",
 	"SAPLING",
@@ -288,41 +1075,17 @@
 	"WATER"
       ]
     },
-    {
-      "name":		"templo-romano",
-      "file":		"schematics/templo-romano.schematic",
-      "minY":		0,
-      "maxY":		196,
-      "trump":		[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
+   
+    
+    
+    
+    
+    
+    
+    
     {
       "name":		"ruins-trap",
-      "file":		"schematics/ruins-trap.schematic",
+      "file":		"schematics/ruins/ruins-trap.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -354,7 +1117,7 @@
     },
     {
       "name":		"decorative-ruin",
-      "file":		"schematics/decorative-ruin.schematic",
+      "file":		"schematics/ruins/decorative-ruin.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -455,290 +1218,15 @@
 	"LEAVES_2"
       ],
       "invalid":	null
-    },
-    {
-      "name":	"floating-temple",
-      "file":	"schematics/floating-temple.schematic",
-      "minY":	96,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	null
-    },
-    {
-      "name":	"evil-shrine",
-      "file":	"schematics/evil-shrine.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
-    {
-      "name":	"jonas-tower",
-      "file":	"schematics/jonas-tower.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
-    {
-      "name":	"steampunk-house",
-      "file":	"schematics/steampunk-house.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
-    {
-      "name":	"13th-century-monastery",
-      "file":	"schematics/13th-century-monastery.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
-    {
-      "name":	"medieval-house",
-      "file":	"schematics/medieval-house.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
-    {
-      "name":	"hobbit-house-w-secret",
-      "file":	"schematics/hobbit-house-w-secret.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
-    {
-      "name":	"church-with-cemetery",
-      "file":	"schematics/church-with-cemetery.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
-    },
-    {
-      "name":	"special-shop",
-      "file":	"schematics/special-shop.schematic",
-      "minY":	0,
-      "maxY":	196,
-      "trump":	[
-	"GRASS",
-	"AIR",
-	"SAPLING",
-	"SAND",
-	"LEAVES",
-	"LONG_GRASS",
-	"DEAD_BUSH",
-	"YELLOW_FLOWER",
-	"RED_ROSE",
-	"BROWN_MUSHROOM",
-	"RED_MUSHROOM",
-	"FIRE",
-	"SNOW",
-	"CACTUS",
-	"SUGAR_CANE_BLOCK",
-	"PUMPKIN",
-	"PUMPKIN_STEM",
-	"VINE",
-	"LEAVES_2"
-      ],
-      "invalid":	[
-	"AIR",
-	"STATIONARY_WATER",
-	"WATER"
-      ]
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
   ]
 }

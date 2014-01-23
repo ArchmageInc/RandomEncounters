@@ -1,61 +1,97 @@
 {
   "mobs":	[
-    {
-      "name":		"rich-zombies",
-      "enabled":	true,
-      "type":		"ZOMBIE",
-      "min":		10,
-      "max":		50,
-      "probability":	0.50,
-      "treasures":	[
-	{
-	  "material":		"DIAMOND",
-	  "min":		0,
-	  "max":		2,
-	  "probability":	0.05
-	}
-      ]
-    },
-    {
-      "name":		"skeletons",
-      "enabled":	true,
-      "type":		"SKELETON",
-      "min":		10,
-      "max":		20,
-      "probability":	0.50,
-      "treasures":	[
-	{
-	  "material":		"ARROW",
-	  "min":		5,
-	  "max":		10,
-	  "probability":	0.05
-	}
-      ]
-    },
-    {
-      "name":		"blaze-guardians",
-      "enabled":	true,
-      "type":		"BLAZE",
-      "min":		1,
-      "max":		2,
-      "probability":	0.25,
-      "treasures":	[
-	{
-	  "material": "MELON_BLOCK",
-	  "min": 1,
-	  "max": 5,
-	  "probability": 0.5
-	}
-      ]
-    },
-    {
-      "name":		"aFewZombies",
-      "enabled":	true,
-      "type":		"ZOMBIE",
-      "min":		1,
-      "max":		5,
-      "probability":	0.25,
-      "treasures":	null
-    }
+      {
+        "name":         "pigs",
+        "enabled":      true,
+        "type":         "PIG",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null
+          
+      },
+      {
+        "name":         "cows",
+        "enabled":      true,
+        "type":         "COW",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null
+          
+      },
+      {
+        "name":         "chickens",
+        "enabled":      true,
+        "type":         "CHICKEN",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null
+      },
+      {
+        "name":         "villagers",
+        "enabled":      true,
+        "type":         "VILLAGER",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null
+      },
+      {
+        "name":         "zombies",
+        "enabled":      true,
+        "type":         "ZOMBIE",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null  
+      },
+      {
+        "name":         "skeletons",
+        "enabled":      true,
+        "type":         "SKELETON",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null  
+      },
+      {
+        "name":         "spiders",
+        "enabled":      true,
+        "type":         "SPIDER",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null  
+      },
+      {
+        "name":         "pigmen",
+        "enabled":      true,
+        "type":         "PigZombie",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null  
+      },
+      {
+        "name":         "blaze",
+        "enabled":      true,
+        "type":         "BLAZE",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null  
+      },
+      {
+        "name":         "golems",
+        "enabled":      true,
+        "type":         "VillagerGolem",
+        "min":          1,
+        "max":          4,
+        "probability":	0.50,
+        "treasuers":    null  
+      }
+      
   ]
 }

@@ -73,7 +73,9 @@ public class Mob{
                     effects.add(new MobPotionEffect((JSONObject) jsonEffects.get(i)));
                 }
             }
-            
+            if(type==null){
+                RandomEncounters.getInstance().logError("Invalid mob type: "+(String) jsonConfiguration.get("type"));
+            }
             instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Mob configuration: "+e.getMessage());
