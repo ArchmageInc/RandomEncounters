@@ -39,7 +39,7 @@ public class Expansion implements Cloneable{
 
         Double random   =   Math.random();
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Checking expansion for "+placedEncounter.getEncounter().getName()+" -> "+encounter.getName()+" : ("+random+","+probability+") ");
+            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+placedEncounter.getEncounter().getName()+" -> "+encounter.getName()+" : ("+random+","+probability+") ");
         }
         if(random<probability){
             Set<PlacedEncounter> validExpansions    =   new HashSet();
@@ -50,7 +50,7 @@ public class Expansion implements Cloneable{
                 }
             }
             if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("Expansion probability hit for encounter "+placedEncounter.getEncounter().getName()+" -> "+encounter.getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
+                RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+placedEncounter.getEncounter().getName()+" -> "+encounter.getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
             }
             if(validExpansions.size()<max){
                 Chunk encounterChunk    =   placedEncounter.getLocation().getChunk();

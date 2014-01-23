@@ -153,15 +153,15 @@ public class RandomEncounters extends JavaPlugin {
     }
     
     public void logMessage(String message){
-        getLogger().info("["+getDescription().getName()+" "+getDescription().getVersion()+"]: "+message);
+        getLogger().info("[v"+getDescription().getVersion()+"]: "+message);
     }
     
     public void logError(String message){
-        getLogger().severe("["+getDescription().getName()+" "+getDescription().getVersion()+"]: "+message);
+        getLogger().severe("[v"+getDescription().getVersion()+"]: "+message);
     }
     
     public void logWarning(String message){
-        getLogger().warning("["+getDescription().getName()+" "+getDescription().getVersion()+"]: "+message);
+        getLogger().warning("[v"+getDescription().getVersion()+"]: "+message);
     }
     public int getLogLevel(){
         return logLevel;
