@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -24,8 +26,8 @@ public class PlacedEncounter {
     protected Encounter encounter;
     protected Set<PlacedMob> mobs                   =   new HashSet();
     protected Boolean sacked                        =   false;
-    protected Set<UUID> expansions                  =   new HashSet();
-    protected Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
+    protected Set<UUID> placedExpansions            =   new HashSet();
+    protected Set<Expansion> expansions             =   new HashSet();
     protected static Set<PlacedEncounter> instances =   new HashSet();
     protected List<Location> spawnLocations         =   new ArrayList();
     
@@ -81,12 +83,13 @@ public class PlacedEncounter {
                     JSONObject jsonExpansion    =   (JSONObject) jsonExpansions.get(i);
                     try{
                         UUID expansionUUID          =   UUID.fromString((String) jsonExpansion.get("uuid"));
-                        expansions.add(expansionUUID);
+                        placedExpansions.add(expansionUUID);
                     }catch(IllegalArgumentException e){
                         RandomEncounters.getInstance().logError("Invalid UUID in PlacedEncounter expansion configuration: "+e.getMessage());
                     }
                 }
             }
+            setupExpansions();
             instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid PlacedEncounter configuration: "+e.getMessage());
@@ -113,8 +116,19 @@ public class PlacedEncounter {
                 this.mobs.add(mob.placeMob(this,location));
             }
         }
-        
+        setupExpansions();
         instances.add(this);        
+    }
+    
+    protected final void setupExpansions(){
+        expansions.clear();
+        for(Expansion expansion : encounter.getExpansions()){
+            try {
+                expansions.add(expansion.clone());
+            } catch (CloneNotSupportedException e) {
+                RandomEncounters.getInstance().logError("Clone failed for expansion: "+e.getMessage());
+            }
+        }
     }
     
     protected final void populateSafeSpawnLocations(){
@@ -155,8 +169,7 @@ public class PlacedEncounter {
     }
     
     public void addExpansion(PlacedEncounter expansion){
-        //concurent modification
-        expansions.add(expansion.getUUID());
+        placedExpansions.add(expansion.getUUID());
     }
     
     public UUID getUUID(){
@@ -179,18 +192,13 @@ public class PlacedEncounter {
         return encounter.getName();
     }
     
-    public Set<UUID> getExpansions(){
+    public Set<UUID> getPlacedExpansions(){
+        return placedExpansions;
+    }
+    
+    public Set<Expansion> getExpansions(){
         return expansions;
     }
-    
-    public Calendar getLastCheck(){
-        return lastCheck;
-    }
-    
-    public void updateLastCheck(){
-        lastCheck   =   (Calendar) Calendar.getInstance().clone();
-    }
-    
     public JSONObject toJSON(){
         JSONObject jsonConfiguration    =   new JSONObject();
         jsonConfiguration.put("uuid", uuid.toString());
@@ -211,7 +219,7 @@ public class PlacedEncounter {
         jsonConfiguration.put("mobs",jsonMobs);
         
         JSONArray jsonExpansions        =   new JSONArray();
-        for(UUID expansion : expansions){
+        for(UUID expansion : placedExpansions){
             JSONObject jsonExpansion    =   new JSONObject();
             jsonExpansion.put("uuid",expansion.toString());
             jsonExpansions.add(jsonExpansion);

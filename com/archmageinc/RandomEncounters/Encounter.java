@@ -26,7 +26,7 @@ public class Encounter {
     protected Set<Biome> invalidBiomes          =   new HashSet();
     protected Set<Mob> mobs                     =   new HashSet();
     protected Set<Treasure> treasures           =   new HashSet();
-    protected Set<Expansion> expansions         =   new HashSet();
+    protected HashSet<Expansion> expansions     =   new HashSet();
     
     public static Encounter getInstance(String name){
        for(Encounter instance : instances){
@@ -88,6 +88,9 @@ public class Encounter {
                     mobs.add(Mob.getInstance((String) jsonMobs.get(i)));
                 }
             }
+            if(structure==null){
+                RandomEncounters.getInstance().logError("Unable to find structure for encounter: "+name);
+            }
             instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Encounter configuration: "+e.getMessage());
@@ -139,7 +142,7 @@ public class Encounter {
         return probability;
     }
     
-    public Set<Expansion> getExpansions(){
+    public HashSet<Expansion> getExpansions(){
         return expansions;
     }
 }

@@ -19,7 +19,7 @@ public class Locator {
     public Location checkChunk(Chunk chunk,Encounter encounter){
         Block currentBlock,aboveBlock;
         if(RandomEncounters.getInstance().getLogLevel()>=7){
-            RandomEncounters.getInstance().logMessage("Checking chunk: "+chunk.getX()+","+chunk.getZ());
+            RandomEncounters.getInstance().logMessage("Checking chunk: "+chunk.getX()+","+chunk.getZ()+" for encounter "+encounter.getName());
         }
 
         for(int x=0;x<16;x++){

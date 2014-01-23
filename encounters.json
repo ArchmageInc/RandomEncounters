@@ -418,7 +418,7 @@
       
       {
         "name":         "tower1",
-        "structuer":    "Tower1",
+        "structure":    "Tower1",
         "probability":      0.0001,
         "enabled":          true,
         "validBiomes":      null,
@@ -523,7 +523,7 @@
       },
       {
         "name":         "tower2",
-        "structuer":    "Tower2",
+        "structure":    "Tower2",
         "probability":      0.0001,
         "enabled":          true,
         "validBiomes":      null,
@@ -628,7 +628,7 @@
       },
       {
         "name":         "tower3",
-        "structuer":    "Tower3",
+        "structure":    "Tower3",
         "probability":      0.0001,
         "enabled":          true,
         "validBiomes":      null,
@@ -733,7 +733,7 @@
       },
       {
         "name":         "tower4",
-        "structuer":    "Tower4",
+        "structure":    "Tower4",
         "probability":      0.0001,
         "enabled":          true,
         "validBiomes":      null,
