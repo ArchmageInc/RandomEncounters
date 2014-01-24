@@ -784,7 +784,7 @@
       "name":		"Castle2",
       "file":		"schematics/keeps/laputa.schematic",
       "minY":		128,
-      "maxY":		196,
+      "maxY":		128,
       "trump":		[
 	"GRASS",
 	"AIR",
