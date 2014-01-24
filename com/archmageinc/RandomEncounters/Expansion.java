@@ -56,51 +56,25 @@ public class Expansion implements Cloneable{
                 World world             =   placedEncounter.getLocation().getWorld();
                 int x                   =   encounterChunk.getX();
                 int z                   =   encounterChunk.getZ();
-                int n   =   1;
-                int l   =   0;
-                int m   =   2*distance.intValue()+1;
-                int t   =   ((Double) Math.pow(m,2)).intValue();
-                
-                while(n<=t){
-                    if(n>sumTn(m,l))
-                        l++;
-                    
-                    Chunk currentChunk  =   world.getChunkAt(x+xn(l), z+zn(l));
-                    Location location   =   Locator.getInstance().checkChunk(currentChunk, getEncounter());
-                    if(location!=null){
-                        PlacedEncounter newExpansion    =   PlacedEncounter.create(getEncounter(), location);
-                        placedEncounter.addExpansion(newExpansion);
-                        RandomEncounters.getInstance().addPlacedEncounter(newExpansion);
+                boolean placed          =   false;
+                for(int cx=x-distance.intValue();cx<x+distance.intValue();cx++){
+                    for(int cz=z-distance.intValue();cz<z+distance.intValue();cz++){
+                        Chunk currentChunk  =   world.getChunkAt(cx, cz);
+                        Location location   =   Locator.getInstance().checkChunk(currentChunk, getEncounter());
+                        if(location!=null){
+                            PlacedEncounter newExpansion    =   PlacedEncounter.create(getEncounter(), location);
+                            placedEncounter.addExpansion(newExpansion);
+                            RandomEncounters.getInstance().addPlacedEncounter(newExpansion);
+                            placed  =   true;
+                            break;
+                        }
+                    }
+                    if(placed){
                         break;
                     }
-                    
-                    n++;
                 }
             }
         }
-    }
-    
-    protected int sumTn(int m,int l){
-        int i   =   0;
-        int n   =   0;
-        while(i<=l){
-            n   =   n+(m-tn(i));
-            i++;
-        }
-        return n;
-    }
-    
-    protected int tn(int l){
-        int p    =   ((Double) Math.pow(-1,l)).intValue();
-        return (1/4)*(2*l+p+3);
-    }
-    
-    protected int xn(int l){
-        return ((Double) Math.sin((l*Math.PI)/2)).intValue();
-    }
-    
-    protected int zn(int l){
-        return ((Double) Math.cos((l*Math.PI)/2)).intValue();
     }
     
     @Override
