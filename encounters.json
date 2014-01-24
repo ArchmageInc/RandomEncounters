@@ -1661,28 +1661,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -1724,35 +1724,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
@@ -1805,28 +1805,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -1868,35 +1868,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
@@ -1951,28 +1951,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -2014,35 +2014,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
@@ -2097,28 +2097,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -2160,35 +2160,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
@@ -2243,28 +2243,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -2306,35 +2306,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
@@ -2389,28 +2389,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -2452,35 +2452,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
@@ -2535,28 +2535,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -2598,35 +2598,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
@@ -2681,28 +2681,28 @@
                 "encounter":    "tower1",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower3",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
-                "max":          1,
+                "max":          4,
                 "distance":     25
             },
             {
@@ -2744,35 +2744,35 @@
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     10020,
-                "max":          1,
+                "max":          4,
                 "distance":     10
             },
             {

@@ -35,6 +35,9 @@ public class RandomEncounters extends JavaPlugin {
         midas           =   getConfig().getBoolean("debug.midas");
         expansionTask   =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
         logMessage("Log Level set to: "+logLevel);
+        if(midas){
+            logMessage("Debug midas enabled");
+        }
         getServer().getPluginManager().registerEvents(new PlacedMobListener(),this);
         getServer().getPluginManager().registerEvents(new WorldListener(),this);
         loadStructures();
