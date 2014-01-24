@@ -783,7 +783,7 @@
     {
       "name":		"Castle2",
       "file":		"schematics/keeps/laputa.schematic",
-      "minY":		96,
+      "minY":		128,
       "maxY":		196,
       "trump":		[
 	"GRASS",
