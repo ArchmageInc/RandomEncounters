@@ -34,7 +34,9 @@ public class RandomEncounters extends JavaPlugin {
 	logLevel        =   getConfig().getInt("debug.loglevel");
         midas           =   getConfig().getBoolean("debug.midas");
         expansionTask   =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
-        logMessage("Log Level set to: "+logLevel);
+        if(logLevel>0){
+            logMessage("Log Level set to: "+logLevel);
+        }
         if(midas){
             logMessage("Debug midas enabled");
         }
