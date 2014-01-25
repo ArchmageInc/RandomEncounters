@@ -22,9 +22,9 @@ public class Locator {
             RandomEncounters.getInstance().logMessage("Checking chunk: "+chunk.getX()+","+chunk.getZ()+" for encounter "+encounter.getName());
         }
 
-        for(int x=0;x<16;x++){
-            for(int z=0;z<16;z++){
-                for(int y=encounter.getStructure().getMinY().intValue();y<encounter.getStructure().getMaxY();y++){
+        for(int y=encounter.getStructure().getMinY().intValue();y<encounter.getStructure().getMaxY();y++){
+            for(int x=0;x<16;x++){
+                for(int z=0;z<16;z++){
                     currentBlock    =   chunk.getBlock(x, y, z);
                     aboveBlock      =   currentBlock.getRelative(BlockFace.UP);
                     if(
@@ -56,12 +56,12 @@ public class Locator {
     private boolean checkSpace(Block startingBlock,Structure structure){
         int xMin    =    (int) Math.ceil(structure.getWidth()/2);
         int zMin    =    (int) Math.ceil(structure.getLength()/2);
-        Block currentBlock,belowBlock,aboveBlock;
+        int yMin    =    structure.getHeight();
+        Block currentBlock,belowBlock;
         for(int x = -xMin;x<=xMin;x++){
             for(int z = -zMin;z<=zMin;z++){
                 currentBlock  =   startingBlock.getRelative(x,0,z);
                 belowBlock    =   currentBlock.getRelative(BlockFace.DOWN);
-                aboveBlock    =   currentBlock.getRelative(BlockFace.UP);
 
                 if(
                     /**
@@ -73,15 +73,22 @@ public class Locator {
                     * The block below the current block may not be:
                     */
                     || structure.getInvalid().contains(belowBlock.getType())
-
-                    /**
-                    * The block above the current block must be:
-                    */
-                    ||  !structure.getTrump().contains(aboveBlock.getType())
                 ){
                     if(RandomEncounters.getInstance().midas())
                         currentBlock.setType(Material.GOLD_BLOCK);
                     return false;
+                }
+            }
+        }
+        for(int y=1;y<yMin;y++){
+            for(int x = -xMin;x<=xMin;x++){
+                for(int z = -zMin;z<=zMin;z++){
+                    currentBlock  =   startingBlock.getRelative(x,y,z);
+                    if(!structure.getTrump().contains(currentBlock.getType())){
+                        if(RandomEncounters.getInstance().midas())
+                            currentBlock.setType(Material.GOLD_BLOCK);
+                        return false;
+                    }
                 }
             }
         }

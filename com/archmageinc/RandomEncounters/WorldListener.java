@@ -15,8 +15,15 @@ import org.bukkit.event.world.ChunkPopulateEvent;
  */
 public class WorldListener implements Listener {
     
+    protected boolean processing =   false;
+    
+    
     @EventHandler
     public void onChunkPopulate(ChunkPopulateEvent event){
+        if(processing){
+            return;
+        }
+        processing                      =   true;
         Set<Encounter> encounters       =   RandomEncounters.getInstance().getEncounters();
         List<Encounter> encounterList   =   new ArrayList();
         encounterList.addAll(encounters);
@@ -28,6 +35,6 @@ public class WorldListener implements Listener {
                 break;
             }
         }
-        
+        processing  =   false;
     }
 }

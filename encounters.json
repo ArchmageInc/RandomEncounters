@@ -2072,7 +2072,7 @@
         "name":             "castle4",
         "structure":        "Castle4",
         "enabled":          true,
-        "probability":      0.0005,
+        "probability":      0.0001,
         "validBiomes":      null,
         "treasures":        null,
         "mobs":             [
@@ -2812,7 +2812,8 @@
       "invalidBiomes":	[
 	"HELL",
 	"OCEAN",
-	"DEEP_OCEAN"
+	"DEEP_OCEAN",
+    "DESERT"
       ],
       "treasures":	null,
       "expansions":	null
