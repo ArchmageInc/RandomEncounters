@@ -21,6 +21,7 @@ public class Expansion implements Cloneable{
     protected Long max;
     protected Long distance;
     protected Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
+    protected boolean checkLocation                 =   true;
     
     public Expansion(JSONObject jsonConfiguration){
         try{
@@ -36,6 +37,9 @@ public class Expansion implements Cloneable{
     }
     
     public void checkExpansion(PlacedEncounter placedEncounter){
+        if(!checkLocation){
+            return;
+        }
         Double random   =   Math.random();
         if(RandomEncounters.getInstance().getLogLevel()>7){
             RandomEncounters.getInstance().logMessage("    * Checking expansion for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
@@ -72,6 +76,9 @@ public class Expansion implements Cloneable{
                     if(placed){
                         break;
                     }
+                }
+                if(!placed){
+                    checkLocation   =   false;
                 }
             }
         }
