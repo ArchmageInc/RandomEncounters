@@ -78,6 +78,9 @@ public class Expansion implements Cloneable{
                     }
                 }
                 if(!placed){
+                    if(RandomEncounters.getInstance().getLogLevel()>6){
+                        RandomEncounters.getInstance().logMessage("The expansion "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" has no valid locations");
+                    }
                     checkLocation   =   false;
                 }
             }
