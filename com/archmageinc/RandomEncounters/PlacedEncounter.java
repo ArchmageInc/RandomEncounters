@@ -144,7 +144,7 @@ public class PlacedEncounter {
                 for(int z=minZ;z<maxZ;z++){
                     Block block =   location.getWorld().getBlockAt(x, y, z);
                     if(block.getType().isSolid() && block.getRelative(BlockFace.UP).getType().equals(Material.AIR) && block.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType().equals(Material.AIR)){
-                        spawnLocations.add(block.getLocation());
+                        spawnLocations.add(block.getRelative(BlockFace.UP).getLocation());
                     }
                 }
             }
