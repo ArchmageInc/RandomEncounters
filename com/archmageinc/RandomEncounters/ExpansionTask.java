@@ -5,7 +5,9 @@ import java.util.HashSet;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- *
+ * Represents the task responsible for checking PlacedEncounter Expansions.
+ * This is designed to run once per minute.
+ * 
  * @author ArchmageInc
  */
 public class ExpansionTask extends BukkitRunnable{

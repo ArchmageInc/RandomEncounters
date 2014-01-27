@@ -16,6 +16,13 @@ public class Locator {
     protected Locator(){
         
     }
+    
+    /**
+     *  Check a chunk to see if it will support a given encounter
+     * @param chunk The chunk to check
+     * @param encounter The encounter for placement
+     * @return Returns the location suitable for the encounter or null if none.
+     */
     public Location checkChunk(Chunk chunk,Encounter encounter){
         Block currentBlock,aboveBlock;
         if(RandomEncounters.getInstance().getLogLevel()>=7){
@@ -53,6 +60,13 @@ public class Locator {
         return null;
     }
     
+    /**
+     * Check the space surrounding a block to see if the structure will fit
+     * 
+     * @param startingBlock The block to start the check
+     * @param structure The structure to check placement
+     * @return Returns true if the block's location is suitable false otherwise
+     */
     private boolean checkSpace(Block startingBlock,Structure structure){
         int xMin    =    (int) Math.ceil(structure.getWidth()/2);
         int zMin    =    (int) Math.ceil(structure.getLength()/2);
@@ -69,8 +83,8 @@ public class Locator {
                     */
                     structure.getInvalid().contains(currentBlock.getType())
 
-                    /**
-                    * The block below the current block may not be:
+                    /*
+                     The block below the current block may not be:
                     */
                     || structure.getInvalid().contains(belowBlock.getType())
                 ){
@@ -80,6 +94,10 @@ public class Locator {
                 }
             }
         }
+        /*
+        We iterate though this again to verify the structure's height will only trump what it is allowed
+        Since we found a plane that will support the structure, we need the full 3D
+        */
         for(int y=1;y<yMin;y++){
             for(int x = -xMin;x<=xMin;x++){
                 for(int z = -zMin;z<=zMin;z++){

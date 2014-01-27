@@ -11,16 +11,43 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Represents a Treasure configuration, an Item to be generated.
+ * 
  * @author ArchmageInc
  */
 public class Treasure {
+    
+    /**
+     * The material of the item.
+     */
     protected Material material     =   Material.AIR;
+    
+    /**
+     * The minimum number of items to generate.
+     */
     protected Long min;
+    
+    /**
+     * The maximum number of items to generate.
+     */
     protected Long max;
+    
+    /**
+     * The probability of additional items.
+     */
     protected Double probability    =   0.0;
+    
+    /**
+     * The set of TreasureEnchantments to place on the item.
+     */
     protected Set<TreasureEnchantment> enchantments =   new HashSet();
     
+    
+    /**
+     * Constructor based on the JSON configuration.
+     * 
+     * @param jsonConfiguration 
+     */
     public Treasure(JSONObject jsonConfiguration){
         try{
             material    =   Material.getMaterial((String) jsonConfiguration.get("material"));
@@ -39,6 +66,11 @@ public class Treasure {
         
     }
     
+    /**
+     * Set the Enchantments on the given item.
+     * 
+     * @param item The item to receive the enchantments
+     */
     protected void setEnchantments(ItemStack item){
         if(enchantments.size()>0){
             for(TreasureEnchantment tEnchantment : enchantments){
@@ -54,6 +86,11 @@ public class Treasure {
         }
     }
     
+    /**
+     * Get the list of items based on this configuration.
+     * 
+     * @return 
+     */
     public List<ItemStack> get(){
         List<ItemStack> list    =   new ArrayList();
         ItemStack stack         =   new ItemStack(material,0);
@@ -74,6 +111,11 @@ public class Treasure {
         return list;
     }
     
+    /**
+     * Get one item from the treasure.
+     * 
+     * @return Returns the item based on probability or null
+     */
     public ItemStack getOne(){
         ItemStack item  =   null;
         if(Math.random()<probability){

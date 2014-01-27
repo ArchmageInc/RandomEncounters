@@ -1,25 +1,27 @@
 package com.archmageinc.RandomEncounters;
 
-import java.util.List;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.inventory.ItemStack;
 
 /**
- *
+ * The listener for Mob Deaths
+ * 
  * @author ArchmageInc
  */
 public class PlacedMobListener implements Listener{
-    
+   
+    /**
+     * Listens to EntityDeaths and if it is a PlacedMob, let it know it died.
+     * 
+     * This should not drop the treasure as that is handled by PlacedMob
+     * @param event 
+     * @see PlacedMob#die() 
+     */
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event){
         PlacedMob entity    =   PlacedMob.getInstance(event.getEntity().getUniqueId());
         if(entity!=null){
-            List<ItemStack> loot    =   entity.getDrop();
-            for(ItemStack item : loot){
-                event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), item);
-            }
             entity.die();
         }
     }

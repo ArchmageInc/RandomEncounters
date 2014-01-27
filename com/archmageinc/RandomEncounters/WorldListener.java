@@ -10,11 +10,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkPopulateEvent;
 
 /**
- *
+ * A Listener for chunk population to check encounter placements.
+ * 
  * @author ArchmageInc
  */
 public class WorldListener implements Listener {
-    
+    /**
+     * Is the system already processing a chunk populate event.
+     * 
+     * Placing a structure has the potential to cause new chunks to generate, and therefore more checks for placement.
+     * This is to reduce overall system overhead. 
+     */
     protected boolean processing =   false;
     
     

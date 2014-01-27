@@ -24,7 +24,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -56,7 +57,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -88,7 +90,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -120,7 +123,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -152,7 +156,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -184,7 +189,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -216,7 +222,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -248,7 +255,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -280,7 +288,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -314,7 +323,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -349,7 +359,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -381,7 +392,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -413,7 +425,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -445,7 +458,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -478,7 +492,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -510,7 +525,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -542,7 +558,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -550,9 +567,6 @@
 	"WATER"
       ]
     },
-      
-      
-      
       
     {
       "name":		"Temple1",
@@ -578,7 +592,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -611,7 +626,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -643,7 +659,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -675,7 +692,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	null
     },
@@ -703,7 +721,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -735,7 +754,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -743,9 +763,6 @@
 	"WATER"
       ]
     }, 
-      
-      
-      
       
     {
       "name":		"Castle1",
@@ -1035,7 +1052,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -1067,7 +1085,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -1075,13 +1094,6 @@
 	"WATER"
       ]
     },
-   
-    
-    
-    
-    
-    
-    
     
     {
       "name":		"ruins-trap",
@@ -1107,7 +1119,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -1139,24 +1152,13 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
 	"WATER"
-      ]
-    },
-    {
-      "name":	"seahorse-isle",
-      "file":	"schematics/seahorse-isle.schematic",
-      "minY":	64,
-      "maxY":	196,
-      "trump":	[
-	"AIR"
-      ],
-      "invalid":	[
-	"AIR"
       ]
     },
     {
@@ -1183,7 +1185,8 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	[
 	"AIR",
@@ -1215,18 +1218,11 @@
 	"PUMPKIN",
 	"PUMPKIN_STEM",
 	"VINE",
-	"LEAVES_2"
+	"LEAVES_2",
+        "LOG"
       ],
       "invalid":	null
     }
-    
-    
-    
-    
-    
-    
-    
-    
     
   ]
 }

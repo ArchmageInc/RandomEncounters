@@ -12,23 +12,69 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Represents an instance of a Mob configuration
+ * 
  * @author ArchmageInc
  */
 public class Mob{
     
+    /**
+     * The static set of singlton instances.
+     */
     protected static HashSet<Mob> instances =   new HashSet();
     
+    /**
+     * The unique name of the Mob.
+     */
     protected String name;
+    
+    /**
+     * The type of entity spawned by this Mob.
+     */
     protected EntityType type;
+    
+    /**
+     * The minimum number of creatures to spawn.
+     */
     protected Long min;
+    
+    /**
+     * The maximum number of creatures to spawn.
+     */
     protected Long max;
+    
+    /**
+     * The probability of additional creatures.
+     */
     protected Double probability;
+    
+    /**
+     * Is this Mob enabled for spawning.
+     */
     protected Boolean enabled;
+    
+    /**
+     * The equipment configuration to be placed on spawned creatures.
+     */
     protected JSONObject equipment;
+    
+    /**
+     * The set of Treasures which will be dropped by spawned creatures.
+     */
     protected Set<Treasure> treasures       =   new HashSet();
+    
+    /**
+     * The set of potion effects that will be paced on spawned creatures.
+     */
     protected Set<MobPotionEffect> effects  =   new HashSet();
     
+    
+    /**
+     * Get the instance of the Mob based on JSON configuration
+     * 
+     * @param jsonConfiguration The JSON configuration of the Mob.
+     * @return 
+     */
     public static Mob getInstance(JSONObject jsonConfiguration){
         try{
             for(Mob instance : instances){
@@ -42,6 +88,12 @@ public class Mob{
         return new Mob(jsonConfiguration);
     }
     
+    
+    /**
+     * Get the instance of the Mob based on the unique name
+     * @param name The unique name of the Mob.
+     * @return Returns the Mob if found, null otherwise.
+     */
     public static Mob getInstance(String name){
         for(Mob instance : instances){
             if(instance.getName().equals(name)){
@@ -51,6 +103,10 @@ public class Mob{
         return null;
     }
     
+    /**
+     * Constructor for the Mob based on JSON configuration.
+     * @param jsonConfiguration 
+     */
     protected Mob(JSONObject jsonConfiguration){
         try{
             name                        =   (String) jsonConfiguration.get("name");
@@ -82,11 +138,24 @@ public class Mob{
         }
     }
     
+    /**
+     * Spawn the creatures and create a PlacedMob at a given location for a given PlacedEncounter.
+     * @param encounter The PlacedEncounter that the creature will belong to.
+     * @param location The location to spawn the creature.
+     * @return Returns the newly created PlacedMob
+     */
     public PlacedMob placeMob(PlacedEncounter encounter,Location location){
         return PlacedMob.create(this,encounter, location);
         
     }
     
+    /**
+     * Gets an Equipment item based on the equipment type name.
+     * 
+     * @param type The type name of the equipment
+     * @return Returns the equipment item if found, null otherwise.
+     * @see org.bukkit.inventory.EntityEquipment
+     */
     protected ItemStack getEquipmentItem(String type){
         ItemStack item      =   null;
         try{
@@ -104,6 +173,13 @@ public class Mob{
         return item;
     }
     
+    /**
+     * Gets the drop probability of the equipment based on the type.
+     * 
+     * @param type The name of the equipment type
+     * @return Returns the drop probability of the equipment.
+     * @see org.bukkit.inventory.EntityEquipment
+     */
     protected Float getDropProbability(String type){
         Float chance    =   ((Integer) 0).floatValue();
         try{
@@ -119,6 +195,12 @@ public class Mob{
         return chance;
     }
     
+    /**
+     * Sets the equipment based on this configuration for the given LivingEntity
+     * 
+     * @param entity The entity on which to place the equipment.
+     * @see org.bukkit.inventory.EntityEquipment
+     */
     public void setEquipment(LivingEntity entity){
         ItemStack hand      =   getEquipmentItem("hand");
         if(hand!=null){
@@ -148,12 +230,22 @@ public class Mob{
         
     }
     
+    /**
+     * Sets the potion effects based on this configuration for the given entity.
+     * 
+     * @param entity The LivingEntity on which to place the effects.
+     */
     public void setEffects(LivingEntity entity){
         for(MobPotionEffect effect : effects){
             effect.checkApply(entity);
         }
     }
     
+    /**
+     * Get the randomly generated number of creatures to place
+     * 
+     * @return 
+     */
     public Long getCount(){
         Long count   =   min;
         for(int i=min.intValue();i<max;i++){
@@ -163,6 +255,11 @@ public class Mob{
         return count;
     }
     
+    /**
+     * Get the randomly generated list of items to drop upon the creatures death.
+     * 
+     * @return 
+     */
     public List<ItemStack> getDrop(){
         List<ItemStack> list    =   new ArrayList();
         for(Treasure treasure : treasures){
@@ -174,9 +271,19 @@ public class Mob{
         return list;
     }
     
+    /**
+     * Return the unique name of this Mob configuration
+     * 
+     * @return 
+     */
     public String getName(){
         return name;
     }
+    
+    /**
+     * Get the EntityType associated with this Mob Configuration.
+     * @return 
+     */
     public EntityType getType(){
         return type;
     }

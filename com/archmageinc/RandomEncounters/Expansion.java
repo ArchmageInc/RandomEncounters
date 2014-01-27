@@ -10,20 +10,65 @@ import org.bukkit.World;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Represents a configured expansion for an encounter
+ * 
  * @author ArchmageInc
  */
 public class Expansion implements Cloneable{
+    
+    /**
+     * The encounter that may spawn for this expansion.
+     */
     protected Encounter encounter;
+    
+    /**
+     * The unique name of the encounter for lazy loading.
+     */
     protected String encounterName;
+    
+    /**
+     * The probability of expansion.
+     */
     protected Double probability;
+    
+    /**
+     * The duration in minutes to check for expansion.
+     */
     protected Long duration;
+    
+    /**
+     * The maximum number of times the encounter can be placed for expansion.
+     */
     protected Long max;
+    
+    /**
+     * The maximum distance in chunks from the parent encounter this expansion can be placed.
+     */
     protected Long distance;
+    
+    /**
+     * The last time this expansion was checked to expand.
+     */
     protected Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
+    
+    /**
+     * Should this expansion be checked for valid locations.
+     * This will be set to false when no valid locations are found.
+     */
     protected boolean checkLocation                 =   true;
+    
+    /**
+     * The set of chunks that have been checked and cannot support the encounter.
+     * These chunks will not be checked again until the server is reloaded.
+     * This prevents unnecessary processing.
+     */
     protected HashSet<Chunk> invalidChunks          =   new HashSet();
     
+    /**
+     * Constructor for an expansion based on JSON Configuration.
+     * 
+     * @param jsonConfiguration The configuration
+     */
     public Expansion(JSONObject jsonConfiguration){
         try{
             encounter       =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
@@ -37,6 +82,12 @@ public class Expansion implements Cloneable{
         }
     }
     
+    /**
+     * Checks the expansion for placement. 
+     * If successful, the encounter will be placed in the world.
+     * 
+     * @param placedEncounter The PlacedEncounter attempting to spawn this expansion.
+     */
     public void checkExpansion(PlacedEncounter placedEncounter){
         if(!checkLocation){
             if(RandomEncounters.getInstance().getLogLevel()>7){
@@ -102,11 +153,23 @@ public class Expansion implements Cloneable{
         }
     }
     
+    /**
+     * This clones the expansion configuration for individual PlacedEncounters.
+     * Each PlacedEncounter stores their own Expansions because of specifics
+     * @return Returns a copy of the Expansion
+     * @throws CloneNotSupportedException 
+     */
     @Override
     public Expansion clone() throws CloneNotSupportedException{
        return (Expansion) super.clone();
     }
     
+    /**
+     * Get the encounter of the expansion.
+     * If the encounter has not been previously retrieved, it will attempt to do so.
+     * This allows for circular referencing expansions. (i.e. an encounter can spawn itself as an expansion)
+     * @return 
+     */
     public Encounter getEncounter(){
         if(encounter==null){
             encounter   =   Encounter.getInstance(encounterName);
@@ -117,13 +180,31 @@ public class Expansion implements Cloneable{
         return encounter;
     }
     
+    /**
+     * Get the wait time in minutes for this expansion.
+     * 
+     * @return 
+     * @see Expansion#duration
+     */
     public Long getDuration(){
         return duration;
     }
+    
+    /**
+     * Get the last time this expansion was checked
+     * 
+     * @return 
+     * @see Expansion#lastCheck
+     */
     public Calendar getLastCheck(){
         return lastCheck;
     }
     
+    /**
+     * Update the last time this expansion was checked.
+     * 
+     * @see Expansion#lastCheck
+     */
     public void updateLastCheck(){
         lastCheck   =   (Calendar) Calendar.getInstance().clone();
     }
