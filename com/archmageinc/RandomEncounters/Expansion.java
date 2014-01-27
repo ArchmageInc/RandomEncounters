@@ -96,7 +96,7 @@ public class Expansion implements Cloneable{
             return;
         }
         Double random   =   Math.random();
-        if(RandomEncounters.getInstance().getLogLevel()>7){
+        if(RandomEncounters.getInstance().getLogLevel()>6){
             RandomEncounters.getInstance().logMessage("    * Checking expansion for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
         }
         if(random<probability){
@@ -107,7 +107,7 @@ public class Expansion implements Cloneable{
                     validExpansions.add(placedExpansion);
                 }
             }
-            if(RandomEncounters.getInstance().getLogLevel()>7){
+            if(RandomEncounters.getInstance().getLogLevel()>6){
                 RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
             }
             if(validExpansions.size()<max){
@@ -133,7 +133,7 @@ public class Expansion implements Cloneable{
                             placed  =   true;
                             break;
                         }
-                        if(RandomEncounters.getInstance().getLogLevel()>7){
+                        if(RandomEncounters.getInstance().getLogLevel()>8){
                             RandomEncounters.getInstance().logMessage("Chunk "+cx+","+cz+" for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" has been marked invalid.");
                         }
                         invalidChunks.add(currentChunk);

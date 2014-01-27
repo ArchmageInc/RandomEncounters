@@ -14,7 +14,7 @@ public class ExpansionTask extends BukkitRunnable{
     
     @Override
     public void run() {
-        if(RandomEncounters.getInstance().getLogLevel()>8){
+        if(RandomEncounters.getInstance().getLogLevel()>7){
             RandomEncounters.getInstance().logMessage("Running Expansion Checks: "+RandomEncounters.getInstance().getPlacedEncounters().size());
         }
         for(PlacedEncounter placedEncounter : (HashSet<PlacedEncounter>) RandomEncounters.getInstance().getPlacedEncounters().clone()){

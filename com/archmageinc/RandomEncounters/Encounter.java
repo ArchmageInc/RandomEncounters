@@ -171,7 +171,7 @@ public class Encounter {
         Double random   =   Math.random();
         
         if(random<probability){
-            if(RandomEncounters.getInstance().getLogLevel()>7){
+            if(RandomEncounters.getInstance().getLogLevel()>6){
                 RandomEncounters.getInstance().logMessage("Probability hit for encounter "+name+" ("+random.toString()+","+probability.toString());
             }
             Location location   =   Locator.getInstance().checkChunk(chunk, this);
