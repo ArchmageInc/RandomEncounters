@@ -22,6 +22,7 @@ public class Expansion implements Cloneable{
     protected Long distance;
     protected Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
     protected boolean checkLocation                 =   true;
+    protected HashSet<Chunk> invalidChunks          =   new HashSet();
     
     public Expansion(JSONObject jsonConfiguration){
         try{
@@ -38,6 +39,9 @@ public class Expansion implements Cloneable{
     
     public void checkExpansion(PlacedEncounter placedEncounter){
         if(!checkLocation){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage(placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" will not be checked.");
+            }
             return;
         }
         Double random   =   Math.random();
@@ -64,6 +68,12 @@ public class Expansion implements Cloneable{
                 for(int cx=x-distance.intValue();cx<x+distance.intValue();cx++){
                     for(int cz=z-distance.intValue();cz<z+distance.intValue();cz++){
                         Chunk currentChunk  =   world.getChunkAt(cx, cz);
+                        if(invalidChunks.contains(currentChunk)){
+                            if(RandomEncounters.getInstance().getLogLevel()>7){
+                                RandomEncounters.getInstance().logMessage("Skipping chunk "+cx+","+cz+" for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName());
+                            }
+                            break;
+                        }
                         Location location   =   Locator.getInstance().checkChunk(currentChunk, getEncounter());
                         if(location!=null){
                             PlacedEncounter newExpansion    =   PlacedEncounter.create(getEncounter(), location);
@@ -72,6 +82,11 @@ public class Expansion implements Cloneable{
                             placed  =   true;
                             break;
                         }
+                        if(RandomEncounters.getInstance().getLogLevel()>7){
+                            RandomEncounters.getInstance().logMessage("Chunk "+cx+","+cz+" for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" has been marked invalid.");
+                        }
+                        invalidChunks.add(currentChunk);
+                        
                     }
                     if(placed){
                         break;

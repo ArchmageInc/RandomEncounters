@@ -23,6 +23,9 @@ public class WorldListener implements Listener {
         if(processing){
             return;
         }
+        if(RandomEncounters.getInstance().getLogLevel()>6){
+            RandomEncounters.getInstance().logMessage("New chunk detected, prepairing to run checks");
+        }
         processing                      =   true;
         Set<Encounter> encounters       =   RandomEncounters.getInstance().getEncounters();
         List<Encounter> encounterList   =   new ArrayList();
