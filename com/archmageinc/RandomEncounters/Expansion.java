@@ -87,6 +87,7 @@ public class Expansion implements Cloneable{
      * If successful, the encounter will be placed in the world.
      * 
      * @param placedEncounter The PlacedEncounter attempting to spawn this expansion.
+     * @TODO This needs a better, faster way to check expansion placements.
      */
     public void checkExpansion(PlacedEncounter placedEncounter){
         if(!checkLocation){

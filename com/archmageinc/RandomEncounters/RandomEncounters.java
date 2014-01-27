@@ -67,6 +67,8 @@ public class RandomEncounters extends JavaPlugin {
     
     /**
      * Start 'er up.
+     * 
+     * @TODO This needs to save the config to the file system if it doesn't already exist
      */
     @Override
     public void onEnable(){
@@ -100,6 +102,8 @@ public class RandomEncounters extends JavaPlugin {
     
     /**
      * Load the structure configurations from the file system.
+     * 
+     * @TODO Needs to write the default structure file to the file system if it doesn't already exist
      */
     public void loadStructures(){
         try{
@@ -122,6 +126,8 @@ public class RandomEncounters extends JavaPlugin {
     
     /**
      * Load the mob configurations from the file system.
+     * 
+     * @TODO Needs to write the default mob file to the file system if it doesn't already exist
      */
     public void loadMobs(){
         try{
@@ -144,6 +150,8 @@ public class RandomEncounters extends JavaPlugin {
     
     /**
      * Load the encounter configurations from the file system.
+     * 
+     * @TODO Needs to write the default encounter file to the file system if it doesn't already exist
      */
     public void loadEncounters(){
         try{
@@ -166,6 +174,8 @@ public class RandomEncounters extends JavaPlugin {
     
     /**
      * Load the placed encounters and mobs from the file system.
+     * 
+     * @TODO Needs to write the default savedEncounter file to the file system if it doesn't already exist
      */
     public void loadPlacedEncounters(){
         if(encounters.isEmpty()){
