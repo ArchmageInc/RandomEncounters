@@ -117,6 +117,7 @@ public class PlacedMob {
         entity.setRemoveWhenFarAway(false);
         if(mob.getTagName()!=null){
             entity.setCustomName(mob.getTagName());
+            entity.setCustomNameVisible(true);
         }
         mob.setEquipment(entity);
         mob.setEffects(entity);
