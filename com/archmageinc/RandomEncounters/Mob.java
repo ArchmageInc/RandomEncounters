@@ -158,7 +158,7 @@ public final class Mob{
                     if(name.equals((String) mobGroup.get("name"))){
                         RandomEncounters.getInstance().logWarning("Ignoring recursive mob group configuration for "+name);
                     }else{
-                        mobGroups.add(new MobGroup((JSONObject) jsonMobs.get(i)));
+                        mobGroups.add(new MobGroup(mobGroup));
                     }
                 }
             }
@@ -361,6 +361,9 @@ public final class Mob{
     public Mob getDeathSpawn(){
         if(deathSpawn==null && deathSpawnName!=null){
             deathSpawn  =   Mob.getInstance(deathSpawnName);
+            if(deathSpawn==null){
+                RandomEncounters.getInstance().logWarning("Unable to find Death Spawn configuration "+deathSpawnName+" for "+name);
+            }
         }
         return deathSpawn;
     }
