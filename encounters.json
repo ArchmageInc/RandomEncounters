@@ -1672,13 +1672,6 @@
                 "distance":     25
             },
             {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
@@ -1764,13 +1757,6 @@
             },
             {
                 "encounter":    "shrine2",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shrine3",
                 "probability":  0.0005,
                 "duration":     10030,
                 "max":          1,
@@ -1816,13 +1802,6 @@
                 "distance":     25
             },
             {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
@@ -1908,13 +1887,6 @@
             },
             {
                 "encounter":    "shrine2",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shrine3",
                 "probability":  0.0005,
                 "duration":     10030,
                 "max":          1,
@@ -1930,16 +1902,7 @@
         "validBiomes":      null,
         "treasures":        null,
         "mobs":             [
-          "zombies",
-          "pigmen",
-          "skeletons",
-          "blaze",
-          "spiders",
-          "villagers",
-          "cows",
-          "pigs",
-          "chickens",
-          "golems"
+          "Geordian"
         ],
         "invalidBiomes":    [
           "HELL",
@@ -1948,28 +1911,7 @@
         ],
         "expansions":       [
             {
-                "encounter":    "tower1",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
-                "encounter":    "tower2",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
-                "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
                 "max":          4,
@@ -2044,20 +1986,6 @@
                 "duration":     10020,
                 "max":          4,
                 "distance":     10
-            },
-            {
-                "encounter":    "shrine1",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shrine2",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
             },
             {
                 "encounter":    "shrine3",
@@ -2108,13 +2036,6 @@
                 "distance":     25
             },
             {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
@@ -2200,13 +2121,6 @@
             },
             {
                 "encounter":    "shrine2",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shrine3",
                 "probability":  0.0005,
                 "duration":     10030,
                 "max":          1,
@@ -2254,13 +2168,6 @@
                 "distance":     25
             },
             {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
@@ -2346,13 +2253,6 @@
             },
             {
                 "encounter":    "shrine2",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shrine3",
                 "probability":  0.0005,
                 "duration":     10030,
                 "max":          1,
@@ -2400,13 +2300,6 @@
                 "distance":     25
             },
             {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
@@ -2492,13 +2385,6 @@
             },
             {
                 "encounter":    "shrine2",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shrine3",
                 "probability":  0.0005,
                 "duration":     10030,
                 "max":          1,
@@ -2546,13 +2432,6 @@
                 "distance":     25
             },
             {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
@@ -2638,13 +2517,6 @@
             },
             {
                 "encounter":    "shrine2",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shrine3",
                 "probability":  0.0005,
                 "duration":     10030,
                 "max":          1,
@@ -2692,13 +2564,6 @@
                 "distance":     25
             },
             {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     10000,
-                "max":          4,
-                "distance":     25
-            },
-            {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     10000,
@@ -2788,13 +2653,6 @@
                 "duration":     10030,
                 "max":          1,
                 "distance":     15
-            },
-            {
-                "encounter":    "shrine3",
-                "probability":  0.0005,
-                "duration":     10030,
-                "max":          1,
-                "distance":     15
             }
         ]  
       },
@@ -2815,27 +2673,6 @@
 	"DEEP_OCEAN",
     "DESERT"
       ],
-      "treasures":	null,
-      "expansions":	null
-    },
-    {
-      "name":		"seahorse-isle",
-      "enabled": 	true,
-      "probability":	0.0001,
-      "structure":	"seahorse-isle",
-      "mobs":		[
-	"zombies",
-	"skeletons",
-        "cows",
-        "chickens",
-        "blaze",
-        "villagers"
-      ],
-      "validBiomes":	[
-	"OCEAN",
-	"DEEP_OCEAN"
-      ],
-      "invalidBiomes":	null,
       "treasures":	null,
       "expansions":	null
     },
