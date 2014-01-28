@@ -203,7 +203,13 @@ public class PlacedMob {
             getEntity().getWorld().dropItem(entity.getLocation(), item);
         }
         if(mob.getDeathSpawn()!=null){
-            encounter.addMob(mob.getDeathSpawn().placeMob(encounter, entity.getLocation()));
+            Long count   =   mob.getDeathSpawn().getCount();
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+mob.getDeathSpawn().getType().name());
+            }
+            for(int i=0;i<count;i++){
+                encounter.addMob(mob.getDeathSpawn().placeMob(encounter, entity.getLocation()));
+            }
         }
         encounter.notifyMobDeath(this);
         instances.remove(this);
