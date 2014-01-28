@@ -1030,7 +1030,7 @@
       
     {
       "name":		"Shop1",
-      "file":		"schematics/medieval-small-windmill.schematic",
+      "file":		"schematics/shops/medieval-small-windmill.schematic",
       "minY":		0,
       "maxY":		196,
       "trump":		[
@@ -1063,7 +1063,7 @@
     },
     {
       "name":	"Shop2",
-      "file":	"schematics/special-shop.schematic",
+      "file":	"schematics/shops/special-shop.schematic",
       "minY":	0,
       "maxY":	196,
       "trump":	[
