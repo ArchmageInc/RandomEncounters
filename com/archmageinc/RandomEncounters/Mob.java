@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
  * 
  * @author ArchmageInc
  */
-public class Mob{
+public final class Mob{
     
     /**
      * The static set of singlton instances.
@@ -37,6 +37,8 @@ public class Mob{
      * The type of entity spawned by this Mob.
      */
     protected EntityType type;
+    
+    protected String typeName;
     
     /**
      * The minimum number of creatures to spawn.
@@ -127,7 +129,7 @@ public class Mob{
     protected Mob(JSONObject jsonConfiguration){
         try{
             name                        =   (String) jsonConfiguration.get("name");
-            type                        =   EntityType.fromName((String) jsonConfiguration.get("type"));
+            typeName                    =   (String) jsonConfiguration.get("type");
             min                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("min")).longValue() : null;
             max                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("max")).longValue() : null;
             enabled                     =   (Boolean) jsonConfiguration.get("enabled");
@@ -135,6 +137,7 @@ public class Mob{
             equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
             tagName                     =   (String) jsonConfiguration.get("tagName");
             deathSpawnName              =   (String) jsonConfiguration.get("deathSpawn");
+            type                        =   getType();
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
             JSONArray jsonEffects       =   (JSONArray) jsonConfiguration.get("potionEffects");
             JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobGroups");
@@ -167,6 +170,8 @@ public class Mob{
             RandomEncounters.getInstance().logError("Invalid Mob configuration: "+e.getMessage());
         }
     }
+    
+    
     
     /**
      * Spawn the creatures and create a PlacedMob at a given location for a given PlacedEncounter.
@@ -327,8 +332,22 @@ public class Mob{
      * Get the EntityType associated with this Mob Configuration.
      * @return 
      */
-    public EntityType getType(){
+    protected EntityType getType(){
+        /*
+        @TODO: This is terrible, but how MC has implemented wither skeletons.
+        */
+        if(typeName!=null){
+            if(typeName.toLowerCase().equals("witherskeleton")){
+                type    =   EntityType.SKELETON;
+            }else{
+                type    =   EntityType.fromName(typeName);
+            }
+        }
         return type;
+    }
+    
+    public String getTypeName(){
+        return typeName;
     }
     
     /**

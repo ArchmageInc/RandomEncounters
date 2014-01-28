@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Wolf;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Skeleton;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONObject;
 
@@ -118,6 +119,13 @@ public class PlacedMob {
         if(mob.getTagName()!=null){
             entity.setCustomName(mob.getTagName());
             entity.setCustomNameVisible(true);
+        }
+        /*
+        @TODO: This is terrible, but how MC has implemented wither skeletons.
+        */
+        if(mob.getTypeName().toLowerCase().equals("witherskeleton")){
+            Skeleton tmpEntity  =   (Skeleton) entity;
+            tmpEntity.setSkeletonType(Skeleton.SkeletonType.WITHER);
         }
         mob.setEquipment(entity);
         mob.setEffects(entity);
