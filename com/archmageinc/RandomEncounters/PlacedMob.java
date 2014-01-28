@@ -102,18 +102,14 @@ public class PlacedMob {
      */
     protected PlacedMob(Mob mob,PlacedEncounter encounter,Location location){
         
-        this.mob        =   mob;
-        this.encounter  =   encounter;
+        this.mob                =   mob;
+        this.encounter          =   encounter;
         Location spawnLocation  =   encounter.findSafeSpawnLocation();
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Creating new placed mob "+mob.getName()+" at "+spawnLocation.toString());
-        }
         if(spawnLocation==null){
+            spawnLocation   =   location;
             RandomEncounters.getInstance().logWarning("Attempted to spawn a mob, but no safe spawn was located");
-            entity      =   (LivingEntity) location.getWorld().spawnEntity(location, mob.getType());
-        }else{
-            entity     =   (LivingEntity) location.getWorld().spawnEntity(spawnLocation, mob.getType());
         }
+        entity     =   (LivingEntity) location.getWorld().spawnEntity(spawnLocation, mob.getType());
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
         if(mob.getTagName()!=null){
@@ -134,6 +130,9 @@ public class PlacedMob {
         }
         if(mob.getType().equals(EntityType.PIG_ZOMBIE)){
             ((PigZombie) entity).setAngry(true);
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("Created new placed mob "+mob.getName()+" at "+spawnLocation.toString()+": "+uuid.toString());
         }
         instances.add(this);
     }
@@ -207,17 +206,16 @@ public class PlacedMob {
      * @see PlacedEncounter#notifyMobDeath(com.archmageinc.RandomEncounters.PlacedMob) 
      */
     public void die(){
-        for(ItemStack item : getDrop()){
-            getEntity().getWorld().dropItem(entity.getLocation(), item);
-        }
-        if(mob.getDeathSpawn()!=null){
-            Long count   =   mob.getDeathSpawn().getCount();
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+mob.getDeathSpawn().getType().name());
+        if(getEntity()!=null){
+            for(ItemStack item : getDrop()){
+                getEntity().getWorld().dropItem(entity.getLocation(), item);
             }
-            for(int i=0;i<count;i++){
-                encounter.addMob(mob.getDeathSpawn().placeMob(encounter, entity.getLocation()));
+            Mob deathSpawn  =   mob.getDeathSpawn();
+            if(deathSpawn!=null){
+                encounter.addMob(deathSpawn.placeMob(encounter, entity.getLocation()));
             }
+        }else{
+            RandomEncounters.getInstance().logWarning("An entity died but could not be found: "+uuid.toString()+" for encounter "+encounter.getName());
         }
         encounter.notifyMobDeath(this);
         instances.remove(this);

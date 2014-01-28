@@ -129,9 +129,11 @@ public class PlacedEncounter {
      */
     protected PlacedEncounter(JSONObject jsonConfiguration){
         try{
-            uuid          =   UUID.fromString((String) jsonConfiguration.get("uuid"));
-            sacked        =   (Boolean) jsonConfiguration.get("sacked");
-            encounter     =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
+            uuid                    =   UUID.fromString((String) jsonConfiguration.get("uuid"));
+            sacked                  =   (Boolean) jsonConfiguration.get("sacked");
+            encounter               =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
+            JSONObject jsonLocation =   (JSONObject) jsonConfiguration.get("location");
+            location                =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
             if(encounter==null){
                 RandomEncounters.getInstance().logError("Missing Encounter ("+(String) jsonConfiguration.get("encounter")+") from PlacedEncounter configuration");
             }
@@ -141,8 +143,6 @@ public class PlacedEncounter {
                     mobs.add(PlacedMob.getInstance((JSONObject) jsonMobs.get(i),this));
                 }
             }
-            JSONObject jsonLocation =   (JSONObject) jsonConfiguration.get("location");
-            location                =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
             
             JSONArray jsonExpansions    =   (JSONArray) jsonConfiguration.get("expansions");
             if(jsonExpansions!=null){
@@ -284,6 +284,8 @@ public class PlacedEncounter {
             if(RandomEncounters.getInstance().getLogLevel()>6){
                 RandomEncounters.getInstance().logMessage(encounter.getName()+" has been sacked!");
             }
+            RandomEncounters.getInstance().removePlacedEncounter(this);
+            instances.remove(this);
         }
     }
     

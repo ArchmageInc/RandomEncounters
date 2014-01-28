@@ -188,7 +188,10 @@ public class RandomEncounters extends JavaPlugin {
             JSONArray jsonEncounters    =   (JSONArray) encounterConfig.get("savedEncounters");
             if(jsonEncounters!=null){
                 for(int i=0;i<jsonEncounters.size();i++){
-                    placedEncounters.add(PlacedEncounter.getInstance((JSONObject) jsonEncounters.get(i)));
+                    PlacedEncounter encounter   =   PlacedEncounter.getInstance((JSONObject) jsonEncounters.get(i));
+                    if(!encounter.isSacked()){
+                        placedEncounters.add(encounter);
+                    }
                 }
                 logMessage("Loaded "+jsonEncounters.size()+" PlacedEncounter configurations");
             }else{
@@ -224,10 +227,23 @@ public class RandomEncounters extends JavaPlugin {
      * @param encounter The PlacedEncounter that was newly generated.
      */
     public void addPlacedEncounter(PlacedEncounter encounter){
-        if(logLevel>5){
-            logMessage("Placed encounter "+encounter.getName()+" at "+encounter.getLocation().toString());
-        }
         placedEncounters.add(encounter);
+        if(logLevel>5){
+            logMessage("Placed encounter "+encounter.getName()+" at "+encounter.getLocation().toString()+" there are "+placedEncounters.size()+" saved");
+        }
+        savePlacedEncounters();
+    }
+    
+    /**
+     * Remove a placed encounter from the list
+     * 
+     * @param encounter The PlacedEncounter to remove
+     */
+    public void removePlacedEncounter(PlacedEncounter encounter){
+        placedEncounters.remove(encounter);
+        if(logLevel>6){
+            logMessage("Removing saved encounter: "+encounter.getName()+" at "+encounter.getLocation().toString()+" there are "+placedEncounters.size()+" saved");
+        }
         savePlacedEncounters();
     }
     
