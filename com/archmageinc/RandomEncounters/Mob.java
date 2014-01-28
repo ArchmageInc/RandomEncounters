@@ -80,6 +80,9 @@ public final class Mob{
      */
     protected Set<Treasure> treasures       =   new HashSet();
     
+    /**
+     * The set of MobGroups which will be spawned.
+     */
     protected Set<MobGroup> mobGroups       =   new HashSet();
     
     /**
@@ -346,6 +349,11 @@ public final class Mob{
         return type;
     }
     
+    /**
+     * Get the EntityType as a string.
+     * This really only concerns EntityTypes not in the EntityType enum
+     * @return 
+     */
     public String getTypeName(){
         return typeName;
     }
@@ -358,6 +366,11 @@ public final class Mob{
         return tagName;
     }
     
+    /**
+     * Get the Mob that should spawn when this Mob dies.
+     * 
+     * @return 
+     */
     public Mob getDeathSpawn(){
         if(deathSpawn==null && deathSpawnName!=null){
             deathSpawn  =   Mob.getInstance(deathSpawnName);

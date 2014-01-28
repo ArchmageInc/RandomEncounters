@@ -206,6 +206,9 @@ public class PlacedMob {
      * @see PlacedEncounter#notifyMobDeath(com.archmageinc.RandomEncounters.PlacedMob) 
      */
     public void die(){
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage(encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") has died.");
+        }
         if(getEntity()!=null){
             for(ItemStack item : getDrop()){
                 getEntity().getWorld().dropItem(entity.getLocation(), item);
@@ -215,10 +218,18 @@ public class PlacedMob {
                 encounter.addMob(deathSpawn.placeMob(encounter, entity.getLocation()));
             }
         }else{
-            RandomEncounters.getInstance().logWarning("An entity died but could not be found: "+uuid.toString()+" for encounter "+encounter.getName());
+            RandomEncounters.getInstance().logWarning(encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") died but could not be found: "+uuid.toString());
         }
         encounter.notifyMobDeath(this);
         instances.remove(this);
+    }
+    
+    public PlacedEncounter getPlacedEncounter(){
+        return encounter;
+    }
+    
+    public Mob getMob(){
+        return mob;
     }
     
     /**
