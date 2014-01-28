@@ -181,13 +181,7 @@ public class PlacedEncounter {
             RandomEncounters.getInstance().logMessage("Prepairing to place "+encounter.getMobs().size()+" mobs for encounter "+encounter.getName());
         }
         for(Mob mob : encounter.getMobs()){
-            Long count   =   mob.getCount();
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+mob.getType().name());
-            }
-            for(int i=0;i<count;i++){
-                this.mobs.add(mob.placeMob(this,location));
-            }
+            this.mobs.addAll(mob.placeMob(this,location));
         }
         setupExpansions();
         instances.add(this);        
@@ -297,8 +291,8 @@ public class PlacedEncounter {
      * Adds a mob to the encounter
      * @param mob 
      */
-    public void addMob(PlacedMob mob){
-        mobs.add(mob);
+    public void addMob(Set<PlacedMob> mob){
+        mobs.addAll(mob);
     }
     
     /**

@@ -78,6 +78,8 @@ public class Mob{
      */
     protected Set<Treasure> treasures       =   new HashSet();
     
+    protected Set<MobGroup> mobGroups       =   new HashSet();
+    
     /**
      * The set of potion effects that will be paced on spawned creatures.
      */
@@ -126,15 +128,16 @@ public class Mob{
         try{
             name                        =   (String) jsonConfiguration.get("name");
             type                        =   EntityType.fromName((String) jsonConfiguration.get("type"));
-            min                         =   ((Number) jsonConfiguration.get("min")).longValue();
-            max                         =   ((Number) jsonConfiguration.get("max")).longValue();
+            min                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("min")).longValue() : null;
+            max                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("max")).longValue() : null;
             enabled                     =   (Boolean) jsonConfiguration.get("enabled");
-            probability                 =   ((Number) jsonConfiguration.get("probability")).doubleValue();
+            probability                 =   jsonConfiguration.get("probability")!=null ? ((Number) jsonConfiguration.get("probability")).doubleValue() : null;
             equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
             tagName                     =   (String) jsonConfiguration.get("tagName");
             deathSpawnName              =   (String) jsonConfiguration.get("deathSpawn");
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
             JSONArray jsonEffects       =   (JSONArray) jsonConfiguration.get("potionEffects");
+            JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobGroups");
             if(jsonTreasures!=null){
                 for(int i=0;i<jsonTreasures.size();i++){
                     treasures.add(new Treasure((JSONObject) jsonTreasures.get(i)));
@@ -146,8 +149,18 @@ public class Mob{
                     effects.add(new MobPotionEffect((JSONObject) jsonEffects.get(i)));
                 }
             }
-            if(type==null){
-                RandomEncounters.getInstance().logError("Invalid mob type: "+(String) jsonConfiguration.get("type"));
+            if(jsonMobs!=null){
+                for(int i=0;i<jsonMobs.size();i++){
+                    JSONObject mobGroup =   (JSONObject) jsonMobs.get(i);
+                    if(name.equals((String) mobGroup.get("name"))){
+                        RandomEncounters.getInstance().logWarning("Ignoring recursive mob group configuration for "+name);
+                    }else{
+                        mobGroups.add(new MobGroup((JSONObject) jsonMobs.get(i)));
+                    }
+                }
+            }
+            if(jsonMobs==null && type==null){
+                RandomEncounters.getInstance().logError("Invalid mob type: "+(String) jsonConfiguration.get("type")+" for "+name);
             }
             instances.add(this);
         }catch(ClassCastException e){
@@ -161,9 +174,22 @@ public class Mob{
      * @param location The location to spawn the creature.
      * @return Returns the newly created PlacedMob
      */
-    public PlacedMob placeMob(PlacedEncounter encounter,Location location){
-        return PlacedMob.create(this,encounter, location);
-        
+    public Set<PlacedMob> placeMob(PlacedEncounter encounter,Location location){
+        HashSet<PlacedMob> placements   =   new HashSet();
+        if(mobGroups.isEmpty()){
+            Long count   =   getCount();
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+getType().name());
+            }
+            for(int i=0;i<getCount();i++){
+                placements.add(PlacedMob.create(this, encounter, location));
+            }
+        }else{
+            for(MobGroup mobGroup : mobGroups){
+                placements.addAll(mobGroup.placeGroup(encounter, location));
+            }
+        }        
+        return placements;
     }
     
     /**
@@ -263,7 +289,7 @@ public class Mob{
      * 
      * @return 
      */
-    public Long getCount(){
+    protected Long getCount(){
         Long count   =   min;
         for(int i=min.intValue();i<max;i++){
             if(Math.random()<probability)
