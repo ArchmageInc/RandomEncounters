@@ -185,7 +185,7 @@ public class Mob{
             }
             
         }catch(ClassCastException e){
-            RandomEncounters.getInstance().logError("Invalid mob equipment configuration for "+name+" "+type);
+            RandomEncounters.getInstance().logError("Invalid mob equipment configuration for "+name+" "+type+": "+e.getMessage());
         }
         return item;
     }
@@ -203,11 +203,11 @@ public class Mob{
             if(equipment!=null){
                JSONObject object   =   (JSONObject) equipment.get(type);
                 if(object!=null){
-                    chance  =   ((Long) object.get("dropProbability")).floatValue();
+                    chance  =   ((Number) object.get("dropProbability")).floatValue();
                 } 
             }
         }catch(ClassCastException e){
-            RandomEncounters.getInstance().logError("Invalid mob equipment configuration for "+name+" "+type);
+            RandomEncounters.getInstance().logError("Invalid mob equipment configuration for "+name+" "+type+": "+e.getMessage());
         }
         return chance;
     }

@@ -80,7 +80,7 @@ public class Treasure {
                 Enchantment enchantment =   tEnchantment.get();
                 if(enchantment!=null){
                     try{
-                        item.addEnchantment(enchantment, tEnchantment.getLevel());
+                        item.addUnsafeEnchantment(enchantment, tEnchantment.getLevel());
                     }catch(IllegalArgumentException e){
                         RandomEncounters.getInstance().logWarning("Invalid enchantment for Treasure item: "+e.getMessage());
                     }
