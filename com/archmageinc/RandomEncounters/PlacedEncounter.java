@@ -285,6 +285,12 @@ public class PlacedEncounter {
      */
     public void notifyMobDeath(PlacedMob mob){
         mobs.remove(mob);
+        if(mobs.isEmpty()){
+            sacked  =   true;
+            if(RandomEncounters.getInstance().getLogLevel()>6){
+                RandomEncounters.getInstance().logMessage(encounter.getName()+" has been sacked!");
+            }
+        }
     }
     
     /**
@@ -325,6 +331,14 @@ public class PlacedEncounter {
      */
     public Set<Expansion> getExpansions(){
         return expansions;
+    }
+    
+    /**
+     * Has this encounter been sacked.
+     * @return 
+     */
+    public boolean isSacked(){
+        return sacked;
     }
     
     /**
