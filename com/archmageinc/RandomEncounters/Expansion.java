@@ -104,8 +104,10 @@ public class Expansion implements Cloneable{
             Set<PlacedEncounter> validExpansions    =   new HashSet();
             for(UUID expansionUUID : placedEncounter.getPlacedExpansions()){
                 PlacedEncounter placedExpansion =   PlacedEncounter.getInstance(expansionUUID);
-                if(placedExpansion.getEncounter().equals(getEncounter())){
-                    validExpansions.add(placedExpansion);
+                if(placedExpansion!=null){
+                    if(placedExpansion.getEncounter().equals(getEncounter())){
+                        validExpansions.add(placedExpansion);
+                    }
                 }
             }
             if(RandomEncounters.getInstance().getLogLevel()>6){
