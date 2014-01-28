@@ -115,6 +115,9 @@ public class PlacedMob {
         }
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
+        if(mob.getTagName()!=null){
+            entity.setCustomName(mob.getTagName());
+        }
         mob.setEquipment(entity);
         mob.setEffects(entity);
         if(mob.getType().equals(EntityType.WOLF)){

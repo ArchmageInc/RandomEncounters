@@ -42,6 +42,8 @@ public class Treasure {
      */
     protected Set<TreasureEnchantment> enchantments =   new HashSet();
     
+    protected String tagName;
+    
     
     /**
      * Constructor based on the JSON configuration.
@@ -54,6 +56,7 @@ public class Treasure {
             min         =   (Long) jsonConfiguration.get("min");
             max         =   (Long) jsonConfiguration.get("max");
             probability =   (Double) jsonConfiguration.get("probability");
+            tagName     =   (String) jsonConfiguration.get("tagName");
             JSONArray jsonEnchantments  =   (JSONArray) jsonConfiguration.get("enchantments");
             if(jsonEnchantments!=null){
                 for(int i=0;i<jsonEnchantments.size();i++){
@@ -94,6 +97,9 @@ public class Treasure {
     public List<ItemStack> get(){
         List<ItemStack> list    =   new ArrayList();
         ItemStack stack         =   new ItemStack(material,0);
+        if(tagName!=null){
+            stack.getItemMeta().setDisplayName(tagName);
+        }
         for(int i=min.intValue();i<max;i++){
             if(Math.random()<probability){
                 if(stack.getAmount()<stack.getMaxStackSize()){
@@ -101,6 +107,9 @@ public class Treasure {
                 }else{
                     list.add(stack.clone());
                     stack   =   new ItemStack(material,1);
+                    if(tagName!=null){
+                        stack.getItemMeta().setDisplayName(tagName);
+                    }
                 }
                 setEnchantments(stack);
             }

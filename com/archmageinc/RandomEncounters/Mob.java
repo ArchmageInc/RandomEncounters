@@ -29,6 +29,11 @@ public class Mob{
     protected String name;
     
     /**
+     * The name each creature will be given.
+     */
+    protected String tagName;
+    
+    /**
      * The type of entity spawned by this Mob.
      */
     protected EntityType type;
@@ -116,6 +121,7 @@ public class Mob{
             enabled                     =   (Boolean) jsonConfiguration.get("enabled");
             probability                 =   (Double) jsonConfiguration.get("probability");
             equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
+            tagName                     =   (String) jsonConfiguration.get("tagName");
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
             JSONArray jsonEffects       =   (JSONArray) jsonConfiguration.get("potionEffects");
             if(jsonTreasures!=null){
@@ -286,5 +292,13 @@ public class Mob{
      */
     public EntityType getType(){
         return type;
+    }
+    
+    /**
+     * Get the tagName for the creature.
+     * @return 
+     */
+    public String getTagName(){
+        return tagName;
     }
 }
