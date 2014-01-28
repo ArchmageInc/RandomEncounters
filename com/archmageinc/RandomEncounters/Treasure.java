@@ -53,9 +53,9 @@ public class Treasure {
     public Treasure(JSONObject jsonConfiguration){
         try{
             material    =   Material.getMaterial((String) jsonConfiguration.get("material"));
-            min         =   (Long) jsonConfiguration.get("min");
-            max         =   (Long) jsonConfiguration.get("max");
-            probability =   (Double) jsonConfiguration.get("probability");
+            min         =   ((Number) jsonConfiguration.get("min")).longValue();
+            max         =   ((Number) jsonConfiguration.get("max")).longValue();
+            probability =   ((Number) jsonConfiguration.get("probability")).doubleValue();
             tagName     =   (String) jsonConfiguration.get("tagName");
             JSONArray jsonEnchantments  =   (JSONArray) jsonConfiguration.get("enchantments");
             if(jsonEnchantments!=null){

@@ -125,8 +125,8 @@ public class Structure {
         try{
             name                    =   (String) jsonConfiguration.get("name");
             fileName                =   (String) jsonConfiguration.get("file");
-            minY                    =   (Long) jsonConfiguration.get("minY");
-            maxY                    =   (Long) jsonConfiguration.get("maxY");
+            minY                    =   ((Number) jsonConfiguration.get("minY")).longValue();
+            maxY                    =   ((Number) jsonConfiguration.get("maxY")).longValue();
             JSONArray jsonTrump     =   (JSONArray) jsonConfiguration.get("trump");
             JSONArray jsonInvalid   =   (JSONArray) jsonConfiguration.get("invalid");
             if(jsonTrump!=null){

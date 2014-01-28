@@ -118,7 +118,7 @@ public class Encounter {
         try{
             name        =   (String) jsonConfiguration.get("name");
             enabled     =   (Boolean) jsonConfiguration.get("enabled");
-            probability =   (Double) jsonConfiguration.get("probability");
+            probability =   ((Number) jsonConfiguration.get("probability")).doubleValue();
             structure   =   Structure.getInstance((String) jsonConfiguration.get("structure"));
             JSONArray jsonValidBiomes   =   (JSONArray) jsonConfiguration.get("validBiomes");
             JSONArray jsonInvalidBiomes =   (JSONArray) jsonConfiguration.get("invalidBiomes");

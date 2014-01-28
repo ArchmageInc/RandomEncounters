@@ -126,10 +126,10 @@ public class Mob{
         try{
             name                        =   (String) jsonConfiguration.get("name");
             type                        =   EntityType.fromName((String) jsonConfiguration.get("type"));
-            min                         =   (Long) jsonConfiguration.get("min");
-            max                         =   (Long) jsonConfiguration.get("max");
+            min                         =   ((Number) jsonConfiguration.get("min")).longValue();
+            max                         =   ((Number) jsonConfiguration.get("max")).longValue();
             enabled                     =   (Boolean) jsonConfiguration.get("enabled");
-            probability                 =   (Double) jsonConfiguration.get("probability");
+            probability                 =   ((Number) jsonConfiguration.get("probability")).doubleValue();
             equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
             tagName                     =   (String) jsonConfiguration.get("tagName");
             deathSpawnName              =   (String) jsonConfiguration.get("deathSpawn");

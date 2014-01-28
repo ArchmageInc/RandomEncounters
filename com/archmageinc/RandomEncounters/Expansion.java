@@ -73,10 +73,10 @@ public class Expansion implements Cloneable{
         try{
             encounter       =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
             encounterName   =   (String) jsonConfiguration.get("encounter");
-            probability     =   (Double) jsonConfiguration.get("probability");
-            duration        =   (Long) jsonConfiguration.get("duration");
-            max             =   (Long) jsonConfiguration.get("max");
-            distance        =   (Long) jsonConfiguration.get("distance");
+            probability     =   ((Number) jsonConfiguration.get("probability")).doubleValue();
+            duration        =   ((Number) jsonConfiguration.get("duration")).longValue();
+            max             =   ((Number) jsonConfiguration.get("max")).longValue();
+            distance        =   ((Number) jsonConfiguration.get("distance")).longValue();
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid expansion configuration: "+e.getMessage());
         }
