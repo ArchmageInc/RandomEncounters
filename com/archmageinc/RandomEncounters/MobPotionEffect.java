@@ -64,7 +64,7 @@ public class MobPotionEffect {
      * @param entity The LivingEntity on which to place the effect.
      */
     public void checkApply(LivingEntity entity){
-        if(effect!=null && Math.random()<probability){
+        if(entity!=null && effect!=null && Math.random()<probability){
             entity.addPotionEffect(effect);
         }
     }
