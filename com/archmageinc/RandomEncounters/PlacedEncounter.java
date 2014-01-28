@@ -288,6 +288,14 @@ public class PlacedEncounter {
     }
     
     /**
+     * Adds a mob to the encounter
+     * @param mob 
+     */
+    public void addMob(PlacedMob mob){
+        mobs.add(mob);
+    }
+    
+    /**
      * Gets the parent Encounter configuration that generated this PlacedEncounter.
      * @return 
      */

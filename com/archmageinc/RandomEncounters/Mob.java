@@ -64,6 +64,16 @@ public class Mob{
     protected JSONObject equipment;
     
     /**
+     * The mob to spawn when the creature dies.
+     */
+    protected Mob deathSpawn;
+    
+    /**
+     * The unique name of the death spawn mob.
+     */
+    protected String deathSpawnName;
+    
+    /**
      * The set of Treasures which will be dropped by spawned creatures.
      */
     protected Set<Treasure> treasures       =   new HashSet();
@@ -122,6 +132,7 @@ public class Mob{
             probability                 =   (Double) jsonConfiguration.get("probability");
             equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
             tagName                     =   (String) jsonConfiguration.get("tagName");
+            deathSpawnName              =   (String) jsonConfiguration.get("deathSpawn");
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
             JSONArray jsonEffects       =   (JSONArray) jsonConfiguration.get("potionEffects");
             if(jsonTreasures!=null){
@@ -300,5 +311,12 @@ public class Mob{
      */
     public String getTagName(){
         return tagName;
+    }
+    
+    public Mob getDeathSpawn(){
+        if(deathSpawn==null && deathSpawnName!=null){
+            deathSpawn  =   Mob.getInstance(deathSpawnName);
+        }
+        return deathSpawn;
     }
 }

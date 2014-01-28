@@ -202,6 +202,9 @@ public class PlacedMob {
         for(ItemStack item : getDrop()){
             getEntity().getWorld().dropItem(entity.getLocation(), item);
         }
+        if(mob.getDeathSpawn()!=null){
+            encounter.addMob(mob.getDeathSpawn().placeMob(encounter, entity.getLocation()));
+        }
         encounter.notifyMobDeath(this);
         instances.remove(this);
     }
