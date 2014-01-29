@@ -1,7 +1,6 @@
 package com.archmageinc.RandomEncounters;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -15,20 +14,72 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Represents an Encounter that has been placed in the world.
+ * 
  * @author ArchmageInc
  */
 public class PlacedEncounter {
+    
+    /**
+     * The generated Unique ID.
+     */
     protected UUID uuid;
+    
+    /**
+     * The location of this placed encounter in the world.
+     */
     protected Location location;
+    
+    /**
+     * The Encounter on which this is based.
+     */
     protected Encounter encounter;
+    
+    /**
+     * The set of PlacedMobs that were spawned with this encounter.
+     */
     protected Set<PlacedMob> mobs                   =   new HashSet();
+    
+    /**
+     * Has this encounter been sacked.
+     * 
+     * @TODO A listener needs to be developed to determine if a PlacedEncounter has been sacked.
+     * @TODO All expansions for this PlacedEncounter should stop when sacked.
+     */
     protected Boolean sacked                        =   false;
-    protected Set<UUID> expansions                  =   new HashSet();
-    protected Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
+    
+    /**
+     * The set of placed encounter unique IDs that have expanded from this placed encounter.
+     * 
+     * @TODO When expanded encounters are sacked, they should be removed from this set.
+     */
+    protected Set<UUID> placedExpansions            =   new HashSet();
+    
+    /**
+     * The set of valid expansion configurations for this Placed Encounter.
+     * 
+     * This is a clone of the Encounter configuration expansions
+     * @see Encounter#expansions
+     */
+    protected Set<Expansion> expansions             =   new HashSet();
+    
+    /**
+     * The singlton instances of loaded PlacedEncounters.
+     */
     protected static Set<PlacedEncounter> instances =   new HashSet();
+    
+    /**
+     * An internal list of safe creature spawn locations.
+     */
     protected List<Location> spawnLocations         =   new ArrayList();
     
+    
+    /**
+     * Get an instance of the placed encounter based on the Unique ID.
+     * 
+     * @param uuid The unique ID of the PlacedEncounter
+     * @return Returns the PlacedEncounter if found, null otherwise.
+     */
     public static PlacedEncounter getInstance(UUID uuid){
         for(PlacedEncounter instance : instances){
             if(instance.getUUID().equals(uuid)){
@@ -38,6 +89,12 @@ public class PlacedEncounter {
         return null;
     }
     
+    /**
+     * Get an instance of the PlacedEncounter based on JSON Configuration data.
+     * 
+     * @param jsonConfiguration The JSON Configuration
+     * @return Returns the PlacedEncounter defined by the JSON Configuration.
+     */
     public static PlacedEncounter getInstance(JSONObject jsonConfiguration){
         try{
             UUID jsonUUID             =   UUID.fromString((String) jsonConfiguration.get("uuid"));
@@ -53,16 +110,30 @@ public class PlacedEncounter {
         return new PlacedEncounter(jsonConfiguration);
     }
     
+    /**
+     * Static Method to create a new PlacedEncounter based on an Encounter at a Lcoation.
+     * 
+     * @param encounter
+     * @param location
+     * @return The newly created PlacedEncounter
+     * @see PlacedEncounter#PlacedEncounter(com.archmageinc.RandomEncounters.Encounter, org.bukkit.Location) 
+     */
     public static PlacedEncounter create(Encounter encounter,Location location){
         return new PlacedEncounter(encounter,location);
     }
     
-    
+    /**
+     * Constructor for PlacedEncounter based on JSON Configuration
+     * 
+     * @param jsonConfiguration The JSON configuration
+     */
     protected PlacedEncounter(JSONObject jsonConfiguration){
         try{
-            uuid          =   UUID.fromString((String) jsonConfiguration.get("uuid"));
-            sacked        =   (Boolean) jsonConfiguration.get("sacked");
-            encounter     =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
+            uuid                    =   UUID.fromString((String) jsonConfiguration.get("uuid"));
+            sacked                  =   (Boolean) jsonConfiguration.get("sacked");
+            encounter               =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
+            JSONObject jsonLocation =   (JSONObject) jsonConfiguration.get("location");
+            location                =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
             if(encounter==null){
                 RandomEncounters.getInstance().logError("Missing Encounter ("+(String) jsonConfiguration.get("encounter")+") from PlacedEncounter configuration");
             }
@@ -72,8 +143,6 @@ public class PlacedEncounter {
                     mobs.add(PlacedMob.getInstance((JSONObject) jsonMobs.get(i),this));
                 }
             }
-            JSONObject jsonLocation =   (JSONObject) jsonConfiguration.get("location");
-            location                =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
             
             JSONArray jsonExpansions    =   (JSONArray) jsonConfiguration.get("expansions");
             if(jsonExpansions!=null){
@@ -81,12 +150,13 @@ public class PlacedEncounter {
                     JSONObject jsonExpansion    =   (JSONObject) jsonExpansions.get(i);
                     try{
                         UUID expansionUUID          =   UUID.fromString((String) jsonExpansion.get("uuid"));
-                        expansions.add(expansionUUID);
+                        placedExpansions.add(expansionUUID);
                     }catch(IllegalArgumentException e){
                         RandomEncounters.getInstance().logError("Invalid UUID in PlacedEncounter expansion configuration: "+e.getMessage());
                     }
                 }
             }
+            setupExpansions();
             instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid PlacedEncounter configuration: "+e.getMessage());
@@ -95,6 +165,12 @@ public class PlacedEncounter {
         }
     }
     
+    /**
+     * Constructor to create a new PlacedEncounter which will place the structure and spawn creatures.
+     * 
+     * @param encounter The parent Encounter
+     * @param location The location to place the encounter
+     */
     protected PlacedEncounter(Encounter encounter,Location location){
         this.uuid       =   UUID.randomUUID();
         this.encounter  =   encounter;
@@ -105,18 +181,31 @@ public class PlacedEncounter {
             RandomEncounters.getInstance().logMessage("Prepairing to place "+encounter.getMobs().size()+" mobs for encounter "+encounter.getName());
         }
         for(Mob mob : encounter.getMobs()){
-            Long count   =   mob.getCount();
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+mob.getType().name());
-            }
-            for(int i=0;i<count;i++){
-                this.mobs.add(mob.placeMob(this,location));
-            }
+            this.mobs.addAll(mob.placeMob(this,location));
         }
-        
+        setupExpansions();
         instances.add(this);        
     }
     
+    /**
+     * Sets up the cloned expansion configurations for newly generated PlacedEncounters.
+     */
+    protected final void setupExpansions(){
+        expansions.clear();
+        for(Expansion expansion : encounter.getExpansions()){
+            try {
+                expansions.add(expansion.clone());
+            } catch (CloneNotSupportedException e) {
+                RandomEncounters.getInstance().logError("Clone failed for expansion: "+e.getMessage());
+            }
+        }
+    }
+    
+    /**
+     * Internal method to locate safe spawn locations for creatures.
+     * 
+     * Attempts to avoid placing creatures in walls.
+     */
     protected final void populateSafeSpawnLocations(){
         Structure structure =   encounter.getStructure();
         Integer minX        =   location.getBlockX()-(structure.getWidth()/2);
@@ -130,7 +219,7 @@ public class PlacedEncounter {
                 for(int z=minZ;z<maxZ;z++){
                     Block block =   location.getWorld().getBlockAt(x, y, z);
                     if(block.getType().isSolid() && block.getRelative(BlockFace.UP).getType().equals(Material.AIR) && block.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType().equals(Material.AIR)){
-                        spawnLocations.add(block.getLocation());
+                        spawnLocations.add(block.getRelative(BlockFace.UP).getLocation());
                     }
                 }
             }
@@ -143,6 +232,11 @@ public class PlacedEncounter {
         }
     }
     
+    /**
+     * Gets a random spawn location for a creature.
+     * 
+     * @return Returns a location to spawn a creature.
+     */
     public Location findSafeSpawnLocation(){
         if(spawnLocations.isEmpty()){
             populateSafeSpawnLocations();
@@ -154,43 +248,99 @@ public class PlacedEncounter {
         return spawnLocations.get(1);
     }
     
+    /**
+     * Adds an expansion to the list.
+     * 
+     * @param expansion The PlacedEncounter that expanded.
+     */
     public void addExpansion(PlacedEncounter expansion){
-        //concurent modification
-        expansions.add(expansion.getUUID());
+        placedExpansions.add(expansion.getUUID());
     }
     
+    /**
+     * Gets the Unique ID of this PlacedExpansion
+     * @return 
+     */
     public UUID getUUID(){
         return uuid;
     }
     
+    /**
+     * Gets the location of this PlacedExpansion.
+     * @return 
+     */
     public Location getLocation(){
         return location;
     }
     
+    /**
+     * Removes the PlacedMob from the list of Mobs in this encounter.
+     * @param mob The PlacedMob to be removed
+     */
     public void notifyMobDeath(PlacedMob mob){
         mobs.remove(mob);
+        if(mobs.isEmpty()){
+            sacked  =   true;
+            if(RandomEncounters.getInstance().getLogLevel()>6){
+                RandomEncounters.getInstance().logMessage(encounter.getName()+" has been sacked!");
+            }
+            RandomEncounters.getInstance().removePlacedEncounter(this);
+            instances.remove(this);
+        }
     }
     
+    /**
+     * Adds a mob to the encounter
+     * @param mob 
+     */
+    public void addMob(Set<PlacedMob> mob){
+        mobs.addAll(mob);
+    }
+    
+    /**
+     * Gets the parent Encounter configuration that generated this PlacedEncounter.
+     * @return 
+     */
     public Encounter getEncounter(){
         return encounter;
     }
     
+    /**
+     * Gets the unique name of the parent Encounter that generated this PlacedEncounter.
+     * @return 
+     */
     public String getName(){
         return encounter.getName();
     }
     
-    public Set<UUID> getExpansions(){
+    /**
+     * Gets the set of unique IDs of expansions spawned from this PlacedEncounter.
+     * @return 
+     */
+    public Set<UUID> getPlacedExpansions(){
+        return placedExpansions;
+    }
+    
+    /**
+     * Gets the set of Expansion configurations for this PlacedEncounter.
+     * @return 
+     */
+    public Set<Expansion> getExpansions(){
         return expansions;
     }
     
-    public Calendar getLastCheck(){
-        return lastCheck;
+    /**
+     * Has this encounter been sacked.
+     * @return 
+     */
+    public boolean isSacked(){
+        return sacked;
     }
     
-    public void updateLastCheck(){
-        lastCheck   =   (Calendar) Calendar.getInstance().clone();
-    }
-    
+    /**
+     * Convert the PlacedEncounter into a JSONObject for serialization.
+     * @return Returns the JSONObject
+     */
     public JSONObject toJSON(){
         JSONObject jsonConfiguration    =   new JSONObject();
         jsonConfiguration.put("uuid", uuid.toString());
@@ -211,7 +361,7 @@ public class PlacedEncounter {
         jsonConfiguration.put("mobs",jsonMobs);
         
         JSONArray jsonExpansions        =   new JSONArray();
-        for(UUID expansion : expansions){
+        for(UUID expansion : placedExpansions){
             JSONObject jsonExpansion    =   new JSONObject();
             jsonExpansion.put("uuid",expansion.toString());
             jsonExpansions.add(jsonExpansion);

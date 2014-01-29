@@ -22,29 +22,72 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Represents a Structure to be placed in the world.
+ * 
+ * All hooks to the WorldEdit API should remain within this file.
+ * 
+ * 
  * @author ArchmageInc
+ * @see com.sk89q.worldedit
  */
 public class Structure {
     
-    protected String name;
-    protected String fileName;
-    protected Long minY;
-    protected Long maxY;
-    protected Boolean loaded                        =   false;
-    protected HashSet<Material> trump               =   new HashSet();
-    protected HashSet<Material> invalid             =   new HashSet();
-    protected static HashSet<Structure> instances   =   new HashSet();
     /**
-     * The WorldEdit session which keeps track of changes
+     * The unique name of the structure configuration.
+     */
+    protected String name;
+    
+    /**
+     * This file name including directories of the schematic file.
+     */
+    protected String fileName;
+    
+    /**
+     * The minimum spawn height of the structure.
+     */
+    protected Long minY;
+    
+    /**
+     * The maximum spawn height of the structure.
+     */
+    protected Long maxY;
+    
+    /**
+     * Has the structure been successfully loaded from the file system.
+     */
+    protected Boolean loaded                        =   false;
+    
+    /**
+     * The set of materials the structure is allowed to overwrite.
+     */
+    protected HashSet<Material> trump               =   new HashSet();
+    
+    /**
+     * The set of materials the structure is not allowed to stand on.
+     */
+    protected HashSet<Material> invalid             =   new HashSet();
+    
+    /** 
+     * The singleton instances of structure configurations.
+     */
+    protected static HashSet<Structure> instances   =   new HashSet();
+    
+    /**
+     * The WorldEdit session which keeps track of changes.
      */
     protected EditSession session;
     
     /**
-     * The WorldEdit cuboid
+     * The WorldEdit cuboid.
      */
     protected CuboidClipboard cuboid;
     
+    /**
+     * Get an instance of the Structure based on the name.
+     * 
+     * @param name The name of the structure configuration
+     * @return Returns the Structure if found, null otherwise.
+     */
     public static Structure getInstance(String name){
         for(Structure instance : instances){
             if(instance.getName().equals(name)){
@@ -54,6 +97,12 @@ public class Structure {
         return null;
     }
     
+    /**
+     * Get an instance of the Structure based on the JSON configuration
+     * 
+     * @param jsonConfiguration The JSON configuration
+     * @return Returns the Structure based on the configuration 
+     */
     public static Structure getInstance(JSONObject jsonConfiguration){
         try{
             for(Structure instance : instances){
@@ -67,12 +116,17 @@ public class Structure {
         return new Structure(jsonConfiguration);
     }
     
+    /**
+     * Constructor for the structure based on the JSON Configuration.
+     * 
+     * @param jsonConfiguration 
+     */
     protected Structure(JSONObject jsonConfiguration){
         try{
             name                    =   (String) jsonConfiguration.get("name");
             fileName                =   (String) jsonConfiguration.get("file");
-            minY                    =   (Long) jsonConfiguration.get("minY");
-            maxY                    =   (Long) jsonConfiguration.get("maxY");
+            minY                    =   ((Number) jsonConfiguration.get("minY")).longValue();
+            maxY                    =   ((Number) jsonConfiguration.get("maxY")).longValue();
             JSONArray jsonTrump     =   (JSONArray) jsonConfiguration.get("trump");
             JSONArray jsonInvalid   =   (JSONArray) jsonConfiguration.get("invalid");
             if(jsonTrump!=null){
@@ -94,6 +148,10 @@ public class Structure {
         }
     }
     
+    /**
+     * Loads the structure from the schematic file on the file system.
+     * @return Returns true if success, false otherwise.
+     */
     protected final boolean load(){
         try{
             File file           =   new File(RandomEncounters.getInstance().getDataFolder()+"/"+fileName);
@@ -114,14 +172,23 @@ public class Structure {
         return true;
     }
     
+    /**
+     * Generate a new WorldEdit session for placement.
+     * @param world The World where the session is
+     * @TODO This is called when placed and flips the structure causing inaccurate width / length measurements.
+     */
     private void newSession(World world){
         if(RandomEncounters.getInstance().getLogLevel()>8){
             RandomEncounters.getInstance().logMessage("Generating new WorldEdit session for structure "+name);
         }
         session        =    new EditSession((new BukkitWorld(world)),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight());
-        //session.enableQueue();
+        session.enableQueue();
         flipRandom();
     }
+    
+    /**
+     * Flip the structure randomly around x and z coordinates only.
+     */
     private void flipRandom(){
         int angle   =  (int) Math.round(Math.random()*4)*90;
         if(RandomEncounters.getInstance().getLogLevel()>7){
@@ -129,6 +196,13 @@ public class Structure {
         }
         cuboid.rotate2D(angle);
     }
+    
+    /**
+     * Parce the placed blocks looking for chests and place items in the inventory based on the Encounter's treasure 
+     * 
+     * @param encounter The encounter configuration.
+     * @param location The location of the placed structure. 
+     */
     private void placeTreasures(Encounter encounter,Location location){
         int x    =   location.getBlockX();
         int y    =   location.getBlockY();
@@ -148,6 +222,17 @@ public class Structure {
             }
         }
     }
+    
+    /**
+     * Place the structure for a given encounter at a location.
+     * 
+     * Does not check if it is safe, just places it. The location comes from a block in the world.
+     * The Origin of the cuboid lines up with this some how. I have no idea what I was doing here,
+     * but it seemed to work so.... yeah.
+     * 
+     * @param encounter The encounter configuration for this structure.
+     * @param location The location to place the structure.
+     */
     public void place(Encounter encounter,Location location){
         if(!loaded){
             RandomEncounters.getInstance().logWarning("Attempted to place a non-loaded structure: "+name);
@@ -161,33 +246,75 @@ public class Structure {
             if(RandomEncounters.getInstance().getLogLevel()>5){
                 RandomEncounters.getInstance().logMessage("Placed structure "+name+": "+session.size());
             }
+            session.flushQueue();
             placeTreasures(encounter,location);
         }catch(MaxChangedBlocksException e){
             RandomEncounters.getInstance().logWarning("Unable to place structure: Maximum number of blocks changed: "+e.getMessage());
         }
     }
     
+    /**
+     * Get the width of the structure
+     * @return 
+     * @TODO Structure width is not always accurate as when placed the structure is randomly flipped.
+     */
     public int getWidth(){
         return loaded ? cuboid.getWidth() : 0;
     }
+    
+    /**
+     * Get the height of the structure
+     * @return 
+     */
     public int getHeight(){
         return loaded ? cuboid.getHeight() : 0;
     }
+    
+    /**
+     * Get the length of the structure.
+     * @return 
+     * @TODO Structure length is not always accurate as when placed the structure is randomly flipped.
+     */
     public int getLength(){
         return loaded ? cuboid.getLength() : 0;
     }
+    
+    /**
+     * Get the set of materials this structure can overwrite.
+     * @return 
+     */
     public Set<Material> getTrump(){
         return trump;
     }
+    
+    /**
+     * Get the set of materials this structure cannot use as a base.
+     * @return 
+     */
     public Set<Material> getInvalid(){
         return invalid;
     }
+    
+    /**
+     * Get the minimum spawn height of the structure.
+     * @return 
+     */
     public Long getMinY(){
         return minY;
     }
+    
+    /**
+     * Get the maximum spawn height of the structure.
+     * @return 
+     */
     public Long getMaxY(){
         return maxY;
     }
+    
+    /**
+     * Get the unique name of the structure configuration.
+     * @return 
+     */
     public String getName(){
         return name;
     }

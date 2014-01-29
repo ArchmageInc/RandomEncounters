@@ -6,26 +6,97 @@ import java.util.List;
 import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Represents an instance of a Mob configuration
+ * 
  * @author ArchmageInc
  */
-public class Mob{
+public final class Mob{
     
+    /**
+     * The static set of singlton instances.
+     */
     protected static HashSet<Mob> instances =   new HashSet();
     
+    /**
+     * The unique name of the Mob.
+     */
     protected String name;
-    protected EntityType type;
-    protected Long min;
-    protected Long max;
-    protected Double probability;
-    protected Boolean enabled;
-    protected Set<Treasure> treasures   =   new HashSet();
     
+    /**
+     * The name each creature will be given.
+     */
+    protected String tagName;
+    
+    /**
+     * The type of entity spawned by this Mob.
+     */
+    protected EntityType type;
+    
+    protected String typeName;
+    
+    /**
+     * The minimum number of creatures to spawn.
+     */
+    protected Long min;
+    
+    /**
+     * The maximum number of creatures to spawn.
+     */
+    protected Long max;
+    
+    /**
+     * The probability of additional creatures.
+     */
+    protected Double probability;
+    
+    /**
+     * Is this Mob enabled for spawning.
+     */
+    protected Boolean enabled;
+    
+    /**
+     * The equipment configuration to be placed on spawned creatures.
+     */
+    protected JSONObject equipment;
+    
+    /**
+     * The mob to spawn when the creature dies.
+     */
+    protected Mob deathSpawn;
+    
+    /**
+     * The unique name of the death spawn mob.
+     */
+    protected String deathSpawnName;
+    
+    /**
+     * The set of Treasures which will be dropped by spawned creatures.
+     */
+    protected Set<Treasure> treasures       =   new HashSet();
+    
+    /**
+     * The set of MobGroups which will be spawned.
+     */
+    protected Set<MobGroup> mobGroups       =   new HashSet();
+    
+    /**
+     * The set of potion effects that will be paced on spawned creatures.
+     */
+    protected Set<MobPotionEffect> effects  =   new HashSet();
+    
+    
+    /**
+     * Get the instance of the Mob based on JSON configuration
+     * 
+     * @param jsonConfiguration The JSON configuration of the Mob.
+     * @return 
+     */
     public static Mob getInstance(JSONObject jsonConfiguration){
         try{
             for(Mob instance : instances){
@@ -39,6 +110,12 @@ public class Mob{
         return new Mob(jsonConfiguration);
     }
     
+    
+    /**
+     * Get the instance of the Mob based on the unique name
+     * @param name The unique name of the Mob.
+     * @return Returns the Mob if found, null otherwise.
+     */
     public static Mob getInstance(String name){
         for(Mob instance : instances){
             if(instance.getName().equals(name)){
@@ -48,38 +125,179 @@ public class Mob{
         return null;
     }
     
+    /**
+     * Constructor for the Mob based on JSON configuration.
+     * @param jsonConfiguration 
+     */
     protected Mob(JSONObject jsonConfiguration){
         try{
-            name                    =   (String) jsonConfiguration.get("name");
-            type                    =   EntityType.fromName((String) jsonConfiguration.get("type"));
-            min                     =   (Long) jsonConfiguration.get("min");
-            max                     =   (Long) jsonConfiguration.get("max");
-            enabled                 =   (Boolean) jsonConfiguration.get("enabled");
-            probability             =   (Double) jsonConfiguration.get("probability");
-            JSONArray jsonTreasures =   (JSONArray) jsonConfiguration.get("treasures");
+            name                        =   (String) jsonConfiguration.get("name");
+            typeName                    =   (String) jsonConfiguration.get("type");
+            min                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("min")).longValue() : null;
+            max                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("max")).longValue() : null;
+            enabled                     =   (Boolean) jsonConfiguration.get("enabled");
+            probability                 =   jsonConfiguration.get("probability")!=null ? ((Number) jsonConfiguration.get("probability")).doubleValue() : null;
+            equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
+            tagName                     =   (String) jsonConfiguration.get("tagName");
+            deathSpawnName              =   (String) jsonConfiguration.get("deathSpawn");
+            type                        =   getType();
+            JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
+            JSONArray jsonEffects       =   (JSONArray) jsonConfiguration.get("potionEffects");
+            JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobGroups");
             if(jsonTreasures!=null){
                 for(int i=0;i<jsonTreasures.size();i++){
                     treasures.add(new Treasure((JSONObject) jsonTreasures.get(i)));
                 }
             }
-            /*
-            TODO: We should add configuration options for entity equipment (Armor, etc...)
-            */
-            /*
-            TODO: We should add configuration options for potion effects
-            */
+            
+            if(jsonEffects!=null){
+                for(int i=0;i<jsonEffects.size();i++){
+                    effects.add(new MobPotionEffect((JSONObject) jsonEffects.get(i)));
+                }
+            }
+            if(jsonMobs!=null){
+                for(int i=0;i<jsonMobs.size();i++){
+                    JSONObject mobGroup =   (JSONObject) jsonMobs.get(i);
+                    if(name.equals((String) mobGroup.get("name"))){
+                        RandomEncounters.getInstance().logWarning("Ignoring recursive mob group configuration for "+name);
+                    }else{
+                        mobGroups.add(new MobGroup(mobGroup));
+                    }
+                }
+            }
+            if(jsonMobs==null && type==null){
+                RandomEncounters.getInstance().logError("Invalid mob type: "+(String) jsonConfiguration.get("type")+" for "+name);
+            }
             instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Mob configuration: "+e.getMessage());
         }
     }
     
-    public PlacedMob placeMob(PlacedEncounter encounter,Location location){
-        return PlacedMob.create(this,encounter, location);
+    
+    
+    /**
+     * Spawn the creatures and create a PlacedMob at a given location for a given PlacedEncounter.
+     * @param encounter The PlacedEncounter that the creature will belong to.
+     * @param location The location to spawn the creature.
+     * @return Returns the newly created PlacedMob
+     */
+    public Set<PlacedMob> placeMob(PlacedEncounter encounter,Location location){
+        HashSet<PlacedMob> placements   =   new HashSet();
+        if(mobGroups.isEmpty()){
+            Long count   =   getCount();
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+getType().name());
+            }
+            for(int i=0;i<getCount();i++){
+                placements.add(PlacedMob.create(this, encounter, location));
+            }
+        }else{
+            for(MobGroup mobGroup : mobGroups){
+                placements.addAll(mobGroup.placeGroup(encounter, location));
+            }
+        }        
+        return placements;
+    }
+    
+    /**
+     * Gets an Equipment item based on the equipment type name.
+     * 
+     * @param type The type name of the equipment
+     * @return Returns the equipment item if found, null otherwise.
+     * @see org.bukkit.inventory.EntityEquipment
+     */
+    protected ItemStack getEquipmentItem(String type){
+        ItemStack item      =   null;
+        try{
+            if(equipment!=null){
+                JSONObject object   =   (JSONObject) equipment.get(type);
+                if(object!=null){
+                    Treasure treasure  =   new Treasure(object);
+                    item               =   treasure.getOne();
+                }
+            }
+            
+        }catch(ClassCastException e){
+            RandomEncounters.getInstance().logError("Invalid mob equipment configuration for "+name+" "+type+": "+e.getMessage());
+        }
+        return item;
+    }
+    
+    /**
+     * Gets the drop probability of the equipment based on the type.
+     * 
+     * @param type The name of the equipment type
+     * @return Returns the drop probability of the equipment.
+     * @see org.bukkit.inventory.EntityEquipment
+     */
+    protected Float getDropProbability(String type){
+        Float chance    =   ((Integer) 0).floatValue();
+        try{
+            if(equipment!=null){
+               JSONObject object   =   (JSONObject) equipment.get(type);
+                if(object!=null){
+                    chance  =   ((Number) object.get("dropProbability")).floatValue();
+                } 
+            }
+        }catch(ClassCastException e){
+            RandomEncounters.getInstance().logError("Invalid mob equipment configuration for "+name+" "+type+": "+e.getMessage());
+        }
+        return chance;
+    }
+    
+    /**
+     * Sets the equipment based on this configuration for the given LivingEntity
+     * 
+     * @param entity The entity on which to place the equipment.
+     * @see org.bukkit.inventory.EntityEquipment
+     */
+    public void setEquipment(LivingEntity entity){
+        ItemStack hand      =   getEquipmentItem("hand");
+        if(hand!=null){
+             entity.getEquipment().setItemInHand(hand);
+             entity.getEquipment().setItemInHandDropChance(getDropProbability("hand"));
+        }
+        ItemStack helmet    =   getEquipmentItem("helmet");
+        if(helmet!=null){
+             entity.getEquipment().setHelmet(helmet);
+             entity.getEquipment().setHelmetDropChance(getDropProbability("helmet"));
+        }
+        ItemStack chestplate    =   getEquipmentItem("chestplate");
+        if(chestplate!=null){
+             entity.getEquipment().setChestplate(chestplate);
+             entity.getEquipment().setChestplateDropChance(getDropProbability("chestplate"));
+        }
+        ItemStack leggings    =   getEquipmentItem("leggings");
+        if(leggings!=null){
+             entity.getEquipment().setLeggings(leggings);
+             entity.getEquipment().setLeggingsDropChance(getDropProbability("leggings"));
+        }
+        ItemStack boots    =   getEquipmentItem("boots");
+        if(boots!=null){
+             entity.getEquipment().setBoots(boots);
+             entity.getEquipment().setBootsDropChance(getDropProbability("boots"));
+        }
         
     }
     
-    public Long getCount(){
+    /**
+     * Sets the potion effects based on this configuration for the given entity.
+     * 
+     * @param entity The LivingEntity on which to place the effects.
+     */
+    public void setEffects(LivingEntity entity){
+        for(MobPotionEffect effect : effects){
+            effect.checkApply(entity);
+        }
+    }
+    
+    /**
+     * Get the randomly generated number of creatures to place
+     * 
+     * @return 
+     */
+    protected Long getCount(){
         Long count   =   min;
         for(int i=min.intValue();i<max;i++){
             if(Math.random()<probability)
@@ -88,6 +306,11 @@ public class Mob{
         return count;
     }
     
+    /**
+     * Get the randomly generated list of items to drop upon the creatures death.
+     * 
+     * @return 
+     */
     public List<ItemStack> getDrop(){
         List<ItemStack> list    =   new ArrayList();
         for(Treasure treasure : treasures){
@@ -99,10 +322,62 @@ public class Mob{
         return list;
     }
     
+    /**
+     * Return the unique name of this Mob configuration
+     * 
+     * @return 
+     */
     public String getName(){
         return name;
     }
-    public EntityType getType(){
+    
+    /**
+     * Get the EntityType associated with this Mob Configuration.
+     * @return 
+     */
+    protected EntityType getType(){
+        /*
+        @TODO: This is terrible, but how MC has implemented wither skeletons.
+        */
+        if(typeName!=null){
+            if(typeName.toLowerCase().equals("witherskeleton")){
+                type    =   EntityType.SKELETON;
+            }else{
+                type    =   EntityType.fromName(typeName);
+            }
+        }
         return type;
+    }
+    
+    /**
+     * Get the EntityType as a string.
+     * This really only concerns EntityTypes not in the EntityType enum
+     * @return 
+     */
+    public String getTypeName(){
+        return typeName;
+    }
+    
+    /**
+     * Get the tagName for the creature.
+     * @return 
+     */
+    public String getTagName(){
+        return tagName;
+    }
+    
+    /**
+     * Get the Mob that should spawn when this Mob dies.
+     * 
+     * @return 
+     */
+    public Mob getDeathSpawn(){
+        if(deathSpawn==null && deathSpawnName!=null){
+            deathSpawn  =   Mob.getInstance(deathSpawnName);
+            if(deathSpawn==null){
+                RandomEncounters.getInstance().logWarning("Unable to find Death Spawn configuration "+deathSpawnName+" for "+name);
+            }
+        }
+        return deathSpawn;
     }
 }
