@@ -289,13 +289,13 @@
             },
             {
                 "type":         "DAMAGE_RESISTANCE",
-                "amplifier":    4,
+                "amplifier":    2,
                 "duration":     1576800000,
                 "probability":  1
             },
             {
                 "type":         "HEALTH_BOOST",
-                "amplifier":    10,
+                "amplifier":    2,
                 "duration":     1576800000,
                 "probability":  1
             },
@@ -383,7 +383,12 @@
                     {
                         "enchantment":	"PROTECTION_ENVIRONMENTAL",
                         "probability":	0.75,
-                        "level":	4 
+                        "level":	2 
+                    },
+                    {
+                        "enchantment":	"PROTECTION_PROJECTILE",
+                        "probability":	1,
+                        "level":	5 
                     }
                 ]
             },
@@ -403,7 +408,7 @@
                     {
                         "enchantment":	"PROTECTION_ENVIRONMENTAL",
                         "probability":	0.75,
-                        "level":	5 
+                        "level":	2 
                     },
                     {
                         "enchantment":	"PROTECTION_FALL",
