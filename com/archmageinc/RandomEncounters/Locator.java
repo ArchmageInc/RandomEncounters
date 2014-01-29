@@ -28,7 +28,10 @@ public class Locator {
         if(RandomEncounters.getInstance().getLogLevel()>8){
             RandomEncounters.getInstance().logMessage("Checking chunk: "+chunk.getX()+","+chunk.getZ()+" for encounter "+encounter.getName());
         }
-
+        if(encounter.getStructure()==null){
+            RandomEncounters.getInstance().logError("Missing structure for encounter "+encounter.getName()+"!");
+            return null;
+        }
         for(int y=encounter.getStructure().getMinY().intValue();y<encounter.getStructure().getMaxY();y++){
             for(int x=0;x<16;x++){
                 for(int z=0;z<16;z++){
