@@ -98,39 +98,33 @@ public final class Mob{
      * @return 
      */
     public static Mob getInstance(JSONObject jsonConfiguration){
-        try{
-            for(Mob instance : instances){
-                if(instance.getName().equals((String) jsonConfiguration.get("name"))){
-                    return instance;
-                }
-            }
-        }catch(ClassCastException e){
-            RandomEncounters.getInstance().logError("Invalid Mob configuration: "+e.getMessage());
-        }
-        return new Mob(jsonConfiguration);
+        return getInstance(jsonConfiguration,false);
     }
     
-    
-    /**
-     * Get the instance of the Mob based on the unique name
-     * @param name The unique name of the Mob.
-     * @return Returns the Mob if found, null otherwise.
-     */
-    public static Mob getInstance(String name){
+    public static Mob getInstance(JSONObject jsonConfiguration,Boolean force){
+        Mob mob         =   null;
+        String mobName  =   (String) jsonConfiguration.get("name");
         for(Mob instance : instances){
-            if(instance.getName().equals(name)){
-                return instance;
+            if(instance.getName().equalsIgnoreCase(mobName)){
+                mob =   instance;
             }
         }
-        return null;
+        if(mob==null){
+            return new Mob(jsonConfiguration);
+        }
+        if(force){
+            mob.reConfigure(jsonConfiguration);
+        }
+        return mob;
     }
     
-    /**
-     * Constructor for the Mob based on JSON configuration.
-     * @param jsonConfiguration 
-     */
-    protected Mob(JSONObject jsonConfiguration){
+    private void reConfigure(JSONObject jsonConfiguration){
         try{
+            instances.remove(this);
+            treasures.clear();
+            effects.clear();
+            mobGroups.clear();
+            deathSpawn                  =   null;
             name                        =   (String) jsonConfiguration.get("name");
             typeName                    =   (String) jsonConfiguration.get("type");
             min                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("min")).longValue() : null;
@@ -172,6 +166,28 @@ public final class Mob{
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Mob configuration: "+e.getMessage());
         }
+    }
+    
+    /**
+     * Get the instance of the Mob based on the unique name
+     * @param name The unique name of the Mob.
+     * @return Returns the Mob if found, null otherwise.
+     */
+    public static Mob getInstance(String name){
+        for(Mob instance : instances){
+            if(instance.getName().equals(name)){
+                return instance;
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Constructor for the Mob based on JSON configuration.
+     * @param jsonConfiguration 
+     */
+    protected Mob(JSONObject jsonConfiguration){
+        reConfigure(jsonConfiguration);
     }
     
     

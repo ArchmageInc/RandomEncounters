@@ -84,9 +84,8 @@ public class RandomEncounters extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new PlacedMobListener(),this);
         getServer().getPluginManager().registerEvents(new WorldListener(),this);
-        loadStructures();
-        loadMobs();
-        loadEncounters();
+        getCommand("re").setExecutor(new CommandListener());
+        loadConfigurations();
         loadPlacedEncounters();
     }
     
@@ -98,6 +97,13 @@ public class RandomEncounters extends JavaPlugin {
     public void onDisable(){
         saveConfig();
         savePlacedEncounters();
+        logMessage("Saved "+placedEncounters.size()+" Placed Encounters.");
+    }
+    
+    public void loadConfigurations(){
+        loadStructures();
+        loadMobs();
+        loadEncounters();
     }
     
     /**
@@ -105,14 +111,14 @@ public class RandomEncounters extends JavaPlugin {
      * 
      * @TODO Needs to write the default structure file to the file system if it doesn't already exist
      */
-    public void loadStructures(){
+    private void loadStructures(){
         try{
             String structureFileName    =   getConfig().getString("structureConfig");
             JSONObject structureConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+structureFileName);
             JSONArray jsonStructures    =   (JSONArray) structureConfig.get("structures");
             if(jsonStructures!=null){
                 for(int i=0;i<jsonStructures.size();i++){
-                    Structure.getInstance((JSONObject) jsonStructures.get(i));
+                    Structure.getInstance((JSONObject) jsonStructures.get(i),true);
                 }
                 logMessage("Loaded "+jsonStructures.size()+" Structure configurations");
             }else{
@@ -129,14 +135,14 @@ public class RandomEncounters extends JavaPlugin {
      * 
      * @TODO Needs to write the default mob file to the file system if it doesn't already exist
      */
-    public void loadMobs(){
+    private void loadMobs(){
         try{
             String mobFileName    =   getConfig().getString("mobConfig");
             JSONObject mobConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+mobFileName);
             JSONArray jsonMobs    =   (JSONArray) mobConfig.get("mobs");
             if(jsonMobs!=null){
                 for(int i=0;i<jsonMobs.size();i++){
-                    Mob.getInstance((JSONObject) jsonMobs.get(i));
+                    Mob.getInstance((JSONObject) jsonMobs.get(i),true);
                 }
                 logMessage("Loaded "+jsonMobs.size()+" Mob configurations");
             }else{
@@ -153,14 +159,15 @@ public class RandomEncounters extends JavaPlugin {
      * 
      * @TODO Needs to write the default encounter file to the file system if it doesn't already exist
      */
-    public void loadEncounters(){
+    private void loadEncounters(){
         try{
+            encounters.clear();
             String encounterFileName    =   getConfig().getString("encounterConfig");
             JSONObject encounterConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+encounterFileName);
             JSONArray jsonEncounters    =   (JSONArray) encounterConfig.get("encounters");
             if(jsonEncounters!=null){
                 for(int i=0;i<jsonEncounters.size();i++){
-                    encounters.add(Encounter.getInstance((JSONObject) jsonEncounters.get(i)));
+                    encounters.add(Encounter.getInstance((JSONObject) jsonEncounters.get(i),true));
                 }
                 logMessage("Loaded "+jsonEncounters.size()+" Encounter configurations");
             }else{
@@ -177,7 +184,7 @@ public class RandomEncounters extends JavaPlugin {
      * 
      * @TODO Needs to write the default savedEncounter file to the file system if it doesn't already exist
      */
-    public void loadPlacedEncounters(){
+    private void loadPlacedEncounters(){
         if(encounters.isEmpty()){
             logError("Not attempting to load placed encounters due to no loaded encounter configurations");
             return;
@@ -217,7 +224,6 @@ public class RandomEncounters extends JavaPlugin {
             savedEncounters.add(encounter.toJSON());
         }
         jsonConfiguration.put("savedEncounters", savedEncounters);
-        
         JSONReader.getInstance().write(getDataFolder()+"/"+encounterFileName, jsonConfiguration);
     }
     

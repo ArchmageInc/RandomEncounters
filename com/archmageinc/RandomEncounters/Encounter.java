@@ -95,27 +95,33 @@ public class Encounter {
      * @return Returns the Encounter for the given configuration
      */
     public static Encounter getInstance(JSONObject jsonConfiguration){
-        try{
-            for(Encounter instance : instances){
-                if(instance.getName().equals((String) jsonConfiguration.get("name"))){
-                    return instance;
-                }
-            }
-        }catch(ClassCastException e){
-            RandomEncounters.getInstance().logError("Invalid Encounter configuration: "+e.getMessage());
-        }
-        return new Encounter(jsonConfiguration);
+        return getInstance(jsonConfiguration,false);
     }
     
-    /**
-     * Protected Constructor for the encounter based on JSON configuration.
-     * This should only be called from the getInstance method.
-     * 
-     * @param jsonConfiguration The JSONObject configuration of the encounter.
-     * @see Encounter#getInstance(org.json.simple.JSONObject)
-     */
-    protected Encounter(JSONObject jsonConfiguration){
+    public static Encounter getInstance(JSONObject jsonConfiguration,Boolean force){
+        Encounter encounter     =   null;
+        String encounterName    =   (String) jsonConfiguration.get("name");
+        for(Encounter instance : instances){
+            if(instance.getName().equalsIgnoreCase(encounterName)){
+                encounter   =   instance;
+            }
+        }
+        if(encounter==null){
+            return new Encounter(jsonConfiguration);
+        }
+        if(force){
+            encounter.reConfigure(jsonConfiguration);
+        }
+        return encounter;
+    }
+    
+    private void reConfigure(JSONObject jsonConfiguration){
         try{
+            instances.remove(this);
+            validBiomes.clear();
+            treasures.clear();
+            expansions.clear();
+            mobs.clear();
             name        =   (String) jsonConfiguration.get("name");
             enabled     =   (Boolean) jsonConfiguration.get("enabled");
             probability =   ((Number) jsonConfiguration.get("probability")).doubleValue();
@@ -159,6 +165,17 @@ public class Encounter {
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Encounter configuration: "+e.getMessage());
         }
+    }
+    
+    /**
+     * Protected Constructor for the encounter based on JSON configuration.
+     * This should only be called from the getInstance method.
+     * 
+     * @param jsonConfiguration The JSONObject configuration of the encounter.
+     * @see Encounter#getInstance(org.json.simple.JSONObject)
+     */
+    protected Encounter(JSONObject jsonConfiguration){
+        reConfigure(jsonConfiguration);
     }
     
     /**

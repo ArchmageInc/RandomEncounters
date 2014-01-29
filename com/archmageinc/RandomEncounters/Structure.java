@@ -104,25 +104,40 @@ public class Structure {
      * @return Returns the Structure based on the configuration 
      */
     public static Structure getInstance(JSONObject jsonConfiguration){
-        try{
-            for(Structure instance : instances){
-                if(instance.getName().equals((String) jsonConfiguration.get("name"))){
-                    return instance;
-                }
-            }
-        }catch(ClassCastException e){
-            RandomEncounters.getInstance().logError("Invalid Structure configuration: "+e.getMessage());
-        }
-        return new Structure(jsonConfiguration);
+        return Structure.getInstance(jsonConfiguration, false);
     }
     
     /**
-     * Constructor for the structure based on the JSON Configuration.
-     * 
-     * @param jsonConfiguration 
+     * Get an instance of the Structure based on the JSON configuration with the option to force reload
+     * @param jsonConfiguration The JSON configuration
+     * @param force Should the structure be forced into reloading
+     * @return 
      */
-    protected Structure(JSONObject jsonConfiguration){
+    public static Structure getInstance(JSONObject jsonConfiguration,Boolean force){
+        Structure structure =   null;
+        String name         =   (String) jsonConfiguration.get("name");
+        for(Structure instance : instances){
+            if(instance.getName().equalsIgnoreCase(name)){
+                structure   =   instance;
+            }
+        }
+        if(structure==null){
+            return new Structure(jsonConfiguration);
+        }
+        if(force){
+            structure.reConfigure(jsonConfiguration);
+        }
+        return structure;
+    }
+    
+    private void reConfigure(JSONObject jsonConfiguration){
         try{
+            instances.remove(this);
+            trump.clear();
+            invalid.clear();
+            loaded                  =   false;
+            cuboid                  =   null;
+            session                 =   null;
             name                    =   (String) jsonConfiguration.get("name");
             fileName                =   (String) jsonConfiguration.get("file");
             minY                    =   ((Number) jsonConfiguration.get("minY")).longValue();
@@ -146,6 +161,15 @@ public class Structure {
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Structure configuration: "+e.getMessage());
         }
+    }
+    
+    /**
+     * Constructor for the structure based on the JSON Configuration.
+     * 
+     * @param jsonConfiguration 
+     */
+    protected Structure(JSONObject jsonConfiguration){
+        reConfigure(jsonConfiguration);
     }
     
     /**
