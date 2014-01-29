@@ -86,11 +86,10 @@ public class PlacedMob {
      * 
      * @param mob
      * @param encounter
-     * @param location
      * @return Returns the newly created PlacedMob
      */
-    public static PlacedMob create(Mob mob,PlacedEncounter encounter, Location location){
-        return new PlacedMob(mob,encounter,location);
+    public static PlacedMob create(Mob mob,PlacedEncounter encounter){
+        return new PlacedMob(mob,encounter);
     }
     
     /**
@@ -98,18 +97,17 @@ public class PlacedMob {
      * 
      * @param mob The Mob configuration
      * @param encounter The PlacedEncounter to which this creature will belong
-     * @param location The location to spawn the creature.
      */
-    protected PlacedMob(Mob mob,PlacedEncounter encounter,Location location){
+    protected PlacedMob(Mob mob,PlacedEncounter encounter){
         
         this.mob                =   mob;
         this.encounter          =   encounter;
         Location spawnLocation  =   encounter.findSafeSpawnLocation();
         if(spawnLocation==null){
-            spawnLocation   =   location;
-            RandomEncounters.getInstance().logWarning("Attempted to spawn a mob, but no safe spawn was located");
+            spawnLocation   =   encounter.getLocation();
+            RandomEncounters.getInstance().logWarning("Attempt to spawn "+encounter.getName()+": "+mob.getName()+" had no safe spawn locations, using encounter location.");
         }
-        entity     =   (LivingEntity) location.getWorld().spawnEntity(spawnLocation, mob.getType());
+        entity     =   (LivingEntity) encounter.getLocation().getWorld().spawnEntity(spawnLocation, mob.getType());
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
         if(mob.getTagName()!=null){
@@ -132,7 +130,7 @@ public class PlacedMob {
             ((PigZombie) entity).setAngry(true);
         }
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Created new placed mob "+mob.getName()+" at "+spawnLocation.toString()+": "+uuid.toString());
+            RandomEncounters.getInstance().logMessage("Placed mob "+encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") at "+spawnLocation.getWorld().getName()+": "+spawnLocation.getX()+","+spawnLocation.getY()+","+spawnLocation.getZ()+" - "+uuid.toString());
         }
         instances.add(this);
     }
@@ -215,7 +213,7 @@ public class PlacedMob {
             }
             Mob deathSpawn  =   mob.getDeathSpawn();
             if(deathSpawn!=null){
-                encounter.addMob(deathSpawn.placeMob(encounter, entity.getLocation()));
+                (new SpawningTask(deathSpawn,encounter)).runTaskTimer(RandomEncounters.getInstance(),1,1);
             }
         }else{
             RandomEncounters.getInstance().logWarning(encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") died but could not be found: "+uuid.toString());

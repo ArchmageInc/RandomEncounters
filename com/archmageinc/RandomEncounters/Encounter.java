@@ -260,14 +260,12 @@ public class Encounter {
         return list;
     }
     
-    /**
-     * Returns the set of mobs for the encounter.
-     * @return 
-     * @see Encounter#mobs
-     * @see Mob
-     */
-    public Set<Mob> getMobs(){
-        return mobs;
+    public List<Mob> getMobPlacements(){
+        List<Mob> placements    =   new ArrayList();
+        for(Mob mob : mobs){
+            placements.addAll(mob.getPlacements());
+        }
+        return placements;
     }
     
     /**

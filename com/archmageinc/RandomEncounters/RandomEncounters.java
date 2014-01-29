@@ -30,6 +30,11 @@ public class RandomEncounters extends JavaPlugin {
     private boolean midas                               =   false;
     
     /**
+     * Maximum amount of time we are allowed to lock the server in ms.
+     */
+    private int maxLockTime                         =   10;
+    
+    /**
      * The set of encounter configurations for the plugin.
      */
     private Set<Encounter> encounters                   =   new HashSet();
@@ -75,6 +80,7 @@ public class RandomEncounters extends JavaPlugin {
         reloadConfig();
 	logLevel        =   getConfig().getInt("debug.loglevel");
         midas           =   getConfig().getBoolean("debug.midas");
+        maxLockTime     =   getConfig().getInt("maxLockTime");
         expansionTask   =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
         if(logLevel>0){
             logMessage("Log Level set to: "+logLevel);
@@ -293,6 +299,14 @@ public class RandomEncounters extends JavaPlugin {
      */
     public boolean midas(){
         return midas;
+    }
+    
+    /**
+     * Get the maximum time in ms we are allowed to lock the server.
+     * @return 
+     */
+    public int lockTime(){
+        return maxLockTime;
     }
     
     /**

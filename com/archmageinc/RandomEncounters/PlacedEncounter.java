@@ -176,15 +176,17 @@ public class PlacedEncounter {
         this.encounter  =   encounter;
         this.location   =   location;
         encounter.getStructure().place(encounter,location);
-        populateSafeSpawnLocations();
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Prepairing to place "+encounter.getMobs().size()+" mobs for encounter "+encounter.getName());
-        }
-        for(Mob mob : encounter.getMobs()){
-            this.mobs.addAll(mob.placeMob(this,location));
-        }
+        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
         setupExpansions();
         instances.add(this);        
+    }
+    
+    public void addMobs(Set<PlacedMob> newMobs){
+        mobs.addAll(newMobs);
+    }
+    
+    public void setSpawnLocations(List<Location> locations){
+        spawnLocations =   locations;
     }
     
     /**
@@ -202,45 +204,11 @@ public class PlacedEncounter {
     }
     
     /**
-     * Internal method to locate safe spawn locations for creatures.
-     * 
-     * Attempts to avoid placing creatures in walls.
-     */
-    protected final void populateSafeSpawnLocations(){
-        Structure structure =   encounter.getStructure();
-        Integer minX        =   location.getBlockX()-(structure.getWidth()/2);
-        Integer maxX        =   location.getBlockX()+(structure.getWidth()/2);
-        Integer minY        =   location.getBlockY()-(structure.getHeight()/2);
-        Integer maxY        =   location.getBlockY()+(structure.getHeight()/2);
-        Integer minZ        =   location.getBlockZ()-(structure.getLength()/2);
-        Integer maxZ        =   location.getBlockZ()+(structure.getLength()/2);
-        for(int x=minX;x<maxX;x++){
-            for(int y=minY;y<maxY;y++){
-                for(int z=minZ;z<maxZ;z++){
-                    Block block =   location.getWorld().getBlockAt(x, y, z);
-                    if(block.getType().isSolid() && block.getRelative(BlockFace.UP).getType().equals(Material.AIR) && block.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType().equals(Material.AIR)){
-                        spawnLocations.add(block.getRelative(BlockFace.UP).getLocation());
-                    }
-                }
-            }
-        }
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Found "+spawnLocations.size()+" safe spawn locations for encounter");
-        }
-        if(spawnLocations.isEmpty()){
-            RandomEncounters.getInstance().logWarning("Unable to locate any safe spawnning locations for encounter: "+uuid);
-        }
-    }
-    
-    /**
      * Gets a random spawn location for a creature.
      * 
      * @return Returns a location to spawn a creature.
      */
     public Location findSafeSpawnLocation(){
-        if(spawnLocations.isEmpty()){
-            populateSafeSpawnLocations();
-        }
         if(spawnLocations.isEmpty()){
             return null;
         }
@@ -293,8 +261,8 @@ public class PlacedEncounter {
      * Adds a mob to the encounter
      * @param mob 
      */
-    public void addMob(Set<PlacedMob> mob){
-        mobs.addAll(mob);
+    public void addMob(PlacedMob mob){
+        mobs.add(mob);
     }
     
     /**

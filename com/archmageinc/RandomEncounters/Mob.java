@@ -1,6 +1,7 @@
 package com.archmageinc.RandomEncounters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -191,26 +192,36 @@ public final class Mob{
     }
     
     
-    
-    /**
-     * Spawn the creatures and create a PlacedMob at a given location for a given PlacedEncounter.
-     * @param encounter The PlacedEncounter that the creature will belong to.
-     * @param location The location to spawn the creature.
-     * @return Returns the newly created PlacedMob
-     */
-    public Set<PlacedMob> placeMob(PlacedEncounter encounter,Location location){
-        HashSet<PlacedMob> placements   =   new HashSet();
+    protected List<Mob> getPlacements(){
+        List<Mob> toPlace    =   new ArrayList();
         if(mobGroups.isEmpty()){
-            Long count   =   getCount();
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+getType().name());
-            }
-            for(int i=0;i<getCount();i++){
-                placements.add(PlacedMob.create(this, encounter, location));
+            Long count  =   getCount();
+            for(int i=0;i<count;i++){
+                toPlace.add(this);
             }
         }else{
             for(MobGroup mobGroup : mobGroups){
-                placements.addAll(mobGroup.placeGroup(encounter, location));
+                toPlace.addAll(mobGroup.getPlacements());
+            }
+        }
+        return toPlace;
+    }
+    /**
+     * Spawn the creatures and create a PlacedMob at a given location for a given PlacedEncounter.
+     * @param encounter The PlacedEncounter that the creature will belong to.
+     * @return Returns the newly created PlacedMob
+     */
+    public Set<PlacedMob> placeMob(PlacedEncounter encounter){
+        HashSet<PlacedMob> placements   =   new HashSet();
+        if(mobGroups.isEmpty()){
+            Long count   =   getCount();
+            for(int i=0;i<getCount();i++){
+                placements.add(PlacedMob.create(this, encounter));
+            }
+            
+        }else{
+            for(MobGroup mobGroup : mobGroups){
+                placements.addAll(mobGroup.placeGroup(encounter));
             }
         }        
         return placements;

@@ -1,6 +1,9 @@
 package com.archmageinc.RandomEncounters;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.bukkit.Location;
 import org.json.simple.JSONObject;
@@ -29,16 +32,22 @@ public class MobGroup {
         }
     }
     
-    public Set<PlacedMob> placeGroup(PlacedEncounter encounter,Location location){
+    public Set<PlacedMob> placeGroup(PlacedEncounter encounter){
         Set<PlacedMob> placements   =   new HashSet();
         Integer count               =   getCount();
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("   = Prepairing to place "+count+" sets of "+getMob().getName());
-        }
         for(int i=0;i<count;i++){
-            placements.addAll(getMob().placeMob(encounter, location));
+            placements.addAll(getMob().placeMob(encounter));
         }
         return placements;
+    }
+    
+    public List<Mob> getPlacements(){
+        List<Mob> toPlace    =   new ArrayList();
+        Integer count        =   getCount();
+        for(int i=0;i<count;i++){
+            toPlace.addAll(getMob().getPlacements());
+        }
+        return toPlace;
     }
     
     protected Integer getCount(){
