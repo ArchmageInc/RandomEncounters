@@ -7,6 +7,7 @@ import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -108,7 +109,9 @@ public class Treasure {
                     list.add(stack.clone());
                     stack   =   new ItemStack(material,1);
                     if(tagName!=null){
-                        stack.getItemMeta().setDisplayName(tagName);
+                        ItemMeta meta   =   stack.getItemMeta();
+                        meta.setDisplayName(tagName);
+                        stack.setItemMeta(meta);
                     }
                 }
                 setEnchantments(stack);
