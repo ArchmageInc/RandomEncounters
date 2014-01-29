@@ -185,11 +185,19 @@ public class Encounter {
      * @return Returns the PlacedEncounter on successful placement, null otherwise
      */
     public PlacedEncounter checkPlace(Chunk chunk){
+        return checkPlace(chunk,false);
+    }
+    
+    public PlacedEncounter checkPlace(Chunk chunk,Boolean force){
         Double random   =   Math.random();
         
-        if(random<probability){
+        if(force || random<probability){
             if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage("Probability hit for encounter "+name+" ("+random.toString()+","+probability.toString());
+                if(force){
+                    RandomEncounters.getInstance().logMessage("Forcing probability override for encounter "+name);
+                }else{
+                    RandomEncounters.getInstance().logMessage("Probability hit for encounter "+name+" ("+random.toString()+","+probability.toString());
+                }
             }
             Location location   =   Locator.getInstance().checkChunk(chunk, this);
             if(location!=null){

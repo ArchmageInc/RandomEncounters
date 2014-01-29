@@ -7,4 +7,4 @@ depend: [WorldEdit]
 commands:
     re:
         description: Random Encounters manipulation
-        usage: /re [place, reload]
+        usage: /re [place, check, reload]

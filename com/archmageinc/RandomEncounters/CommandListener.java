@@ -19,13 +19,13 @@ public class CommandListener implements CommandExecutor{
             if(args.length<1){
                 return false;
             }
-            if(args[0].equalsIgnoreCase("place")){
+            if(args[0].equalsIgnoreCase("place") || args[0].equalsIgnoreCase("check")){
                 if((sender instanceof Player) && args.length<2){
-                    sender.sendMessage("Usage: /re place <EncounterName> [<world> <x> <y> <z>]");
+                    sender.sendMessage("Usage: /re <place,check> <EncounterName> [<world> <x> <y> <z>]");
                     return true;
                 }
                 if(!(sender instanceof Player) && args.length<6){
-                    sender.sendMessage("Usage: /re place <EncounterName> <world> <x> <y> <z>");
+                    sender.sendMessage("Usage: /re <place,check> <EncounterName> <world> <x> <y> <z>");
                     return true;
                 }
                 Location location;
@@ -49,7 +49,11 @@ public class CommandListener implements CommandExecutor{
                     location    =   ((Player) sender).getLocation();
                 }
                 String encounterName    =   args[1];
-                placeEncounter(sender,encounterName,location);
+                if(args[0].equalsIgnoreCase("place")){
+                    placeEncounter(sender,encounterName,location);
+                }else if(args[0].equalsIgnoreCase("check")){
+                    checkEncounter(sender,encounterName,location);
+                }
                 return true;
             }
             if(args[0].equalsIgnoreCase("reload")){
@@ -58,6 +62,24 @@ public class CommandListener implements CommandExecutor{
             }
         }
         return false;
+    }
+    
+    protected void checkEncounter(CommandSender sender,String encounterName,Location location){
+        Encounter encounter =   Encounter.getInstance(encounterName);
+        if(encounter==null){
+            sender.sendMessage("Encounter "+encounterName+" was not found!");
+            return;
+        }
+        if(location==null){
+            sender.sendMessage("Not a valid location!");
+            return;
+        }
+        PlacedEncounter placedEncounter =   encounter.checkPlace(location.getChunk(),true);
+        if(placedEncounter==null){
+            sender.sendMessage("Unable to find a suitable location in chunk: "+location.getChunk().getX()+","+location.getChunk().getZ());
+        }else{
+            RandomEncounters.getInstance().addPlacedEncounter(placedEncounter);
+        }
     }
     
     protected void placeEncounter(CommandSender sender,String encounterName,Location location){
