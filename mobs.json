@@ -134,6 +134,123 @@
         }
       },
       {
+        "name":         "GeordianArcher",
+        "tagName":      "Geordian Archer",
+        "enabled":      true,
+        "type":         "SKELETON",
+        "min":          1,
+        "max":          1,
+        "probability":  1,
+        "deathSpawn":   null,
+        "treasures":    [
+            {
+                "material":     "GOLD_NUGGET",
+                "tagName":      "Geordian Coin",
+                "min":          1,
+                "max":          4,
+                "probability":  0.25,
+                "enchantments": null
+            }
+        ],
+        "potionEffects":    [
+            {
+                "type":         "SPEED",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  1.00
+            },
+            {
+                "type":         "REGENERATION",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  0.50
+            },
+            {
+                "type":         "INVISIBILITY",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  0.12
+            }
+        ],
+        "equipment":    {
+            "hand": {
+                "material":         "BOW",
+                "tagName":          null,
+                "min":              1,
+                "max":              1,
+                "probability":      1,
+                "dropProbability":  1.00,
+                "enchantments": [
+                    {
+                        "enchantment":	"ARROW_DAMAGE",
+                        "probability":	0.75,
+                        "level":	2 
+                    },
+                    {
+                        "enchantment":	"ARROW_KNOCKBACK",
+                        "probability":	0.75,
+                        "level":	4 
+                    }
+                ]
+            },
+            "helmet": {
+                "material":         "GOLD_HELMET",
+                "tagName":          null,
+                "min":              1,
+                "max":              1,
+                "probability":      1,
+                "dropProbability":  1.00,
+                "enchantments": [
+                    {
+                        "enchantment":	"THORNS",
+                        "probability":	0.75,
+                        "level":	2 
+                    },
+                    {
+                        "enchantment":	"PROTECTION_PROJECTILE",
+                        "probability":	0.90,
+                        "level":	4 
+                    }
+                ]
+            },
+            "chestplate": {
+                "material":         "GOLD_CHESTPLATE",
+                "tagName":          null,
+                "min":              1,
+                "max":              1,
+                "probability":      0.25,
+                "dropProbability":  1.00,
+                "enchantments": [
+                    {
+                        "enchantment":	"THORNS",
+                        "probability":	0.75,
+                        "level":	2 
+                    },
+                    {
+                        "enchantment":	"PROTECTION_PROJECTILE",
+                        "probability":	0.75,
+                        "level":	4 
+                    }
+                ]
+            },
+            "boots": {
+                "material":         "GOLD_BOOTS",
+                "tagName":          null,
+                "min":              1,
+                "max":              1,
+                "probability":      1,
+                "dropProbability":  1.00,
+                "enchantments": [
+                    {
+                        "enchantment":	"PROTECTION_FALL",
+                        "probability":	0.75,
+                        "level":	5 
+                    }
+                ]
+            }
+        }
+      },
+      {
         "name":         "GeordianCommander",
         "tagName":      "Geordian Commander",
         "enabled":      true,
@@ -420,6 +537,29 @@
         }
       },
       {
+        "name":         "GeordianArcherUnit",
+        "mobGroups":    [
+            {
+                "name":         "GeordianArcher",
+                "min":          10,
+                "max":          20,
+                "probability":  0.25
+            },
+            {
+                "name":         "GeordianPigs",
+                "min":          1,
+                "max":          1,
+                "probability":  1
+            },
+            {
+                "name":         "GeordianCommander",
+                "min":          0,
+                "max":          2,
+                "probability":  0.75
+            }
+        ]
+      },
+      {
         "name":         "GeordianBattalion",
         "mobGroups":     [
             {
@@ -450,6 +590,12 @@
                 "min":          1,
                 "max":          1,
                 "probability":  1
+            },
+            {
+              "name":           "GeordianArcherUnit",
+              "min":            1,
+              "max":            2,
+              "probability":    0.5
             },
             {
                 "name":         "GeordianBattalion",
