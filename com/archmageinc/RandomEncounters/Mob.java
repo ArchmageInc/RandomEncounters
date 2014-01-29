@@ -1,11 +1,9 @@
 package com.archmageinc.RandomEncounters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -22,74 +20,74 @@ public final class Mob{
     /**
      * The static set of singlton instances.
      */
-    protected static HashSet<Mob> instances =   new HashSet();
+    private static HashSet<Mob> instances =   new HashSet();
     
     /**
      * The unique name of the Mob.
      */
-    protected String name;
+    private String name;
     
     /**
      * The name each creature will be given.
      */
-    protected String tagName;
+    private String tagName;
     
     /**
      * The type of entity spawned by this Mob.
      */
-    protected EntityType type;
+    private EntityType type;
     
-    protected String typeName;
+    private String typeName;
     
     /**
      * The minimum number of creatures to spawn.
      */
-    protected Long min;
+    private Long min;
     
     /**
      * The maximum number of creatures to spawn.
      */
-    protected Long max;
+    private Long max;
     
     /**
      * The probability of additional creatures.
      */
-    protected Double probability;
+    private Double probability;
     
     /**
      * Is this Mob enabled for spawning.
      */
-    protected Boolean enabled;
+    private Boolean enabled;
     
     /**
      * The equipment configuration to be placed on spawned creatures.
      */
-    protected JSONObject equipment;
+    private JSONObject equipment;
     
     /**
      * The mob to spawn when the creature dies.
      */
-    protected Mob deathSpawn;
+    private Mob deathSpawn;
     
     /**
      * The unique name of the death spawn mob.
      */
-    protected String deathSpawnName;
+    private String deathSpawnName;
     
     /**
      * The set of Treasures which will be dropped by spawned creatures.
      */
-    protected Set<Treasure> treasures       =   new HashSet();
+    private Set<Treasure> treasures       =   new HashSet();
     
     /**
      * The set of MobGroups which will be spawned.
      */
-    protected Set<MobGroup> mobGroups       =   new HashSet();
+    private Set<MobGroup> mobGroups       =   new HashSet();
     
     /**
      * The set of potion effects that will be paced on spawned creatures.
      */
-    protected Set<MobPotionEffect> effects  =   new HashSet();
+    private Set<MobPotionEffect> effects  =   new HashSet();
     
     
     /**
@@ -187,12 +185,12 @@ public final class Mob{
      * Constructor for the Mob based on JSON configuration.
      * @param jsonConfiguration 
      */
-    protected Mob(JSONObject jsonConfiguration){
+    private Mob(JSONObject jsonConfiguration){
         reConfigure(jsonConfiguration);
     }
     
     
-    protected List<Mob> getPlacements(){
+    public List<Mob> getPlacements(){
         List<Mob> toPlace    =   new ArrayList();
         if(mobGroups.isEmpty()){
             Long count  =   getCount();
@@ -234,7 +232,7 @@ public final class Mob{
      * @return Returns the equipment item if found, null otherwise.
      * @see org.bukkit.inventory.EntityEquipment
      */
-    protected ItemStack getEquipmentItem(String type){
+    private ItemStack getEquipmentItem(String type){
         ItemStack item      =   null;
         try{
             if(equipment!=null){
@@ -258,7 +256,7 @@ public final class Mob{
      * @return Returns the drop probability of the equipment.
      * @see org.bukkit.inventory.EntityEquipment
      */
-    protected Float getDropProbability(String type){
+    private Float getDropProbability(String type){
         Float chance    =   ((Integer) 0).floatValue();
         try{
             if(equipment!=null){
@@ -324,7 +322,7 @@ public final class Mob{
      * 
      * @return 
      */
-    protected Long getCount(){
+    private Long getCount(){
         Long count   =   min;
         for(int i=min.intValue();i<max;i++){
             if(Math.random()<probability)
@@ -362,7 +360,7 @@ public final class Mob{
      * Get the EntityType associated with this Mob Configuration.
      * @return 
      */
-    protected EntityType getType(){
+    public EntityType getType(){
         /*
         @TODO: This is terrible, but how MC has implemented wither skeletons.
         */

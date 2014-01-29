@@ -13,17 +13,17 @@ public class TreasureEnchantment {
     /**
      * The enchantment for the item.
      */
-    protected Enchantment enchantment;
+    private Enchantment enchantment;
     
     /**
      * The probability of having the enchantment.
      */
-    protected Double probability;
+    private Double probability;
     
     /**
      * The enchantment level.
      */
-    protected Integer level;
+    private Integer level;
     
     /**
      * Constructor for a TreasureEnchantment based on an enchantment and probability.

@@ -19,50 +19,50 @@ public class Expansion implements Cloneable{
     /**
      * The encounter that may spawn for this expansion.
      */
-    protected Encounter encounter;
+    private Encounter encounter;
     
     /**
      * The unique name of the encounter for lazy loading.
      */
-    protected String encounterName;
+    private String encounterName;
     
     /**
      * The probability of expansion.
      */
-    protected Double probability;
+    private Double probability;
     
     /**
      * The duration in minutes to check for expansion.
      */
-    protected Long duration;
+    private Long duration;
     
     /**
      * The maximum number of times the encounter can be placed for expansion.
      */
-    protected Long max;
+    private Long max;
     
     /**
      * The maximum distance in chunks from the parent encounter this expansion can be placed.
      */
-    protected Long distance;
+    private Long distance;
     
     /**
      * The last time this expansion was checked to expand.
      */
-    protected Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
+    private Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
     
     /**
      * Should this expansion be checked for valid locations.
      * This will be set to false when no valid locations are found.
      */
-    protected boolean checkLocation                 =   true;
+    private boolean checkLocation                 =   true;
     
     /**
      * The set of chunks that have been checked and cannot support the encounter.
      * These chunks will not be checked again until the server is reloaded.
      * This prevents unnecessary processing.
      */
-    protected HashSet<Chunk> invalidChunks          =   new HashSet();
+    private HashSet<Chunk> invalidChunks          =   new HashSet();
     
     /**
      * Constructor for an expansion based on JSON Configuration.

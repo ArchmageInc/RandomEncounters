@@ -1,5 +1,6 @@
 package com.archmageinc.RandomEncounters;
 
+import com.archmageinc.RandomEncounters.Tasks.SpawningTask;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -23,27 +24,27 @@ public class PlacedMob {
     /**
      * The singleton instances of PlacedMobs.
      */
-    protected static HashSet<PlacedMob> instances   =   new HashSet();
+    private static HashSet<PlacedMob> instances   =   new HashSet();
     
     /**
      * The unique ID of the entity in the world.
      */
-    protected UUID uuid;
+    private UUID uuid;
     
     /**
      * The parent Mob Configuration.
      */
-    protected Mob mob;
+    private Mob mob;
     
     /**
      * The LivingEntity in the world.
      */
-    protected LivingEntity entity;
+    private LivingEntity entity;
     
     /**
      * The parent Encounter Configuration.
      */
-    protected PlacedEncounter encounter;
+    private PlacedEncounter encounter;
     
     /**
      * Get an instance of the PlacedMob based on the Unique ID.
@@ -98,7 +99,7 @@ public class PlacedMob {
      * @param mob The Mob configuration
      * @param encounter The PlacedEncounter to which this creature will belong
      */
-    protected PlacedMob(Mob mob,PlacedEncounter encounter){
+    private PlacedMob(Mob mob,PlacedEncounter encounter){
         
         this.mob                =   mob;
         this.encounter          =   encounter;
@@ -141,7 +142,7 @@ public class PlacedMob {
      * @param jsonConfiguration
      * @param encounter The PlacedEncounter to which the creature should belong.
      */
-    protected PlacedMob(JSONObject jsonConfiguration,PlacedEncounter encounter){
+    private PlacedMob(JSONObject jsonConfiguration,PlacedEncounter encounter){
         try{
             this.encounter   =   encounter;
             uuid             =   UUID.fromString((String) jsonConfiguration.get("uuid"));

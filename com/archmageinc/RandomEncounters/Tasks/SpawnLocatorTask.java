@@ -1,5 +1,7 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Tasks;
 
+import com.archmageinc.RandomEncounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -14,17 +16,17 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author ArchmageInc
  */
 public class SpawnLocatorTask extends BukkitRunnable  {
-    protected PlacedEncounter placedEncounter;
-    protected int x;
-    protected int y;
-    protected int z;
-    protected int sx;
-    protected int sy;
-    protected int sz;
-    protected int mx;
-    protected int my;
-    protected int mz;
-    protected List<Location> locations  =   new ArrayList();
+    private PlacedEncounter placedEncounter;
+    private int x;
+    private int y;
+    private int z;
+    private int sx;
+    private int sy;
+    private int sz;
+    private int mx;
+    private int my;
+    private int mz;
+    private List<Location> locations  =   new ArrayList();
     
     public SpawnLocatorTask(PlacedEncounter placedEncounter){
         this.placedEncounter    =   placedEncounter;

@@ -1,5 +1,6 @@
 package com.archmageinc.RandomEncounters;
 
+import com.archmageinc.RandomEncounters.Tasks.ExpansionTask;
 import java.util.HashSet;
 import java.util.Set;
 import org.bukkit.plugin.java.JavaPlugin;

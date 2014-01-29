@@ -1,5 +1,9 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Tasks;
 
+import com.archmageinc.RandomEncounters.Mob;
+import com.archmageinc.RandomEncounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.PlacedMob;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -11,9 +15,9 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author ArchmageInc
  */
 public class SpawningTask extends BukkitRunnable   {
-    protected PlacedEncounter placedEncounter;
-    protected List<Mob> placements   =   new ArrayList();
-    protected Iterator<Mob> itr;
+    private PlacedEncounter placedEncounter;
+    private List<Mob> placements   =   new ArrayList();
+    private Iterator<Mob> itr;
     
     public SpawningTask(PlacedEncounter placedEncounter){
         this.placedEncounter    =   placedEncounter;

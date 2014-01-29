@@ -15,11 +15,11 @@ import org.json.simple.JSONObject;
  * @author ArchmageInc
  */
 public class MobGroup {
-    protected String mobName;
-    protected Integer min;
-    protected Integer max;
-    protected Double probability;
-    protected Mob mob;
+    private String mobName;
+    private Integer min;
+    private Integer max;
+    private Double probability;
+    private Mob mob;
     
     public MobGroup(JSONObject jsonConfiguration){
         try{
@@ -50,7 +50,7 @@ public class MobGroup {
         return toPlace;
     }
     
-    protected Integer getCount(){
+    private Integer getCount(){
         Integer count   =   min;
         for(int i=min.intValue();i<max;i++){
             if(Math.random()<probability)

@@ -1,5 +1,6 @@
 package com.archmageinc.RandomEncounters;
 
+import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,22 +24,22 @@ public class PlacedEncounter {
     /**
      * The generated Unique ID.
      */
-    protected UUID uuid;
+    private UUID uuid;
     
     /**
      * The location of this placed encounter in the world.
      */
-    protected Location location;
+    private Location location;
     
     /**
      * The Encounter on which this is based.
      */
-    protected Encounter encounter;
+    private Encounter encounter;
     
     /**
      * The set of PlacedMobs that were spawned with this encounter.
      */
-    protected Set<PlacedMob> mobs                   =   new HashSet();
+    private Set<PlacedMob> mobs                   =   new HashSet();
     
     /**
      * Has this encounter been sacked.
@@ -46,14 +47,14 @@ public class PlacedEncounter {
      * @TODO A listener needs to be developed to determine if a PlacedEncounter has been sacked.
      * @TODO All expansions for this PlacedEncounter should stop when sacked.
      */
-    protected Boolean sacked                        =   false;
+    private Boolean sacked                        =   false;
     
     /**
      * The set of placed encounter unique IDs that have expanded from this placed encounter.
      * 
      * @TODO When expanded encounters are sacked, they should be removed from this set.
      */
-    protected Set<UUID> placedExpansions            =   new HashSet();
+    private Set<UUID> placedExpansions            =   new HashSet();
     
     /**
      * The set of valid expansion configurations for this Placed Encounter.
@@ -61,17 +62,17 @@ public class PlacedEncounter {
      * This is a clone of the Encounter configuration expansions
      * @see Encounter#expansions
      */
-    protected Set<Expansion> expansions             =   new HashSet();
+    private Set<Expansion> expansions             =   new HashSet();
     
     /**
      * The singlton instances of loaded PlacedEncounters.
      */
-    protected static Set<PlacedEncounter> instances =   new HashSet();
+    private static Set<PlacedEncounter> instances =   new HashSet();
     
     /**
      * An internal list of safe creature spawn locations.
      */
-    protected List<Location> spawnLocations         =   new ArrayList();
+    private List<Location> spawnLocations         =   new ArrayList();
     
     
     /**
@@ -127,7 +128,7 @@ public class PlacedEncounter {
      * 
      * @param jsonConfiguration The JSON configuration
      */
-    protected PlacedEncounter(JSONObject jsonConfiguration){
+    private PlacedEncounter(JSONObject jsonConfiguration){
         try{
             uuid                    =   UUID.fromString((String) jsonConfiguration.get("uuid"));
             sacked                  =   (Boolean) jsonConfiguration.get("sacked");
@@ -171,7 +172,7 @@ public class PlacedEncounter {
      * @param encounter The parent Encounter
      * @param location The location to place the encounter
      */
-    protected PlacedEncounter(Encounter encounter,Location location){
+    private PlacedEncounter(Encounter encounter,Location location){
         this.uuid       =   UUID.randomUUID();
         this.encounter  =   encounter;
         this.location   =   location;
@@ -192,7 +193,7 @@ public class PlacedEncounter {
     /**
      * Sets up the cloned expansion configurations for newly generated PlacedEncounters.
      */
-    protected final void setupExpansions(){
+    private final void setupExpansions(){
         expansions.clear();
         for(Expansion expansion : encounter.getExpansions()){
             try {

@@ -8,12 +8,12 @@ import org.bukkit.block.BlockFace;
 
 
 public class Locator {
-    protected static Locator instance  =   new Locator();
+    private static Locator instance  =   new Locator();
     
     public static Locator getInstance(){
         return instance;
     }
-    protected Locator(){
+    private Locator(){
         
     }
     

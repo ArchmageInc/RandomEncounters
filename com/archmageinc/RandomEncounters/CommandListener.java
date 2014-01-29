@@ -64,7 +64,7 @@ public class CommandListener implements CommandExecutor{
         return false;
     }
     
-    protected void checkEncounter(CommandSender sender,String encounterName,Location location){
+    private void checkEncounter(CommandSender sender,String encounterName,Location location){
         Encounter encounter =   Encounter.getInstance(encounterName);
         if(encounter==null){
             sender.sendMessage("Encounter "+encounterName+" was not found!");
@@ -82,7 +82,7 @@ public class CommandListener implements CommandExecutor{
         }
     }
     
-    protected void placeEncounter(CommandSender sender,String encounterName,Location location){
+    private void placeEncounter(CommandSender sender,String encounterName,Location location){
         Encounter encounter =   Encounter.getInstance(encounterName);
         if(encounter==null){
             sender.sendMessage("Encounter "+encounterName+" was not found!");
@@ -95,7 +95,7 @@ public class CommandListener implements CommandExecutor{
         RandomEncounters.getInstance().addPlacedEncounter(PlacedEncounter.create(encounter, location));
     }
     
-    protected void reloadConfigurations(){
+    private void reloadConfigurations(){
         RandomEncounters.getInstance().loadConfigurations();
     }
     

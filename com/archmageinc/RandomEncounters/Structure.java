@@ -35,52 +35,52 @@ public class Structure {
     /**
      * The unique name of the structure configuration.
      */
-    protected String name;
+    private String name;
     
     /**
      * This file name including directories of the schematic file.
      */
-    protected String fileName;
+    private String fileName;
     
     /**
      * The minimum spawn height of the structure.
      */
-    protected Long minY;
+    private Long minY;
     
     /**
      * The maximum spawn height of the structure.
      */
-    protected Long maxY;
+    private Long maxY;
     
     /**
      * Has the structure been successfully loaded from the file system.
      */
-    protected Boolean loaded                        =   false;
+    private Boolean loaded                        =   false;
     
     /**
      * The set of materials the structure is allowed to overwrite.
      */
-    protected HashSet<Material> trump               =   new HashSet();
+    private HashSet<Material> trump               =   new HashSet();
     
     /**
      * The set of materials the structure is not allowed to stand on.
      */
-    protected HashSet<Material> invalid             =   new HashSet();
+    private HashSet<Material> invalid             =   new HashSet();
     
     /** 
      * The singleton instances of structure configurations.
      */
-    protected static HashSet<Structure> instances   =   new HashSet();
+    private static HashSet<Structure> instances   =   new HashSet();
     
     /**
      * The WorldEdit session which keeps track of changes.
      */
-    protected EditSession session;
+    private EditSession session;
     
     /**
      * The WorldEdit cuboid.
      */
-    protected CuboidClipboard cuboid;
+    private CuboidClipboard cuboid;
     
     /**
      * Get an instance of the Structure based on the name.
@@ -168,7 +168,7 @@ public class Structure {
      * 
      * @param jsonConfiguration 
      */
-    protected Structure(JSONObject jsonConfiguration){
+    private Structure(JSONObject jsonConfiguration){
         reConfigure(jsonConfiguration);
     }
     
@@ -176,7 +176,7 @@ public class Structure {
      * Loads the structure from the schematic file on the file system.
      * @return Returns true if success, false otherwise.
      */
-    protected final boolean load(){
+    private final boolean load(){
         try{
             File file           =   new File(RandomEncounters.getInstance().getDataFolder()+"/"+fileName);
             SchematicFormat sf  =   SchematicFormat.getFormat(file);

@@ -21,56 +21,56 @@ public class Encounter {
     /**
      * The static instances of unique encounters.
      */
-    protected static HashSet<Encounter> instances   =   new HashSet();
+    private static HashSet<Encounter> instances   =   new HashSet();
     
     /**
      * The unique name of the encounter.
      */
-    protected String name;
+    private String name;
     
     /**
      * The probability of the encounter's occurrence.
      */
-    protected Double probability;
+    private Double probability;
     
     /**
      * Is the encounter enabled for future placement.
      */
-    protected Boolean enabled;
+    private Boolean enabled;
     
     /**
      * The structure of the encounter.
      */
-    protected Structure structure;
+    private Structure structure;
     
     /**
      * The set of Biomes where this encounter is allowed to be placed.
      * An empty set implies only invalid biome restrictions. 
      * If both sets are empty, the encounter may be placed in any biome.
      */
-    protected Set<Biome> validBiomes            =   new HashSet();
+    private Set<Biome> validBiomes            =   new HashSet();
     
     /**
      * The set of Biomes where this encounter is not allowed to be placed.
      * An empty set implies only valid biome restrictions.
      * If both sets are empty, the encounter may be placed in any biome. 
      */
-    protected Set<Biome> invalidBiomes          =   new HashSet();
+    private Set<Biome> invalidBiomes          =   new HashSet();
     
     /**
      * The set of Mobs that will be placed with this encounter.
      */
-    protected Set<Mob> mobs                     =   new HashSet();
+    private Set<Mob> mobs                     =   new HashSet();
     
     /**
      * The set of Treasures that will be placed in chests of the structure.
      */
-    protected Set<Treasure> treasures           =   new HashSet();
+    private Set<Treasure> treasures           =   new HashSet();
     
     /**
      * The set of Expansions that this encounter is allowed to spawn.
      */
-    protected HashSet<Expansion> expansions     =   new HashSet();
+    private HashSet<Expansion> expansions     =   new HashSet();
     
     /**
      * Get an instance of the encounter based on the name.
@@ -174,7 +174,7 @@ public class Encounter {
      * @param jsonConfiguration The JSONObject configuration of the encounter.
      * @see Encounter#getInstance(org.json.simple.JSONObject)
      */
-    protected Encounter(JSONObject jsonConfiguration){
+    private Encounter(JSONObject jsonConfiguration){
         reConfigure(jsonConfiguration);
     }
     

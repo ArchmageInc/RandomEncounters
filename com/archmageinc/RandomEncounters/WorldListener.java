@@ -21,7 +21,7 @@ public class WorldListener implements Listener {
      * Placing a structure has the potential to cause new chunks to generate, and therefore more checks for placement.
      * This is to reduce overall system overhead. 
      */
-    protected boolean processing =   false;
+    private boolean processing =   false;
     
     
     @EventHandler

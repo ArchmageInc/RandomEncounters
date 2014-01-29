@@ -21,29 +21,29 @@ public class Treasure {
     /**
      * The material of the item.
      */
-    protected Material material     =   Material.AIR;
+    private Material material     =   Material.AIR;
     
     /**
      * The minimum number of items to generate.
      */
-    protected Long min;
+    private Long min;
     
     /**
      * The maximum number of items to generate.
      */
-    protected Long max;
+    private Long max;
     
     /**
      * The probability of additional items.
      */
-    protected Double probability    =   0.0;
+    private Double probability    =   0.0;
     
     /**
      * The set of TreasureEnchantments to place on the item.
      */
-    protected Set<TreasureEnchantment> enchantments =   new HashSet();
+    private Set<TreasureEnchantment> enchantments =   new HashSet();
     
-    protected String tagName;
+    private String tagName;
     
     
     /**
@@ -75,7 +75,7 @@ public class Treasure {
      * 
      * @param item The item to receive the enchantments
      */
-    protected void setEnchantments(ItemStack item){
+    private void setEnchantments(ItemStack item){
         if(enchantments.size()>0){
             for(TreasureEnchantment tEnchantment : enchantments){
                 Enchantment enchantment =   tEnchantment.get();
