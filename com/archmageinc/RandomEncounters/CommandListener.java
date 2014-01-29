@@ -62,8 +62,8 @@ public class CommandListener implements CommandExecutor{
     
     protected void placeEncounter(CommandSender sender,String encounterName,Location location){
         Encounter encounter =   Encounter.getInstance(encounterName);
-        if(encounterName==null){
-            sender.sendMessage("Encounter "+encounter+" was not found!");
+        if(encounter==null){
+            sender.sendMessage("Encounter "+encounterName+" was not found!");
             return;
         }
         if(location==null){
