@@ -1,11 +1,9 @@
 package com.archmageinc.RandomEncounters;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.bukkit.Location;
 import org.json.simple.JSONObject;
 
 

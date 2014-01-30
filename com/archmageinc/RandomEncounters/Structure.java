@@ -60,17 +60,17 @@ public class Structure {
     /**
      * The set of materials the structure is allowed to overwrite.
      */
-    private HashSet<Material> trump               =   new HashSet();
+    private final HashSet<Material> trump               =   new HashSet();
     
     /**
      * The set of materials the structure is not allowed to stand on.
      */
-    private HashSet<Material> invalid             =   new HashSet();
+    private final HashSet<Material> invalid             =   new HashSet();
     
     /** 
      * The singleton instances of structure configurations.
      */
-    private static HashSet<Structure> instances   =   new HashSet();
+    private static final HashSet<Structure> instances   =   new HashSet();
     
     /**
      * The WorldEdit session which keeps track of changes.
@@ -176,7 +176,7 @@ public class Structure {
      * Loads the structure from the schematic file on the file system.
      * @return Returns true if success, false otherwise.
      */
-    private final boolean load(){
+    private boolean load(){
         try{
             File file           =   new File(RandomEncounters.getInstance().getDataFolder()+"/"+fileName);
             SchematicFormat sf  =   SchematicFormat.getFormat(file);
@@ -199,7 +199,6 @@ public class Structure {
     /**
      * Generate a new WorldEdit session for placement.
      * @param world The World where the session is
-     * @TODO This is called when placed and flips the structure causing inaccurate width / length measurements.
      */
     private void newSession(World world){
         if(RandomEncounters.getInstance().getLogLevel()>8){
@@ -280,7 +279,6 @@ public class Structure {
     /**
      * Get the width of the structure
      * @return 
-     * @TODO Structure width is not always accurate as when placed the structure is randomly flipped.
      */
     public int getWidth(){
         return loaded ? cuboid.getWidth() : 0;
@@ -297,7 +295,6 @@ public class Structure {
     /**
      * Get the length of the structure.
      * @return 
-     * @TODO Structure length is not always accurate as when placed the structure is randomly flipped.
      */
     public int getLength(){
         return loaded ? cuboid.getLength() : 0;

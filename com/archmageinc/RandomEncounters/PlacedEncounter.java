@@ -40,16 +40,12 @@ public class PlacedEncounter {
     
     /**
      * Has this encounter been sacked.
-     * 
-     * @TODO A listener needs to be developed to determine if a PlacedEncounter has been sacked.
-     * @TODO All expansions for this PlacedEncounter should stop when sacked.
      */
     private Boolean sacked                        =   false;
     
     /**
      * The set of placed encounter unique IDs that have expanded from this placed encounter.
      * 
-     * @TODO When expanded encounters are sacked, they should be removed from this set.
      */
     private final Set<UUID> placedExpansions            =   new HashSet();
     

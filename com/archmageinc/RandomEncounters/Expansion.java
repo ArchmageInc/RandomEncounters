@@ -1,14 +1,10 @@
 package com.archmageinc.RandomEncounters;
 
-import com.archmageinc.RandomEncounters.Tasks.ChunkCheckTask;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-import org.bukkit.Chunk;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.json.simple.JSONObject;
 
 /**
@@ -54,11 +50,8 @@ public class Expansion implements Cloneable,EncounterPlacer{
     private Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
     
     /**
-     * Should this expansion be checked for valid locations.
-     * This will be set to false when no valid locations are found.
+     * The encounter that will expand.
      */
-    private boolean checkLocation                 =   true;
-    
     private PlacedEncounter expandingEncounter;
     
     /**
@@ -82,8 +75,6 @@ public class Expansion implements Cloneable,EncounterPlacer{
     /**
      * Checks the expansion for placement. 
      * If successful, the encounter will be placed in the world.
-     * 
-     * @TODO This needs a better, faster way to check expansion placements.
      */
     public void checkExpansion(){
         updateLastCheck();

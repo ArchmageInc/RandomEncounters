@@ -41,7 +41,7 @@ public class Treasure {
     /**
      * The set of TreasureEnchantments to place on the item.
      */
-    private Set<TreasureEnchantment> enchantments =   new HashSet();
+    private final Set<TreasureEnchantment> enchantments =   new HashSet();
     
     private String tagName;
     

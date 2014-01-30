@@ -38,12 +38,12 @@ public class RandomEncounters extends JavaPlugin {
     /**
      * The set of encounter configurations for the plugin.
      */
-    private Set<Encounter> encounters                   =   new HashSet();
+    private final Set<Encounter> encounters                   =   new HashSet();
     
     /**
      * The set of PlacedEncounters / savedEncounters.
      */
-    private HashSet<PlacedEncounter> placedEncounters   =   new HashSet();
+    private final HashSet<PlacedEncounter> placedEncounters   =   new HashSet();
     
     /**
      * The task responsible for checking expansions.
@@ -59,7 +59,7 @@ public class RandomEncounters extends JavaPlugin {
      * is from Bukkit.
      */
     public RandomEncounters(){
-        RandomEncounters.instance   =   this;
+        this.instance   =   this;
     }
     
     /**

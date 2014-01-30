@@ -68,7 +68,7 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
                     sender.sendMessage("Usage: /re radius <EncounterName> <distance> <world> <chunk x> <chunk z>");
                     return true;
                 }
-                Integer distance        =   0;
+                Integer distance;
                 try{
                     distance    =   Integer.parseInt(args[2]);
                 }catch(NumberFormatException e){

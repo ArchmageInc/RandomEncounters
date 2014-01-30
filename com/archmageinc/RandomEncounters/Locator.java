@@ -8,7 +8,7 @@ import org.bukkit.block.BlockFace;
 
 @Deprecated
 public class Locator {
-    private static Locator instance  =   new Locator();
+    private static final Locator instance  =   new Locator();
     
     public static Locator getInstance(){
         return instance;

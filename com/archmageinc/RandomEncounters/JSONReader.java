@@ -16,7 +16,7 @@ import org.json.simple.parser.ParseException;
  * @author ArchmageInc
  */
 public class JSONReader {
-    private static JSONReader instance = new JSONReader();
+    private static final JSONReader instance = new JSONReader();
     
     /**
      * Get the instance of the JSONReader
