@@ -30,8 +30,7 @@ public class ExpansionTask extends BukkitRunnable{
                     Calendar nextRun    =   (Calendar) expansion.getLastCheck().clone();
                     nextRun.add(Calendar.MINUTE, expansion.getDuration().intValue());
                     if(nextRun.before(Calendar.getInstance())){
-                        expansion.checkExpansion(placedEncounter);
-                        expansion.updateLastCheck();
+                        expansion.checkExpansion();
                     }
                 }
             }else{

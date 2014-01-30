@@ -29,7 +29,7 @@ public class WorldListener implements Listener {
         if(processing){
             return;
         }
-        if(RandomEncounters.getInstance().getLogLevel()>6){
+        if(RandomEncounters.getInstance().getLogLevel()>8){
             RandomEncounters.getInstance().logMessage("New chunk detected, prepairing to run checks");
         }
         processing                      =   true;
@@ -38,11 +38,7 @@ public class WorldListener implements Listener {
         encounterList.addAll(encounters);
         Collections.shuffle(encounterList,new Random(System.nanoTime()));
         for(Encounter encounter : encounterList){
-            PlacedEncounter placedEncounter =   encounter.checkPlace(event.getChunk());
-            if(placedEncounter!=null){
-                RandomEncounters.getInstance().addPlacedEncounter(placedEncounter);
-                break;
-            }
+            encounter.checkPlace(event.getChunk());
         }
         processing  =   false;
     }

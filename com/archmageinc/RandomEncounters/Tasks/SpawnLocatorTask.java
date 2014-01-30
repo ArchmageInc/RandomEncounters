@@ -16,17 +16,17 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author ArchmageInc
  */
 public class SpawnLocatorTask extends BukkitRunnable  {
-    private PlacedEncounter placedEncounter;
+    private final PlacedEncounter placedEncounter;
     private int x;
     private int y;
     private int z;
-    private int sx;
-    private int sy;
-    private int sz;
-    private int mx;
-    private int my;
-    private int mz;
-    private List<Location> locations  =   new ArrayList();
+    private final int sx;
+    private final int sy;
+    private final int sz;
+    private final int mx;
+    private final int my;
+    private final int mz;
+    private final List<Location> locations  =   new ArrayList();
     
     public SpawnLocatorTask(PlacedEncounter placedEncounter){
         this.placedEncounter    =   placedEncounter;

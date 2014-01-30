@@ -20,7 +20,7 @@ public final class Mob{
     /**
      * The static set of singlton instances.
      */
-    private static HashSet<Mob> instances =   new HashSet();
+    private static final HashSet<Mob> instances =   new HashSet();
     
     /**
      * The unique name of the Mob.
@@ -77,17 +77,17 @@ public final class Mob{
     /**
      * The set of Treasures which will be dropped by spawned creatures.
      */
-    private Set<Treasure> treasures       =   new HashSet();
+    private final Set<Treasure> treasures       =   new HashSet();
     
     /**
      * The set of MobGroups which will be spawned.
      */
-    private Set<MobGroup> mobGroups       =   new HashSet();
+    private final Set<MobGroup> mobGroups       =   new HashSet();
     
     /**
      * The set of potion effects that will be paced on spawned creatures.
      */
-    private Set<MobPotionEffect> effects  =   new HashSet();
+    private final Set<MobPotionEffect> effects  =   new HashSet();
     
     
     /**

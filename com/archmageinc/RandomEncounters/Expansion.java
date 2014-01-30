@@ -1,5 +1,7 @@
 package com.archmageinc.RandomEncounters;
 
+import com.archmageinc.RandomEncounters.Tasks.ChunkCheckTask;
+import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,7 +16,7 @@ import org.json.simple.JSONObject;
  * 
  * @author ArchmageInc
  */
-public class Expansion implements Cloneable{
+public class Expansion implements Cloneable,EncounterPlacer{
     
     /**
      * The encounter that may spawn for this expansion.
@@ -57,12 +59,7 @@ public class Expansion implements Cloneable{
      */
     private boolean checkLocation                 =   true;
     
-    /**
-     * The set of chunks that have been checked and cannot support the encounter.
-     * These chunks will not be checked again until the server is reloaded.
-     * This prevents unnecessary processing.
-     */
-    private HashSet<Chunk> invalidChunks          =   new HashSet();
+    private PlacedEncounter expandingEncounter;
     
     /**
      * Constructor for an expansion based on JSON Configuration.
@@ -86,23 +83,17 @@ public class Expansion implements Cloneable{
      * Checks the expansion for placement. 
      * If successful, the encounter will be placed in the world.
      * 
-     * @param placedEncounter The PlacedEncounter attempting to spawn this expansion.
      * @TODO This needs a better, faster way to check expansion placements.
      */
-    public void checkExpansion(PlacedEncounter placedEncounter){
-        if(!checkLocation){
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage(placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" will not be checked.");
-            }
-            return;
-        }
+    public void checkExpansion(){
+        updateLastCheck();
         Double random   =   Math.random();
         if(RandomEncounters.getInstance().getLogLevel()>6){
-            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
+            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
         }
         if(random<probability){
             Set<PlacedEncounter> validExpansions    =   new HashSet();
-            for(UUID expansionUUID : placedEncounter.getPlacedExpansions()){
+            for(UUID expansionUUID : expandingEncounter.getPlacedExpansions()){
                 PlacedEncounter placedExpansion =   PlacedEncounter.getInstance(expansionUUID);
                 if(placedExpansion!=null){
                     if(placedExpansion.getEncounter().equals(getEncounter())){
@@ -111,47 +102,10 @@ public class Expansion implements Cloneable{
                 }
             }
             if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
+                RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
             }
             if(validExpansions.size()<max){
-                Chunk encounterChunk    =   placedEncounter.getLocation().getChunk();
-                World world             =   placedEncounter.getLocation().getWorld();
-                int x                   =   encounterChunk.getX();
-                int z                   =   encounterChunk.getZ();
-                boolean placed          =   false;
-                for(int cx=x-distance.intValue();cx<x+distance.intValue();cx++){
-                    for(int cz=z-distance.intValue();cz<z+distance.intValue();cz++){
-                        Chunk currentChunk  =   world.getChunkAt(cx, cz);
-                        if(invalidChunks.contains(currentChunk)){
-                            if(RandomEncounters.getInstance().getLogLevel()>7){
-                                RandomEncounters.getInstance().logMessage("Skipping chunk "+cx+","+cz+" for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName());
-                            }
-                            break;
-                        }
-                        Location location   =   Locator.getInstance().checkChunk(currentChunk, getEncounter());
-                        if(location!=null){
-                            PlacedEncounter newExpansion    =   PlacedEncounter.create(getEncounter(), location);
-                            placedEncounter.addExpansion(newExpansion);
-                            RandomEncounters.getInstance().addPlacedEncounter(newExpansion);
-                            placed  =   true;
-                            break;
-                        }
-                        if(RandomEncounters.getInstance().getLogLevel()>8){
-                            RandomEncounters.getInstance().logMessage("Chunk "+cx+","+cz+" for "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" has been marked invalid.");
-                        }
-                        invalidChunks.add(currentChunk);
-                        
-                    }
-                    if(placed){
-                        break;
-                    }
-                }
-                if(!placed){
-                    if(RandomEncounters.getInstance().getLogLevel()>6){
-                        RandomEncounters.getInstance().logMessage("The expansion "+placedEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" has no valid locations");
-                    }
-                    checkLocation   =   false;
-                }
+               (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),distance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
             }
         }
     }
@@ -159,12 +113,14 @@ public class Expansion implements Cloneable{
     /**
      * This clones the expansion configuration for individual PlacedEncounters.
      * Each PlacedEncounter stores their own Expansions because of specifics
+     * @param expandingEncounter
      * @return Returns a copy of the Expansion
      * @throws CloneNotSupportedException 
      */
-    @Override
-    public Expansion clone() throws CloneNotSupportedException{
-       return (Expansion) super.clone();
+     public Expansion clone(PlacedEncounter expandingEncounter) throws CloneNotSupportedException{
+       Expansion newExpansion   =   (Expansion) super.clone();
+       newExpansion.setExpandingEncounter(expandingEncounter);
+       return newExpansion;
     }
     
     /**
@@ -173,6 +129,7 @@ public class Expansion implements Cloneable{
      * This allows for circular referencing expansions. (i.e. an encounter can spawn itself as an expansion)
      * @return 
      */
+    @Override
     public Encounter getEncounter(){
         if(encounter==null){
             encounter   =   Encounter.getInstance(encounterName);
@@ -203,6 +160,10 @@ public class Expansion implements Cloneable{
         return lastCheck;
     }
     
+    public void setExpandingEncounter(PlacedEncounter expandingEncounter){
+        this.expandingEncounter     =   expandingEncounter;
+    }
+    
     /**
      * Update the last time this expansion was checked.
      * 
@@ -210,5 +171,13 @@ public class Expansion implements Cloneable{
      */
     public void updateLastCheck(){
         lastCheck   =   (Calendar) Calendar.getInstance().clone();
+    }
+
+    @Override
+    public void addPlacedEncounter(PlacedEncounter newEncounter) {
+        if(newEncounter!=null){
+            expandingEncounter.addExpansion(newEncounter);
+            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
+        }
     }
 }

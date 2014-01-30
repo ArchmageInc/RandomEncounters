@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-
+@Deprecated
 public class Locator {
     private static Locator instance  =   new Locator();
     

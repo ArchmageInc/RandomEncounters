@@ -1,11 +1,11 @@
 package com.archmageinc.RandomEncounters;
 
+import com.archmageinc.RandomEncounters.Tasks.ChunkCheckTask;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
@@ -16,12 +16,12 @@ import org.json.simple.JSONObject;
  * 
  * @author ArchmageInc
  */
-public class Encounter {
+public class Encounter implements EncounterPlacer{
     
     /**
      * The static instances of unique encounters.
      */
-    private static HashSet<Encounter> instances   =   new HashSet();
+    private static final HashSet<Encounter> instances   =   new HashSet();
     
     /**
      * The unique name of the encounter.
@@ -48,29 +48,29 @@ public class Encounter {
      * An empty set implies only invalid biome restrictions. 
      * If both sets are empty, the encounter may be placed in any biome.
      */
-    private Set<Biome> validBiomes            =   new HashSet();
+    private final Set<Biome> validBiomes            =   new HashSet();
     
     /**
      * The set of Biomes where this encounter is not allowed to be placed.
      * An empty set implies only valid biome restrictions.
      * If both sets are empty, the encounter may be placed in any biome. 
      */
-    private Set<Biome> invalidBiomes          =   new HashSet();
+    private final Set<Biome> invalidBiomes          =   new HashSet();
     
     /**
      * The set of Mobs that will be placed with this encounter.
      */
-    private Set<Mob> mobs                     =   new HashSet();
+    private final Set<Mob> mobs                     =   new HashSet();
     
     /**
      * The set of Treasures that will be placed in chests of the structure.
      */
-    private Set<Treasure> treasures           =   new HashSet();
+    private final Set<Treasure> treasures           =   new HashSet();
     
     /**
      * The set of Expansions that this encounter is allowed to spawn.
      */
-    private HashSet<Expansion> expansions     =   new HashSet();
+    private final HashSet<Expansion> expansions     =   new HashSet();
     
     /**
      * Get an instance of the encounter based on the name.
@@ -133,12 +133,22 @@ public class Encounter {
             JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobs");
             if(jsonValidBiomes!=null){
                 for(int i=0;i<jsonValidBiomes.size();i++){
-                    validBiomes.add(Biome.valueOf((String) jsonValidBiomes.get(i)));
+                    Biome biome =   Biome.valueOf((String) jsonValidBiomes.get(i));
+                    if(biome!=null){
+                        validBiomes.add(biome);
+                    }else{
+                        RandomEncounters.getInstance().logError("Invalid Biome "+(String) jsonValidBiomes.get(i)+" for encounter "+name);
+                    }
                 }
             }
             if(jsonInvalidBiomes!=null){
                 for(int i=0;i<jsonInvalidBiomes.size();i++){
-                    invalidBiomes.add(Biome.valueOf((String) jsonInvalidBiomes.get(i)));
+                    Biome biome =   Biome.valueOf((String) jsonInvalidBiomes.get(i));
+                    if(biome!=null){
+                        invalidBiomes.add(biome);
+                    }else{
+                        RandomEncounters.getInstance().logError("Invalid Biome "+(String) jsonInvalidBiomes.get(i)+" for encounter "+name);
+                    }
                 }
             }
             if(jsonTreasures!=null){
@@ -155,7 +165,12 @@ public class Encounter {
             }
             if(jsonMobs!=null){
                 for(int i=0;i<jsonMobs.size();i++){
-                    mobs.add(Mob.getInstance((String) jsonMobs.get(i)));
+                    Mob mob =   Mob.getInstance((String) jsonMobs.get(i));
+                    if(mob!=null){
+                        mobs.add(mob);
+                    }else{
+                        RandomEncounters.getInstance().logError("Mob definition "+(String) jsonMobs.get(i)+" for encounter "+name+" was not found!");
+                    }
                 }
             }
             if(structure==null){
@@ -182,29 +197,22 @@ public class Encounter {
      * Check the placement of the encounter for a given Chunk. 
      * The if successful, the encounter WILL be placed in the chunk.
      * @param chunk The chunk to check for placement
-     * @return Returns the PlacedEncounter on successful placement, null otherwise
      */
-    public PlacedEncounter checkPlace(Chunk chunk){
-        return checkPlace(chunk,false);
+    public void checkPlace(Chunk chunk){
+        checkPlace(chunk,false);
     }
     
-    public PlacedEncounter checkPlace(Chunk chunk,Boolean force){
+    public void checkPlace(Chunk chunk,Boolean force){
         Double random   =   Math.random();
         
         if(force || random<probability){
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                if(force){
-                    RandomEncounters.getInstance().logMessage("Forcing probability override for encounter "+name);
-                }else{
-                    RandomEncounters.getInstance().logMessage("Probability hit for encounter "+name+" ("+random.toString()+","+probability.toString());
-                }
+            if(force){
+                RandomEncounters.getInstance().logMessage("Forcing probability override for encounter "+name+" in chunk "+chunk.getX()+","+chunk.getZ());
+            }else if(RandomEncounters.getInstance().getLogLevel()>6){
+                RandomEncounters.getInstance().logMessage("Probability hit for encounter "+name+" ("+random.toString()+","+probability.toString()+") in chunk "+chunk.getX()+","+chunk.getZ());
             }
-            Location location   =   Locator.getInstance().checkChunk(chunk, this);
-            if(location!=null){
-                return PlacedEncounter.create(this, location);
-            }
+            (new ChunkCheckTask(this,chunk,this)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
         }
-        return null;
     }
     
     /**
@@ -284,5 +292,17 @@ public class Encounter {
      */
     public HashSet<Expansion> getExpansions(){
         return expansions;
+    }
+
+    @Override
+    public void addPlacedEncounter(PlacedEncounter newEncounter) {
+        if(newEncounter!=null){
+            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
+        }
+    }
+
+    @Override
+    public Encounter getEncounter() {
+        return this;
     }
 }

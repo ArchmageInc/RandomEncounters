@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -39,7 +36,7 @@ public class PlacedEncounter {
     /**
      * The set of PlacedMobs that were spawned with this encounter.
      */
-    private Set<PlacedMob> mobs                   =   new HashSet();
+    private final Set<PlacedMob> mobs                   =   new HashSet();
     
     /**
      * Has this encounter been sacked.
@@ -54,7 +51,7 @@ public class PlacedEncounter {
      * 
      * @TODO When expanded encounters are sacked, they should be removed from this set.
      */
-    private Set<UUID> placedExpansions            =   new HashSet();
+    private final Set<UUID> placedExpansions            =   new HashSet();
     
     /**
      * The set of valid expansion configurations for this Placed Encounter.
@@ -62,7 +59,7 @@ public class PlacedEncounter {
      * This is a clone of the Encounter configuration expansions
      * @see Encounter#expansions
      */
-    private Set<Expansion> expansions             =   new HashSet();
+    private final Set<Expansion> expansions             =   new HashSet();
     
     /**
      * The singlton instances of loaded PlacedEncounters.
@@ -193,11 +190,12 @@ public class PlacedEncounter {
     /**
      * Sets up the cloned expansion configurations for newly generated PlacedEncounters.
      */
-    private final void setupExpansions(){
+    private void setupExpansions(){
         expansions.clear();
         for(Expansion expansion : encounter.getExpansions()){
             try {
-                expansions.add(expansion.clone());
+                Expansion clonedExpansion   =   expansion.clone(this);
+                expansions.add(clonedExpansion);
             } catch (CloneNotSupportedException e) {
                 RandomEncounters.getInstance().logError("Clone failed for expansion: "+e.getMessage());
             }
