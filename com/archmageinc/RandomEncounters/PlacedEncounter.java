@@ -169,7 +169,9 @@ public class PlacedEncounter {
         this.uuid       =   UUID.randomUUID();
         this.encounter  =   encounter;
         this.location   =   location;
-        encounter.getStructure().place(encounter,location);
+        if(encounter.getStructure()!=null){
+            encounter.getStructure().place(encounter,location);
+        }
         (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
         setupExpansions();
         instances.add(this);        

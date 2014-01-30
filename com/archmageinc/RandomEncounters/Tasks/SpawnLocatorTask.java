@@ -30,16 +30,28 @@ public class SpawnLocatorTask extends BukkitRunnable  {
     
     public SpawnLocatorTask(PlacedEncounter placedEncounter){
         this.placedEncounter    =   placedEncounter;
-        sx                      =   placedEncounter.getLocation().getBlockX()-(placedEncounter.getEncounter().getStructure().getWidth()/2);
-        sy                      =   placedEncounter.getLocation().getBlockY()-(placedEncounter.getEncounter().getStructure().getHeight()/2);
-        sz                      =   placedEncounter.getLocation().getBlockZ()-(placedEncounter.getEncounter().getStructure().getLength()/2);
-        mx                      =   placedEncounter.getLocation().getBlockX()+(placedEncounter.getEncounter().getStructure().getWidth()/2);
-        my                      =   placedEncounter.getLocation().getBlockY()+(placedEncounter.getEncounter().getStructure().getHeight()/2);
-        mz                      =   placedEncounter.getLocation().getBlockZ()+(placedEncounter.getEncounter().getStructure().getLength()/2);
-        x                       =   sx;
-        y                       =   sy;
-        z                       =   sz;
-        RandomEncounters.getInstance().logMessage(x+"/"+mx+","+y+"/"+my+","+z+"/"+mz);
+        if(placedEncounter.getEncounter().getStructure()==null){
+            if(RandomEncounters.getInstance().getLogLevel()>0){
+                RandomEncounters.getInstance().logWarning(placedEncounter.getName()+" has no structure: the entire chunk will be used.");
+            }
+            sx  =   placedEncounter.getLocation().getChunk().getBlock(0, 0, 0).getX();
+            sy  =   0;
+            sz  =   placedEncounter.getLocation().getChunk().getBlock(0, 0, 0).getZ();
+            mx  =   placedEncounter.getLocation().getChunk().getBlock(15, 0, 0).getX();
+            my  =   placedEncounter.getLocation().getWorld().getMaxHeight();
+            mz  =   placedEncounter.getLocation().getChunk().getBlock(0, 0, 15).getZ();
+        }else{
+            sx  =   placedEncounter.getLocation().getBlockX()-(placedEncounter.getEncounter().getStructure().getWidth()/2);
+            sy  =   placedEncounter.getLocation().getBlockY()-(placedEncounter.getEncounter().getStructure().getHeight()/2);
+            sz  =   placedEncounter.getLocation().getBlockZ()-(placedEncounter.getEncounter().getStructure().getLength()/2);
+            mx  =   placedEncounter.getLocation().getBlockX()+(placedEncounter.getEncounter().getStructure().getWidth()/2);
+            my  =   placedEncounter.getLocation().getBlockY()+(placedEncounter.getEncounter().getStructure().getHeight()/2);
+            mz  =   placedEncounter.getLocation().getBlockZ()+(placedEncounter.getEncounter().getStructure().getLength()/2);
+            
+        }
+        x   =   sx;
+        y   =   sy;
+        z   =   sz;
     }
     
     @Override

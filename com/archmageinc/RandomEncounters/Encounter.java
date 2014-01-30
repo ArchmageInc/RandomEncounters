@@ -174,7 +174,9 @@ public class Encounter implements EncounterPlacer{
                 }
             }
             if(structure==null){
-                RandomEncounters.getInstance().logError("Unable to find structure for encounter: "+name);
+                if(RandomEncounters.getInstance().getLogLevel()>0){
+                    RandomEncounters.getInstance().logWarning("Unable to find structure for encounter: "+name);
+                }
             }
             instances.add(this);
         }catch(ClassCastException e){
@@ -271,7 +273,9 @@ public class Encounter implements EncounterPlacer{
     public List<Mob> getMobPlacements(){
         List<Mob> placements    =   new ArrayList();
         for(Mob mob : mobs){
-            placements.addAll(mob.getPlacements());
+            if(mob!=null){
+                placements.addAll(mob.getPlacements());
+            }
         }
         return placements;
     }

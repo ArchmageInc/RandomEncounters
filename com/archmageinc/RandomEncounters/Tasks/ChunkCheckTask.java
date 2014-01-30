@@ -24,28 +24,45 @@ public class ChunkCheckTask extends BukkitRunnable{
     private int x;
     private int y;
     private int z;
-    private final int sx;
-    private final int sy;
-    private final int sz;
-    private final int mx;
-    private final int my;
-    private final int mz;
+    private int sx    =   0;
+    private int sy    =   0;
+    private int sz    =   0;
+    private int mx    =   16;
+    private int my    =   0;
+    private int mz    =   16;
     
     public ChunkCheckTask(EncounterPlacer placer,Chunk chunk, Encounter encounter){
+        if(RandomEncounters.getInstance().getLogLevel()>9){
+            RandomEncounters.getInstance().logMessage("Prepairing to check chunk: "+chunk.getX()+","+chunk.getZ()+" for encounter "+encounter.getName());
+        }
         this.placer     =   placer;
         this.chunk      =   chunk;
         this.encounter  =   encounter;
-        mx              =   16;
-        my              =   encounter.getStructure().getMaxY().intValue();
-        mz              =   16;
-        sx              =   0;
-        sy              =   encounter.getStructure().getMinY().intValue();
-        sz              =   0;
-        x               =   sx;
-        z               =   sz;
-        y               =   sy;
-        if(RandomEncounters.getInstance().getLogLevel()>9){
-            RandomEncounters.getInstance().logMessage("Prepairing to check chunk: "+chunk.getX()+","+chunk.getZ()+" for encounter "+encounter.getName());
+        if(encounter.getStructure()==null){
+            Block currentBlock;
+            if(RandomEncounters.getInstance().getLogLevel()>0){
+                RandomEncounters.getInstance().logWarning(encounter.getName()+" Has no structure, sending first air block for location!");
+            }
+            for(y=chunk.getWorld().getMaxHeight();y>0;y--){
+                currentBlock  =   chunk.getBlock(7, y, 7);
+                if(currentBlock.getType().isSolid()){
+                    location    =   currentBlock.getRelative(BlockFace.UP).getLocation();
+                    break;
+                }
+            }
+            if(location==null){
+                fail();
+            }
+            
+        }else{
+            my              =   encounter.getStructure().getMaxY().intValue();
+            mz              =   16;
+            sx              =   0;
+            sy              =   encounter.getStructure().getMinY().intValue();
+            sz              =   0;
+            x               =   sx;
+            z               =   sz;
+            y               =   sy;
         }
     }
     
@@ -63,12 +80,6 @@ public class ChunkCheckTask extends BukkitRunnable{
         Block currentBlock,aboveBlock;
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
         timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
-        
-        if(encounter.getStructure()==null){
-            RandomEncounters.getInstance().logError("Missing structure for encounter "+encounter.getName()+"!");
-            fail();
-            return;
-        }
         
         while(y<my){
             
@@ -143,7 +154,6 @@ public class ChunkCheckTask extends BukkitRunnable{
     }
     
     private void success(){
-        
         PlacedEncounter placedEncounter =   PlacedEncounter.create(encounter,location);
         placer.addPlacedEncounter(placedEncounter);
         cancel();

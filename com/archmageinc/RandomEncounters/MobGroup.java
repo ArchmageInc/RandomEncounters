@@ -34,7 +34,9 @@ public class MobGroup {
         Set<PlacedMob> placements   =   new HashSet();
         Integer count               =   getCount();
         for(int i=0;i<count;i++){
-            placements.addAll(getMob().placeMob(encounter));
+            if(getMob()!=null){
+                placements.addAll(getMob().placeMob(encounter));
+            }
         }
         return placements;
     }
@@ -43,7 +45,9 @@ public class MobGroup {
         List<Mob> toPlace    =   new ArrayList();
         Integer count        =   getCount();
         for(int i=0;i<count;i++){
-            toPlace.addAll(getMob().getPlacements());
+            if(getMob()!=null){
+                toPlace.addAll(getMob().getPlacements());
+            }
         }
         return toPlace;
     }
@@ -57,7 +61,7 @@ public class MobGroup {
         return count;
     }
     
-    public Mob getMob(){
+    private Mob getMob(){
         if(mob==null){
             mob =   Mob.getInstance(mobName);
             if(mob==null){
