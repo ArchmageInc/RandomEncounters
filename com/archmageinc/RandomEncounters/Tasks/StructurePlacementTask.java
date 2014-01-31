@@ -93,7 +93,7 @@ public class StructurePlacementTask extends BukkitRunnable {
                 continue;
             }
             if(location.distance(player.getLocation())<structure.getLength() || location.distance(player.getLocation())<structure.getWidth()){
-                if(RandomEncounters.getInstance().getLogLevel()>4){
+                if(RandomEncounters.getInstance().getLogLevel()>8){
                     RandomEncounters.getInstance().logMessage("A player is "+location.distance(player.getLocation())+" away from placing structure "+structure.getName()+". Backing down to 1ms");
                 }
                 return true;
