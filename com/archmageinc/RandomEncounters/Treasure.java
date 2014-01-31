@@ -64,6 +64,9 @@ public class Treasure {
                     enchantments.add(new TreasureEnchantment((JSONObject) jsonEnchantments.get(i)));
                 }
             }
+            if(material==null){
+                RandomEncounters.getInstance().logError("A material by the name "+(String) jsonConfiguration.get("material")+" could not be found.");
+            }
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Treasure configuration: "+e.getMessage());
         }
@@ -97,6 +100,9 @@ public class Treasure {
      */
     public List<ItemStack> get(){
         List<ItemStack> list    =   new ArrayList();
+        if(material==null){
+            return list;
+        }
         ItemStack stack         =   new ItemStack(material,0);
         if(tagName!=null){
             stack.getItemMeta().setDisplayName(tagName);
