@@ -153,6 +153,8 @@ public final class Mob{
                     Treasure treasure   =   Treasure.getInstance((String) jsonTreasures.get(i));
                     if(treasure!=null){
                         treasures.add(treasure);
+                    }else{
+                        RandomEncounters.getInstance().logError("Invalid Treasure "+(String) jsonTreasures.get(i)+" for Mob "+name);
                     }
                 }
             }
@@ -243,6 +245,8 @@ public final class Mob{
                     Treasure treasure   =   Treasure.getInstance((String) object.get("treasure"));
                     if(treasure!=null){
                         item               =   treasure.getOne();
+                    }else{
+                        RandomEncounters.getInstance().logError("Invalid "+type+" item "+(String) object.get("treasure")+" for Mob "+name);
                     }
                 }
             }

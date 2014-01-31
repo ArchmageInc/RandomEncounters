@@ -74,16 +74,26 @@ public class SpawnLocatorTask extends BukkitRunnable  {
                     
                     
                     z++;
-                    if(Calendar.getInstance().after(timeLimit))
+                    if(Calendar.getInstance().after(timeLimit)){
+                        if(z>=mz){
+                            y++;
+                        }
                         break;
+                    }
+                }
+                if(Calendar.getInstance().after(timeLimit)){
+                    if(y>=my){
+                        x++;
+                    }
+                    break;
                 }
                 y++;
-                if(Calendar.getInstance().after(timeLimit))
-                    break;
+                
             }
-            x++;
             if(Calendar.getInstance().after(timeLimit))
                 break;
+            x++;
+            
         }
         if(x<mx){
             if(RandomEncounters.getInstance().getLogLevel()>8){

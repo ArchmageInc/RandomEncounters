@@ -1,16 +1,18 @@
 package com.archmageinc.RandomEncounters.Structures;
 
 import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Tasks.StructurePlacementTask;
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,14 +77,13 @@ public class Structure {
     private static final HashSet<Structure> instances   =   new HashSet();
     
     /**
-     * The WorldEdit session which keeps track of changes.
-     */
-    private EditSession session;
-    
-    /**
      * The WorldEdit cuboid.
      */
     private CuboidClipboard cuboid;
+    
+    private boolean placing =   false;
+    
+    private HashMap<Location,PlacedEncounter> queue   =   new HashMap();
     
     /**
      * Get an instance of the Structure based on the name.
@@ -139,7 +140,6 @@ public class Structure {
             invalid.clear();
             loaded                  =   false;
             cuboid                  =   null;
-            session                 =   null;
             name                    =   (String) jsonConfiguration.get("name");
             fileName                =   (String) jsonConfiguration.get("file");
             minY                    =   ((Number) jsonConfiguration.get("minY")).longValue();
@@ -202,12 +202,12 @@ public class Structure {
      * Generate a new WorldEdit session for placement.
      * @param world The World where the session is
      */
-    private void newSession(World world){
+    private EditSession newSession(World world){
         if(RandomEncounters.getInstance().getLogLevel()>8){
             RandomEncounters.getInstance().logMessage("Generating new WorldEdit session for structure "+name);
         }
-        session        =    new EditSession((new BukkitWorld(world)),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight());
-        session.enableQueue();
+        EditSession session =   new EditSession((new BukkitWorld(world)),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight()*2);
+        return session;
     }
     
     /**
@@ -257,24 +257,33 @@ public class Structure {
      * @param encounter The encounter configuration for this structure.
      * @param location The location to place the structure.
      */
-    public void place(Encounter encounter,Location location){
+    public void place(PlacedEncounter encounter,Location location){
         if(!loaded){
             RandomEncounters.getInstance().logWarning("Attempted to place a non-loaded structure: "+name);
             return;
         }
-        newSession(location.getWorld());
-        try{
-            Vector v    =   new Vector(location.getX(),location.getY(),location.getZ());
-            cuboid.setOffset(new Vector(-Math.ceil(cuboid.getWidth()/2),0,-Math.ceil(cuboid.getLength()/2)));
-            cuboid.paste(session, v, false);
-            if(RandomEncounters.getInstance().getLogLevel()>5){
-                RandomEncounters.getInstance().logMessage("Placed structure "+name+": "+session.size());
-            }
-            session.flushQueue();
-            placeTreasures(encounter,location);
+        if(placing){
+            queue.put(location, encounter);
+            return;
+        }
+        Vector v    =   new Vector(location.getX(),location.getY(),location.getZ());
+        cuboid.setOffset(new Vector(-Math.ceil(cuboid.getWidth()/2),0,-Math.ceil(cuboid.getLength()/2)));
+        placing =   true;
+        (new StructurePlacementTask(encounter,this,newSession(location.getWorld()),v,cuboid)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
+        /*
+        placeTreasures(encounter,location);
+        */
+        
+    }
+    
+    public void placed(){
+        placing =   false;
+        if(queue.isEmpty()){
             flipRandom();
-        }catch(MaxChangedBlocksException e){
-            RandomEncounters.getInstance().logWarning("Unable to place structure: Maximum number of blocks changed: "+e.getMessage());
+        }else{
+            Location location           =   queue.keySet().iterator().next();
+            PlacedEncounter encounter   =   queue.remove(location);
+            place(encounter,location);
         }
     }
     

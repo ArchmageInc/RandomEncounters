@@ -172,11 +172,15 @@ public class PlacedEncounter {
         this.encounter  =   encounter;
         this.location   =   location;
         if(encounter.getStructure()!=null){
-            encounter.getStructure().place(encounter,location);
+            encounter.getStructure().place(this,location);
         }
-        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
+        
         setupExpansions();
         instances.add(this);        
+    }
+    
+    public void placeMobs(){
+        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
     }
     
     public void addMobs(Set<PlacedMob> newMobs){

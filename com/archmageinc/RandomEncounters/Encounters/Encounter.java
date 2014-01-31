@@ -160,6 +160,8 @@ public class Encounter implements EncounterPlacer{
                     Treasure treasure   =   Treasure.getInstance((String) jsonTreasures.get(i));
                     if(treasure!=null){
                         treasures.add(treasure);
+                    }else{
+                        RandomEncounters.getInstance().logError("Invalid Treasure "+(String) jsonTreasures.get(i)+" for encounter "+name);
                     }
                 }
             }
