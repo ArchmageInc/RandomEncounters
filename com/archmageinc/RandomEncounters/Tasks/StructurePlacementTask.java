@@ -5,13 +5,16 @@ import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Structures.Structure;
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.blocks.BlockType;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -38,6 +41,7 @@ public class StructurePlacementTask extends BukkitRunnable {
     private int pass;
     private Iterator<Vector> lastItr;
     private Iterator<Vector> finalItr;
+    private int maxLockTime;
     
     public StructurePlacementTask(PlacedEncounter encounter,Structure structure,EditSession session,Vector v, CuboidClipboard cuboid){
         if(session==null || v==null || cuboid==null){
@@ -81,8 +85,27 @@ public class StructurePlacementTask extends BukkitRunnable {
         finalItr    =   finalQueue.keySet().iterator();
     }
     
+    private boolean isPlayerNearby(){
+        Location location      =   encounter.getLocation();
+        List<Player> players   =   location.getWorld().getPlayers();
+        for(Player player : players){
+            if(player instanceof OfflinePlayer){
+                continue;
+            }
+            if(location.distance(player.getLocation())<structure.getLength() || location.distance(player.getLocation())<structure.getWidth()){
+                if(RandomEncounters.getInstance().getLogLevel()>4){
+                    RandomEncounters.getInstance().logMessage("A player is "+location.distance(player.getLocation())+" away from placing structure "+structure.getName()+". Backing down to 1ms");
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
     @Override
     public void run() {
+        maxLockTime =   isPlayerNearby() ? 1 : RandomEncounters.getInstance().lockTime();
         switch(pass){
             case 1: firstPass();
                 break;
@@ -97,7 +120,7 @@ public class StructurePlacementTask extends BukkitRunnable {
     
     private void secondPass(){
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
-        timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
+        timeLimit.add(Calendar.MILLISECOND, maxLockTime);
         while(lastItr.hasNext()){
             Vector bv       =   lastItr.next();
             BaseBlock block =   lastQueue.get(bv);
@@ -119,7 +142,7 @@ public class StructurePlacementTask extends BukkitRunnable {
     
     private void thirdPass(){
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
-        timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
+        timeLimit.add(Calendar.MILLISECOND, maxLockTime);
         while(finalItr.hasNext()){
             Vector bv       =   finalItr.next();
             BaseBlock block =   finalQueue.get(bv);
@@ -141,7 +164,7 @@ public class StructurePlacementTask extends BukkitRunnable {
     
     private void firstPass(){
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
-        timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
+        timeLimit.add(Calendar.MILLISECOND, maxLockTime);
         while(x<mx){
             
             y   =   y>=my ? sy : y;
