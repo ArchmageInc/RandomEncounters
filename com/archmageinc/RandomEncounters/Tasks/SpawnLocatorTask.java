@@ -1,6 +1,6 @@
 package com.archmageinc.RandomEncounters.Tasks;
 
-import com.archmageinc.RandomEncounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,5 +1,9 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Encounters;
 
+import com.archmageinc.RandomEncounters.Encounters.EncounterPlacer;
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
 import java.util.Calendar;
 import java.util.HashSet;

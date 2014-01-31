@@ -1,7 +1,7 @@
 package com.archmageinc.RandomEncounters.Tasks;
 
 import com.archmageinc.RandomEncounters.RandomEncounters;
-import com.archmageinc.RandomEncounters.Structure;
+import com.archmageinc.RandomEncounters.Structures.Structure;
 import java.util.Calendar;
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -1,8 +1,8 @@
 package com.archmageinc.RandomEncounters.Tasks;
 
-import com.archmageinc.RandomEncounters.Mob;
-import com.archmageinc.RandomEncounters.PlacedEncounter;
-import com.archmageinc.RandomEncounters.PlacedMob;
+import com.archmageinc.RandomEncounters.Mobs.Mob;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.Calendar;
 import java.util.Iterator;

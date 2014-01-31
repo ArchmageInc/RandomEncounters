@@ -1,5 +1,7 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Encounters;
 
+import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
 import java.util.ArrayList;
 import java.util.Collections;

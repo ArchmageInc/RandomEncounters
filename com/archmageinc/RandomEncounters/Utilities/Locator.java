@@ -1,5 +1,8 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Utilities;
 
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Structures.Structure;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;

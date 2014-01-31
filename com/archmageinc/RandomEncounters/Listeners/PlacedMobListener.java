@@ -1,5 +1,7 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Listeners;
 
+import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;

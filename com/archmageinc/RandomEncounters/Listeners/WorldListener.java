@@ -1,5 +1,7 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Listeners;
 
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

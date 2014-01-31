@@ -1,5 +1,9 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Listeners;
 
+import com.archmageinc.RandomEncounters.Encounters.EncounterPlacer;
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
 import org.bukkit.Chunk;
 import org.bukkit.Location;

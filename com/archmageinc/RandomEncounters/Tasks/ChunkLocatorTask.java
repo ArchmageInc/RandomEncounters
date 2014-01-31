@@ -1,8 +1,8 @@
 package com.archmageinc.RandomEncounters.Tasks;
 
-import com.archmageinc.RandomEncounters.Encounter;
-import com.archmageinc.RandomEncounters.EncounterPlacer;
-import com.archmageinc.RandomEncounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.Encounters.EncounterPlacer;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.Calendar;
 import org.bukkit.Chunk;

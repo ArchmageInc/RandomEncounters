@@ -1,5 +1,8 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Mobs;
 
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

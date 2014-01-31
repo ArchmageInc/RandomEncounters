@@ -1,5 +1,6 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Utilities;
 
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;

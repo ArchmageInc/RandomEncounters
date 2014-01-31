@@ -1,4 +1,4 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Encounters;
 
 /**
  *

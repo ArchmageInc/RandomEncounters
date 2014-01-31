@@ -1,5 +1,6 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Mobs;
 
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;

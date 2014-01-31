@@ -1,5 +1,9 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Encounters;
 
+import com.archmageinc.RandomEncounters.Mobs.Mob;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Structures.Structure;
+import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ChunkCheckTask;
 import java.util.ArrayList;
 import java.util.HashSet;

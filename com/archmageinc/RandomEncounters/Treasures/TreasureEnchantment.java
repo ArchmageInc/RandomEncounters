@@ -1,5 +1,6 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Treasures;
 
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import org.bukkit.enchantments.Enchantment;
 import org.json.simple.JSONObject;
 

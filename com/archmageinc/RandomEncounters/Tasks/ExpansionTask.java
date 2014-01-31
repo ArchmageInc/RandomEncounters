@@ -1,7 +1,7 @@
 package com.archmageinc.RandomEncounters.Tasks;
 
-import com.archmageinc.RandomEncounters.Expansion;
-import com.archmageinc.RandomEncounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.Encounters.Expansion;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.Calendar;
 import java.util.HashSet;
