@@ -47,6 +47,9 @@ public class TreasureEnchantment {
             if(level==null){
                 level   =   enchantment.getStartLevel();
             }
+            if(enchantment==null){
+                RandomEncounters.getInstance().logError("Invalid enchantment "+(String) jsonConfiguration.get("enchantment"));
+            }
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid TreasureEnchantment configuration: "+e.getMessage());
         }

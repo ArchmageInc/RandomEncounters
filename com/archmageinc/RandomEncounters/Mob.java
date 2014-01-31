@@ -89,6 +89,19 @@ public final class Mob{
      */
     private final Set<MobPotionEffect> effects  =   new HashSet();
     
+    /**
+     * Get the instance of the Mob based on the unique name
+     * @param name The unique name of the Mob.
+     * @return Returns the Mob if found, null otherwise.
+     */
+    public static Mob getInstance(String name){
+        for(Mob instance : instances){
+            if(instance.getName().equals(name)){
+                return instance;
+            }
+        }
+        return null;
+    }
     
     /**
      * Get the instance of the Mob based on JSON configuration
@@ -101,13 +114,8 @@ public final class Mob{
     }
     
     public static Mob getInstance(JSONObject jsonConfiguration,Boolean force){
-        Mob mob         =   null;
         String mobName  =   (String) jsonConfiguration.get("name");
-        for(Mob instance : instances){
-            if(instance.getName().equalsIgnoreCase(mobName)){
-                mob =   instance;
-            }
-        }
+        Mob mob         =   getInstance(mobName);
         if(mob==null){
             return new Mob(jsonConfiguration);
         }
@@ -139,7 +147,10 @@ public final class Mob{
             JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobGroups");
             if(jsonTreasures!=null){
                 for(int i=0;i<jsonTreasures.size();i++){
-                    treasures.add(new Treasure((JSONObject) jsonTreasures.get(i)));
+                    Treasure treasure   =   Treasure.getInstance((String) jsonTreasures.get(i));
+                    if(treasure!=null){
+                        treasures.add(treasure);
+                    }
                 }
             }
             
@@ -167,19 +178,7 @@ public final class Mob{
         }
     }
     
-    /**
-     * Get the instance of the Mob based on the unique name
-     * @param name The unique name of the Mob.
-     * @return Returns the Mob if found, null otherwise.
-     */
-    public static Mob getInstance(String name){
-        for(Mob instance : instances){
-            if(instance.getName().equals(name)){
-                return instance;
-            }
-        }
-        return null;
-    }
+    
     
     /**
      * Constructor for the Mob based on JSON configuration.
@@ -238,8 +237,10 @@ public final class Mob{
             if(equipment!=null){
                 JSONObject object   =   (JSONObject) equipment.get(type);
                 if(object!=null){
-                    Treasure treasure  =   new Treasure(object);
-                    item               =   treasure.getOne();
+                    Treasure treasure   =   Treasure.getInstance((String) object.get("treasure"));
+                    if(treasure!=null){
+                        item               =   treasure.getOne();
+                    }
                 }
             }
             

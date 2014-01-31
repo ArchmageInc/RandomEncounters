@@ -18,6 +18,12 @@ import org.json.simple.JSONObject;
  */
 public class Treasure {
     
+    private static final HashSet<Treasure> instances    =   new HashSet();
+    
+    private String name;
+    
+    private final Set<TreasureGroup> treasureGroups     =   new HashSet();
+    
     /**
      * The material of the item.
      */
@@ -46,31 +52,75 @@ public class Treasure {
     private String tagName;
     
     
-    /**
-     * Constructor based on the JSON configuration.
-     * 
-     * @param jsonConfiguration 
-     */
-    public Treasure(JSONObject jsonConfiguration){
+    public static Treasure getInstance(String name){
+        for(Treasure instance : instances){
+            if(instance.getName().equalsIgnoreCase(name)){
+                return instance;
+            }
+        }
+        return null;
+    }
+    
+    public static Treasure getInstance(JSONObject jsonConfiguration){
+        return getInstance(jsonConfiguration,false);
+    }
+    
+    public static Treasure getInstance(JSONObject jsonConfiguration,Boolean force){
+        String treasureName =   (String) jsonConfiguration.get("name");
+        Treasure treasure   =   getInstance(treasureName);
+        if(treasure==null){
+            return new Treasure(jsonConfiguration);
+        }
+        if(force){
+            treasure.reConfigure(jsonConfiguration);
+        }
+        return treasure;
+    }
+    
+    private void reConfigure(JSONObject jsonConfiguration){
         try{
-            material    =   Material.getMaterial((String) jsonConfiguration.get("material"));
-            min         =   ((Number) jsonConfiguration.get("min")).longValue();
-            max         =   ((Number) jsonConfiguration.get("max")).longValue();
-            probability =   ((Number) jsonConfiguration.get("probability")).doubleValue();
-            tagName     =   (String) jsonConfiguration.get("tagName");
-            JSONArray jsonEnchantments  =   (JSONArray) jsonConfiguration.get("enchantments");
+            instances.remove(this);
+            treasureGroups.clear();
+            enchantments.clear();
+            name                            =   (String) jsonConfiguration.get("name");
+            material                        =   Material.getMaterial((String) jsonConfiguration.get("material"));
+            min                             =   ((Number) jsonConfiguration.get("min")).longValue();
+            max                             =   ((Number) jsonConfiguration.get("max")).longValue();
+            probability                     =   ((Number) jsonConfiguration.get("probability")).doubleValue();
+            tagName                         =   (String) jsonConfiguration.get("tagName");
+            JSONArray jsonEnchantments      =   (JSONArray) jsonConfiguration.get("enchantments");
+            JSONArray jsonTreasures         =   (JSONArray) jsonConfiguration.get("treasureGroups");
             if(jsonEnchantments!=null){
                 for(int i=0;i<jsonEnchantments.size();i++){
                     enchantments.add(new TreasureEnchantment((JSONObject) jsonEnchantments.get(i)));
                 }
             }
-            if(material==null){
-                RandomEncounters.getInstance().logError("A material by the name "+(String) jsonConfiguration.get("material")+" could not be found.");
+            if(jsonTreasures!=null){
+                for(int i=0;i<jsonTreasures.size();i++){
+                    JSONObject treasureGroup =   (JSONObject) jsonTreasures.get(i);
+                    if(name.equals((String) treasureGroup.get("name"))){
+                        RandomEncounters.getInstance().logWarning("Ignoring recursive treasure group configuration for "+name);
+                    }else{
+                        treasureGroups.add(new TreasureGroup(treasureGroup));
+                    }
+                }
             }
+            if(jsonTreasures==null && material==null){
+                RandomEncounters.getInstance().logError("Invalid material type: "+(String) jsonConfiguration.get("material")+" for "+name);
+            }
+            instances.add(this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Treasure configuration: "+e.getMessage());
         }
-        
+    }
+    
+    /**
+     * Constructor based on the JSON configuration.
+     * 
+     * @param jsonConfiguration 
+     */
+    private Treasure(JSONObject jsonConfiguration){
+        reConfigure(jsonConfiguration);
     }
     
     /**
@@ -100,6 +150,12 @@ public class Treasure {
      */
     public List<ItemStack> get(){
         List<ItemStack> list    =   new ArrayList();
+        if(!treasureGroups.isEmpty()){
+            for(TreasureGroup treasureGroup : treasureGroups){
+                list.addAll(treasureGroup.get());
+            }
+            return list;
+        }
         if(material==null){
             return list;
         }
@@ -129,6 +185,10 @@ public class Treasure {
         return list;
     }
     
+    public String getName(){
+        return name;
+    }
+    
     /**
      * Get one item from the treasure.
      * 
@@ -136,9 +196,11 @@ public class Treasure {
      */
     public ItemStack getOne(){
         ItemStack item  =   null;
-        if(Math.random()<probability){
-            item    =   new ItemStack(material,1);
-            setEnchantments(item);
+        if(material!=null){
+            if(Math.random()<probability){
+                item    =   new ItemStack(material,1);
+                setEnchantments(item);
+            }
         }
         return item;
     }

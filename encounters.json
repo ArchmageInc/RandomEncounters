@@ -1801,7 +1801,9 @@
         "enabled":          true,
         "probability":      0.0005,
         "validBiomes":      null,
-        "treasures":        null,
+        "treasures":        [
+            "GeordianKingCoins"
+        ],
         "mobs":             [
           "Geordian"
         ],

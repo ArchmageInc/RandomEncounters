@@ -1,0 +1,234 @@
+{
+    "treasures":  [
+        {
+            "name":             "GeordianCoins",
+            "material":         "GOLD_NUGGET",
+            "tagName":          "Geordian Coin",
+            "min":              1,
+            "max":              4,
+            "probability":      0.25,
+            "treasureGroups":   null,
+            "enchantments":     null
+        },
+        {
+            "name":             "GeordianKingCoins",
+            "material":         "GOLD_NUGGET",
+            "tagName":          "Geordian Coin",
+            "min":              20,
+            "max":              30,
+            "probability":      0.25,
+            "treasureGroups":   null,
+            "enchantments":     null
+        },
+        {
+            "name":             "GeordianKingsSword",
+            "material":         "GOLD_SWORD",
+            "tagName":          "Geordian's Sword",
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                        "enchantment":	"DAMAGE_ALL",
+                        "probability":	1,
+                        "level":	5 
+                    },
+                    {
+                        "enchantment":	"KNOCKBACK",
+                        "probability":	1,
+                        "level":	4 
+                    },
+                    {
+                        "enchantment":	"FIRE_ASPECT",
+                        "probability":	0.75,
+                        "level":	4 
+                    }
+            ]
+        },
+        {
+            "name":             "GeordianCrown",
+            "material":         "GOLD_HELMET",
+            "tagName":          "Geordian's Crown",
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                        "enchantment":	"THORNS",
+                        "probability":	1,
+                        "level":	3 
+                    },
+                    {
+                        "enchantment":	"PROTECTION_PROJECTILE",
+                        "probability":	1,
+                        "level":	5 
+                    },
+                    {
+                        "enchantment":	"OXYGEN",
+                        "probability":	1,
+                        "level":	1 
+                    },
+                    {
+                        "enchantment":	"PROTECTION_EXPLOSIONS",
+                        "probability":	1,
+                        "level":	5 
+                    },
+                    {
+                        "enchantment":	"PROTECTION_FIRE",
+                        "probability":	1,
+                        "level":	5 
+                    }
+            ]
+        },
+        {
+            "name":             "GeordianChestplateKing",
+            "material":         "GOLD_CHESTPLATE",
+            "tagName":          null,
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                    "enchantment":	"THORNS",
+                    "probability":	0.75,
+                    "level":	3 
+                },
+                {
+                    "enchantment":	"PROTECTION_ENVIRONMENTAL",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"PROTECTION_PROJECTILE",
+                    "probability":	1,
+                    "level":	5 
+                }
+            ]
+        },
+        {
+            "name":             "GeordianBootsKing",
+            "material":         "GOLD_BOOTS",
+            "tagName":          "Geordian's Boots",
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                    "enchantment":	"THORNS",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"PROTECTION_ENVIRONMENTAL",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"PROTECTION_FALL",
+                    "probability":	1,
+                    "level":	2
+                }
+            ]
+        },
+        {
+            "name":             "GeordianSwordStandard",
+            "material":         "GOLD_SWORD",
+            "tagName":          null,
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                    "enchantment":	"DAMAGE_ALL",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"KNOCKBACK",
+                    "probability":	0.75,
+                    "level":	4 
+                }
+            ]
+        },
+        {
+            "name":             "GeordianHelmetStandard",
+            "material":         "GOLD_HELMET",
+            "tagName":          null,
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                    "enchantment":	"THORNS",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"PROTECTION_PROJECTILE",
+                    "probability":	0.75,
+                    "level":	4 
+                }
+            ]
+        },
+        {
+            "name":             "GeordianChestplateStandard",
+            "material":         "GOLD_CHESTPLATE",
+            "tagName":          null,
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                    "enchantment":	"THORNS",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"PROTECTION_ENVIRONMENTAL",
+                    "probability":	0.75,
+                    "level":	4 
+                }
+            ]
+        },
+        {
+            "name":             "GeordianBootsStandard",
+            "material":         "GOLD_BOOTS",
+            "tagName":          null,
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                    "enchantment":	"THORNS",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"PROTECTION_ENVIRONMENTAL",
+                    "probability":	0.75,
+                    "level":	5 
+                }
+            ]
+        },
+        {
+            "name":             "GeordianBowStandard",
+            "material":         "BOW",
+            "tagName":          null,
+            "min":              1,
+            "max":              1,
+            "probability":      1,
+            "enchantments": [
+                {
+                    "enchantment":	"ARROW_DAMAGE",
+                    "probability":	0.75,
+                    "level":	2 
+                },
+                {
+                    "enchantment":	"ARROW_KNOCKBACK",
+                    "probability":	0.75,
+                    "level":	4 
+                }
+            ]
+        }
+    ]
+}

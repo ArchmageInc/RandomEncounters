@@ -153,8 +153,10 @@ public class Encounter implements EncounterPlacer{
             }
             if(jsonTreasures!=null){
                 for(int i=0;i<jsonTreasures.size();i++){
-                    JSONObject jsonTreasure =   (JSONObject) jsonTreasures.get(i);
-                    treasures.add(new Treasure(jsonTreasure));
+                    Treasure treasure   =   Treasure.getInstance((String) jsonTreasures.get(i));
+                    if(treasure!=null){
+                        treasures.add(treasure);
+                    }
                 }
             }
             if(jsonExpansions!=null){

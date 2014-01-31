@@ -109,6 +109,7 @@ public class RandomEncounters extends JavaPlugin {
     
     public void loadConfigurations(){
         loadStructures();
+        loadTreasures();
         loadMobs();
         loadEncounters();
     }
@@ -159,6 +160,24 @@ public class RandomEncounters extends JavaPlugin {
             logError("Invalid base Mob configuration: "+e.getMessage());
         }
         
+    }
+    
+    private void loadTreasures(){
+        try{
+            String treasureFileName     =   getConfig().getString("treasureConfig");
+            JSONObject treasureConfig   =   JSONReader.getInstance().read(getDataFolder()+"/"+treasureFileName);
+            JSONArray jsonTreasures     =   (JSONArray) treasureConfig.get("treasures");
+            if(jsonTreasures!=null){
+                for(int i=0;i<jsonTreasures.size();i++){
+                    Treasure.getInstance((JSONObject) jsonTreasures.get(i),true);
+                }
+                logMessage("Loaded "+jsonTreasures.size()+" Treasure configurations");
+            }else{
+                logWarning("No Treasure configurations found");
+            }
+        }catch(ClassCastException e){
+            logError("Invalid base Treasure configuration: "+e.getMessage());
+        }
     }
     
     /**

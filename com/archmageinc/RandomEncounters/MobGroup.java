@@ -54,7 +54,7 @@ public class MobGroup {
     
     private Integer getCount(){
         Integer count   =   min;
-        for(int i=min.intValue();i<max;i++){
+        for(int i=min;i<max;i++){
             if(Math.random()<probability)
                 count++;
         }
