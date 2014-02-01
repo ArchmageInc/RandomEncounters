@@ -172,7 +172,7 @@ public class PlacedEncounter {
         this.encounter  =   encounter;
         this.location   =   location;
         if(encounter.getStructure()!=null){
-            encounter.getStructure().place(this,location);
+            encounter.getStructure().place(this);
         }
         
         setupExpansions();

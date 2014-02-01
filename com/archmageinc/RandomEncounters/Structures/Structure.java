@@ -1,23 +1,19 @@
 package com.archmageinc.RandomEncounters.Structures;
 
-import com.archmageinc.RandomEncounters.Encounters.Encounter;
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.StructurePlacementTask;
 import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -79,7 +75,7 @@ public class Structure {
     
     private boolean placing =   false;
     
-    private final HashMap<Location,PlacedEncounter> queue   =   new HashMap();
+    private final List<PlacedEncounter> queue   =   new ArrayList();
     
     /**
      * Get an instance of the Structure based on the name.
@@ -195,18 +191,6 @@ public class Structure {
     }
     
     /**
-     * Generate a new WorldEdit session for placement.
-     * @param world The World where the session is
-     */
-    private EditSession newSession(World world){
-        if(RandomEncounters.getInstance().getLogLevel()>8){
-            RandomEncounters.getInstance().logMessage("Generating new WorldEdit session for structure "+name);
-        }
-        EditSession session =   new EditSession((new BukkitWorld(world)),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight()*2);
-        return session;
-    }
-    
-    /**
      * Flip the structure randomly around x and z coordinates only.
      */
     private void flipRandom(){
@@ -225,25 +209,19 @@ public class Structure {
      * but it seemed to work so.... yeah.
      * 
      * @param encounter The encounter configuration for this structure.
-     * @param location The location to place the structure.
      */
-    public void place(PlacedEncounter encounter,Location location){
+    public void place(PlacedEncounter encounter){
         if(!loaded){
             RandomEncounters.getInstance().logWarning("Attempted to place a non-loaded structure: "+name);
             return;
         }
         if(placing){
-            queue.put(location, encounter);
+            queue.add(encounter);
             return;
         }
-        Vector v    =   new Vector(location.getX(),location.getY(),location.getZ());
-        cuboid.setOffset(new Vector(-Math.ceil(cuboid.getWidth()/2),0,-Math.ceil(cuboid.getLength()/2)));
-        placing =   true;
-        (new StructurePlacementTask(encounter,this,newSession(location.getWorld()),v,cuboid)).runTaskTimer(RandomEncounters.getInstance(), 1, 2);
-        /*
-        placeTreasures(encounter,location);
-        */
         
+        placing =   true;
+        (new StructurePlacementTask(encounter)).runTaskTimer(RandomEncounters.getInstance(), 1, 2);
     }
     
     public void placed(){
@@ -251,9 +229,9 @@ public class Structure {
         if(queue.isEmpty()){
             flipRandom();
         }else{
-            Location location           =   queue.keySet().iterator().next();
-            PlacedEncounter encounter   =   queue.remove(location);
-            place(encounter,location);
+            PlacedEncounter encounter   =   queue.get(0);
+            queue.remove(encounter);
+            place(encounter);
         }
     }
     
@@ -319,5 +297,9 @@ public class Structure {
      */
     public String getName(){
         return name;
+    }
+    
+    public CuboidClipboard getCuboid(){
+        return cuboid;
     }
 }

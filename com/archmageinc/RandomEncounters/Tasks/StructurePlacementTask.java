@@ -8,6 +8,7 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.blocks.BlockType;
+import com.sk89q.worldedit.bukkit.BukkitWorld;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,9 +29,9 @@ public class StructurePlacementTask extends BukkitRunnable {
     private final Vector v;
     private final HashMap<Vector,BaseBlock> lastQueue   =   new HashMap();
     private final HashMap<Vector,BaseBlock> finalQueue  =   new HashMap();
-    private final int sx                                =   0;
-    private final int sy                                =   0;
-    private final int sz                                =   0;
+    private final int sx;
+    private final int sy;
+    private final int sz;
     private final int mx;
     private final int my;
     private final int mz;
@@ -42,27 +43,31 @@ public class StructurePlacementTask extends BukkitRunnable {
     private Iterator<Vector> finalItr;
     private int maxLockTime;
     
-    public StructurePlacementTask(PlacedEncounter encounter,Structure structure,EditSession session,Vector v, CuboidClipboard cuboid){
-        if(session==null || v==null || cuboid==null){
-            throw new IllegalArgumentException("Session, Vector, or CuboidClipbard is null");
+    public StructurePlacementTask(PlacedEncounter encounter){
+        if(encounter==null){
+            throw new IllegalArgumentException("PlacedEncounter is required for structure placement!");
         }
         this.encounter  =   encounter;
-        this.structure  =   structure;
-        this.session    =   session;
-        this.cuboid     =   cuboid;
+        this.structure  =   encounter.getEncounter().getStructure();
+        this.cuboid     =   encounter.getEncounter().getStructure().getCuboid();
         this.pass       =   1;
-        this.v          =   v;
-        this.mx         =   cuboid.getSize().getBlockX();
-        this.my         =   cuboid.getSize().getBlockY();
-        this.mz         =   cuboid.getSize().getBlockZ();
+        this.v          =   new Vector(encounter.getLocation().getX(),encounter.getLocation().getY(),encounter.getLocation().getZ());
+        this.sx         =   -cuboid.getSize().getBlockX()/2;
+        this.sy         =   cuboid.getOffset().getBlockY();
+        this.sz         =   -cuboid.getSize().getBlockZ()/2;
+        this.mx         =   cuboid.getSize().getBlockX()/2;
+        this.my         =   cuboid.getSize().getBlockY()+cuboid.getOffset().getBlockY();
+        this.mz         =   cuboid.getSize().getBlockZ()/2;
         this.x          =   sx;
         this.y          =   sy;
         this.z          =   sz;
+        this.session    =   new EditSession((new BukkitWorld(encounter.getLocation().getWorld())),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight()*2);
     }
     
     private void checkBlock(int x, int y, int z){
         Vector bv        =   new Vector(x,y,z);
-        BaseBlock block =   cuboid.getBlock(bv);
+        Vector cv        =  new Vector(x+cuboid.getSize().getBlockX()/2,y-cuboid.getOffset().getBlockY(),z+cuboid.getSize().getBlockZ()/2);
+        BaseBlock block =   cuboid.getBlock(cv);
         if(block==null){
             return;
         }
