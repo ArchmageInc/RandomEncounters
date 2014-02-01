@@ -162,10 +162,12 @@ public class Treasure {
         }
         ItemStack stack         =   new ItemStack(material,0);
         if(tagName!=null){
-            stack.getItemMeta().setDisplayName(tagName);
+            ItemMeta meta   =   stack.getItemMeta();
+            meta.setDisplayName(tagName);
+            stack.setItemMeta(meta);
         }
-        for(int i=min.intValue();i<max;i++){
-            if(Math.random()<probability){
+        for(int i=0;i<max;i++){
+            if(i<min || Math.random()<probability){
                 if(stack.getAmount()<stack.getMaxStackSize()){
                     stack.setAmount(stack.getAmount()+1);
                 }else{

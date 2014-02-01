@@ -39,16 +39,19 @@ public class TreasurePlacementTask extends BukkitRunnable {
     
     public TreasurePlacementTask(PlacedEncounter placedEncounter){
         this.placedEncounter    =   placedEncounter;
-        this.sx                 =   placedEncounter.getLocation().getBlockX()-placedEncounter.getEncounter().getStructure().getWidth()/2;
-        this.sy                 =   placedEncounter.getLocation().getBlockY()-placedEncounter.getEncounter().getStructure().getHeight()/2;
-        this.sz                 =   placedEncounter.getLocation().getBlockZ()-placedEncounter.getEncounter().getStructure().getLength()/2;
-        this.mx                 =   placedEncounter.getLocation().getBlockX()+placedEncounter.getEncounter().getStructure().getWidth()/2;
-        this.my                 =   placedEncounter.getLocation().getBlockY()+placedEncounter.getEncounter().getStructure().getHeight()/2;
-        this.mz                 =   placedEncounter.getLocation().getBlockZ()+placedEncounter.getEncounter().getStructure().getLength()/2;
+        this.sx                 =   placedEncounter.getLocation().getBlockX()-placedEncounter.getEncounter().getStructure().getWidth();
+        this.sy                 =   placedEncounter.getLocation().getBlockY()-placedEncounter.getEncounter().getStructure().getHeight();
+        this.sz                 =   placedEncounter.getLocation().getBlockZ()-placedEncounter.getEncounter().getStructure().getLength();
+        this.mx                 =   placedEncounter.getLocation().getBlockX()+placedEncounter.getEncounter().getStructure().getWidth();
+        this.my                 =   placedEncounter.getLocation().getBlockY()+placedEncounter.getEncounter().getStructure().getHeight();
+        this.mz                 =   placedEncounter.getLocation().getBlockZ()+placedEncounter.getEncounter().getStructure().getLength();
         this.x                  =   sx;
         this.y                  =   sy;
         this.z                  =   sz;
         this.pass               =   1;
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("Begining treasure placements for "+placedEncounter.getName());
+        }
     }
     
     private void checkBlock(int bx,int by,int bz){
