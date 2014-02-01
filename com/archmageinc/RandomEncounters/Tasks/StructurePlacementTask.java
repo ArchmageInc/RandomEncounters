@@ -73,7 +73,7 @@ public class StructurePlacementTask extends BukkitRunnable {
         }
         if(BlockType.shouldPlaceLast(block.getType())){
             lastQueue.put(bv.add(v), block);
-        }else if(BlockType.shouldPlaceFinal(block.getType())){
+        }else if(block.getType()==BlockType.WATER.getID() || block.getType()==BlockType.LAVA.getID() || BlockType.shouldPlaceFinal(block.getType())){
             finalQueue.put(bv.add(v), block);
         }else{
             setBlock(bv.add(v),block);
