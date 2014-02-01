@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -89,11 +88,11 @@ public class StructurePlacementTask extends BukkitRunnable {
         Location location      =   encounter.getLocation();
         List<Player> players   =   location.getWorld().getPlayers();
         for(Player player : players){
-            if(player instanceof OfflinePlayer){
-                continue;
+            if(RandomEncounters.getInstance().getLogLevel()>11){
+                RandomEncounters.getInstance().logMessage(player.getDisplayName()+" is "+location.distance(player.getLocation())+" away from placing structure "+structure.getName());
             }
             if(location.distance(player.getLocation())<structure.getLength() || location.distance(player.getLocation())<structure.getWidth()){
-                if(RandomEncounters.getInstance().getLogLevel()>8){
+                if(RandomEncounters.getInstance().getLogLevel()>10){
                     RandomEncounters.getInstance().logMessage("A player is "+location.distance(player.getLocation())+" away from placing structure "+structure.getName()+". Backing down to 1ms");
                 }
                 return true;
@@ -213,6 +212,7 @@ public class StructurePlacementTask extends BukkitRunnable {
         }        
         encounter.placeMobs();
         structure.placed();
+        (new TreasurePlacementTask(encounter)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
         cancel();
     }
     

@@ -14,14 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
-import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -83,7 +79,7 @@ public class Structure {
     
     private boolean placing =   false;
     
-    private HashMap<Location,PlacedEncounter> queue   =   new HashMap();
+    private final HashMap<Location,PlacedEncounter> queue   =   new HashMap();
     
     /**
      * Get an instance of the Structure based on the name.
@@ -222,32 +218,6 @@ public class Structure {
     }
     
     /**
-     * Parce the placed blocks looking for chests and place items in the inventory based on the Encounter's treasure 
-     * 
-     * @param encounter The encounter configuration.
-     * @param location The location of the placed structure. 
-     */
-    private void placeTreasures(Encounter encounter,Location location){
-        int x    =   location.getBlockX();
-        int y    =   location.getBlockY();
-        int z    =   location.getBlockZ();
-        for(int cx=x-cuboid.getWidth();cx<x+cuboid.getWidth();cx++){
-            for(int cy=y-cuboid.getHeight();cy<y+cuboid.getHeight();cy++){
-                for(int cz=z-cuboid.getLength();cz<z+cuboid.getLength();cz++){
-                    BlockState state        =   location.getWorld().getBlockAt(cx, cy, cz).getState();
-                    if(state instanceof Chest){
-                        List<ItemStack> items   =   encounter.getTreasure();
-                        Chest chest             =   (Chest) state;
-                        for(ItemStack item : items){
-                            chest.getInventory().addItem(item);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
      * Place the structure for a given encounter at a location.
      * 
      * Does not check if it is safe, just places it. The location comes from a block in the world.
@@ -269,7 +239,7 @@ public class Structure {
         Vector v    =   new Vector(location.getX(),location.getY(),location.getZ());
         cuboid.setOffset(new Vector(-Math.ceil(cuboid.getWidth()/2),0,-Math.ceil(cuboid.getLength()/2)));
         placing =   true;
-        (new StructurePlacementTask(encounter,this,newSession(location.getWorld()),v,cuboid)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
+        (new StructurePlacementTask(encounter,this,newSession(location.getWorld()),v,cuboid)).runTaskTimer(RandomEncounters.getInstance(), 1, 2);
         /*
         placeTreasures(encounter,location);
         */

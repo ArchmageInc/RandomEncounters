@@ -261,6 +261,10 @@ public class Encounter implements EncounterPlacer{
         return invalidBiomes;
     }
     
+    public boolean hasTreasures(){
+        return !treasures.isEmpty();
+    }
+    
     /**
      * Returns a list of randomly generated treasure items for the encounter
      * @return Returns the list of items for treasure
