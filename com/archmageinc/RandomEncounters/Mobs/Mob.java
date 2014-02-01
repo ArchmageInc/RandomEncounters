@@ -1,10 +1,12 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Mobs;
 
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
@@ -21,95 +23,74 @@ public final class Mob{
     /**
      * The static set of singlton instances.
      */
-    protected static HashSet<Mob> instances =   new HashSet();
+    private static final HashSet<Mob> instances =   new HashSet();
     
     /**
      * The unique name of the Mob.
      */
-    protected String name;
+    private String name;
     
     /**
      * The name each creature will be given.
      */
-    protected String tagName;
+    private String tagName;
     
     /**
      * The type of entity spawned by this Mob.
      */
-    protected EntityType type;
+    private EntityType type;
     
-    protected String typeName;
+    private String typeName;
     
     /**
      * The minimum number of creatures to spawn.
      */
-    protected Long min;
+    private Long min;
     
     /**
      * The maximum number of creatures to spawn.
      */
-    protected Long max;
+    private Long max;
     
     /**
      * The probability of additional creatures.
      */
-    protected Double probability;
+    private Double probability;
     
     /**
      * Is this Mob enabled for spawning.
      */
-    protected Boolean enabled;
+    private Boolean enabled;
     
     /**
      * The equipment configuration to be placed on spawned creatures.
      */
-    protected JSONObject equipment;
+    private JSONObject equipment;
     
     /**
      * The mob to spawn when the creature dies.
      */
-    protected Mob deathSpawn;
+    private Mob deathSpawn;
     
     /**
      * The unique name of the death spawn mob.
      */
-    protected String deathSpawnName;
+    private String deathSpawnName;
     
     /**
      * The set of Treasures which will be dropped by spawned creatures.
      */
-    protected Set<Treasure> treasures       =   new HashSet();
+    private final Set<Treasure> treasures       =   new HashSet();
     
     /**
      * The set of MobGroups which will be spawned.
      */
-    protected Set<MobGroup> mobGroups       =   new HashSet();
+    private final Set<MobGroup> mobGroups       =   new HashSet();
     
     /**
      * The set of potion effects that will be paced on spawned creatures.
      */
-    protected Set<MobPotionEffect> effects  =   new HashSet();
-    
-    
-    /**
-     * Get the instance of the Mob based on JSON configuration
-     * 
-     * @param jsonConfiguration The JSON configuration of the Mob.
-     * @return 
-     */
-    public static Mob getInstance(JSONObject jsonConfiguration){
-        try{
-            for(Mob instance : instances){
-                if(instance.getName().equals((String) jsonConfiguration.get("name"))){
-                    return instance;
-                }
-            }
-        }catch(ClassCastException e){
-            RandomEncounters.getInstance().logError("Invalid Mob configuration: "+e.getMessage());
-        }
-        return new Mob(jsonConfiguration);
-    }
-    
+    private final Set<MobPotionEffect> effects  =   new HashSet();
     
     /**
      * Get the instance of the Mob based on the unique name
@@ -126,11 +107,34 @@ public final class Mob{
     }
     
     /**
-     * Constructor for the Mob based on JSON configuration.
-     * @param jsonConfiguration 
+     * Get the instance of the Mob based on JSON configuration
+     * 
+     * @param jsonConfiguration The JSON configuration of the Mob.
+     * @return 
      */
-    protected Mob(JSONObject jsonConfiguration){
+    public static Mob getInstance(JSONObject jsonConfiguration){
+        return getInstance(jsonConfiguration,false);
+    }
+    
+    public static Mob getInstance(JSONObject jsonConfiguration,Boolean force){
+        String mobName  =   (String) jsonConfiguration.get("name");
+        Mob mob         =   getInstance(mobName);
+        if(mob==null){
+            return new Mob(jsonConfiguration);
+        }
+        if(force){
+            mob.reConfigure(jsonConfiguration);
+        }
+        return mob;
+    }
+    
+    private void reConfigure(JSONObject jsonConfiguration){
         try{
+            instances.remove(this);
+            treasures.clear();
+            effects.clear();
+            mobGroups.clear();
+            deathSpawn                  =   null;
             name                        =   (String) jsonConfiguration.get("name");
             typeName                    =   (String) jsonConfiguration.get("type");
             min                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("min")).longValue() : null;
@@ -146,7 +150,12 @@ public final class Mob{
             JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobGroups");
             if(jsonTreasures!=null){
                 for(int i=0;i<jsonTreasures.size();i++){
-                    treasures.add(new Treasure((JSONObject) jsonTreasures.get(i)));
+                    Treasure treasure   =   Treasure.getInstance((String) jsonTreasures.get(i));
+                    if(treasure!=null){
+                        treasures.add(treasure);
+                    }else{
+                        RandomEncounters.getInstance().logError("Invalid Treasure "+(String) jsonTreasures.get(i)+" for Mob "+name);
+                    }
                 }
             }
             
@@ -177,24 +186,44 @@ public final class Mob{
     
     
     /**
-     * Spawn the creatures and create a PlacedMob at a given location for a given PlacedEncounter.
-     * @param encounter The PlacedEncounter that the creature will belong to.
-     * @param location The location to spawn the creature.
-     * @return Returns the newly created PlacedMob
+     * Constructor for the Mob based on JSON configuration.
+     * @param jsonConfiguration 
      */
-    public Set<PlacedMob> placeMob(PlacedEncounter encounter,Location location){
-        HashSet<PlacedMob> placements   =   new HashSet();
+    private Mob(JSONObject jsonConfiguration){
+        reConfigure(jsonConfiguration);
+    }
+    
+    
+    public List<Mob> getPlacements(){
+        List<Mob> toPlace    =   new ArrayList();
         if(mobGroups.isEmpty()){
-            Long count   =   getCount();
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("  -Prepairing to place "+count+" "+getType().name());
-            }
-            for(int i=0;i<getCount();i++){
-                placements.add(PlacedMob.create(this, encounter, location));
+            Long count  =   getCount();
+            for(int i=0;i<count;i++){
+                toPlace.add(this);
             }
         }else{
             for(MobGroup mobGroup : mobGroups){
-                placements.addAll(mobGroup.placeGroup(encounter, location));
+                toPlace.addAll(mobGroup.getPlacements());
+            }
+        }
+        return toPlace;
+    }
+    /**
+     * Spawn the creatures and create a PlacedMob at a given location for a given PlacedEncounter.
+     * @param encounter The PlacedEncounter that the creature will belong to.
+     * @return Returns the newly created PlacedMob
+     */
+    public Set<PlacedMob> placeMob(PlacedEncounter encounter){
+        HashSet<PlacedMob> placements   =   new HashSet();
+        if(mobGroups.isEmpty()){
+            Long count   =   getCount();
+            for(int i=0;i<getCount();i++){
+                placements.add(PlacedMob.create(this, encounter));
+            }
+            
+        }else{
+            for(MobGroup mobGroup : mobGroups){
+                placements.addAll(mobGroup.placeGroup(encounter));
             }
         }        
         return placements;
@@ -207,14 +236,18 @@ public final class Mob{
      * @return Returns the equipment item if found, null otherwise.
      * @see org.bukkit.inventory.EntityEquipment
      */
-    protected ItemStack getEquipmentItem(String type){
+    private ItemStack getEquipmentItem(String type){
         ItemStack item      =   null;
         try{
             if(equipment!=null){
                 JSONObject object   =   (JSONObject) equipment.get(type);
                 if(object!=null){
-                    Treasure treasure  =   new Treasure(object);
-                    item               =   treasure.getOne();
+                    Treasure treasure   =   Treasure.getInstance((String) object.get("treasure"));
+                    if(treasure!=null){
+                        item               =   treasure.getOne();
+                    }else{
+                        RandomEncounters.getInstance().logError("Invalid "+type+" item "+(String) object.get("treasure")+" for Mob "+name);
+                    }
                 }
             }
             
@@ -231,7 +264,7 @@ public final class Mob{
      * @return Returns the drop probability of the equipment.
      * @see org.bukkit.inventory.EntityEquipment
      */
-    protected Float getDropProbability(String type){
+    private Float getDropProbability(String type){
         Float chance    =   ((Integer) 0).floatValue();
         try{
             if(equipment!=null){
@@ -297,7 +330,7 @@ public final class Mob{
      * 
      * @return 
      */
-    protected Long getCount(){
+    private Long getCount(){
         Long count   =   min;
         for(int i=min.intValue();i<max;i++){
             if(Math.random()<probability)
@@ -335,7 +368,7 @@ public final class Mob{
      * Get the EntityType associated with this Mob Configuration.
      * @return 
      */
-    protected EntityType getType(){
+    public EntityType getType(){
         /*
         @TODO: This is terrible, but how MC has implemented wither skeletons.
         */

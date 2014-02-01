@@ -1,7 +1,9 @@
 structureConfig: "structures.json"
+treasureConfig: "treasures.json"
 mobConfig: "mobs.json"
 encounterConfig: "encounters.json"
 savedEncounters: "savedEncounters.json"
+maxLockTime: 10
 debug:
     loglevel: 0
     midas: false

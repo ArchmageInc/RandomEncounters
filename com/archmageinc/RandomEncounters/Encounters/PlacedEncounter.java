@@ -1,5 +1,8 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Encounters;
 
+import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -7,9 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -23,37 +23,33 @@ public class PlacedEncounter {
     /**
      * The generated Unique ID.
      */
-    protected UUID uuid;
+    private UUID uuid;
     
     /**
      * The location of this placed encounter in the world.
      */
-    protected Location location;
+    private Location location;
     
     /**
      * The Encounter on which this is based.
      */
-    protected Encounter encounter;
+    private Encounter encounter;
     
     /**
      * The set of PlacedMobs that were spawned with this encounter.
      */
-    protected Set<PlacedMob> mobs                   =   new HashSet();
+    private final Set<PlacedMob> mobs                   =   new HashSet();
     
     /**
      * Has this encounter been sacked.
-     * 
-     * @TODO A listener needs to be developed to determine if a PlacedEncounter has been sacked.
-     * @TODO All expansions for this PlacedEncounter should stop when sacked.
      */
-    protected Boolean sacked                        =   false;
+    private Boolean sacked                        =   false;
     
     /**
      * The set of placed encounter unique IDs that have expanded from this placed encounter.
      * 
-     * @TODO When expanded encounters are sacked, they should be removed from this set.
      */
-    protected Set<UUID> placedExpansions            =   new HashSet();
+    private final Set<UUID> placedExpansions            =   new HashSet();
     
     /**
      * The set of valid expansion configurations for this Placed Encounter.
@@ -61,17 +57,17 @@ public class PlacedEncounter {
      * This is a clone of the Encounter configuration expansions
      * @see Encounter#expansions
      */
-    protected Set<Expansion> expansions             =   new HashSet();
+    private final Set<Expansion> expansions             =   new HashSet();
     
     /**
      * The singlton instances of loaded PlacedEncounters.
      */
-    protected static Set<PlacedEncounter> instances =   new HashSet();
+    private static Set<PlacedEncounter> instances =   new HashSet();
     
     /**
      * An internal list of safe creature spawn locations.
      */
-    protected List<Location> spawnLocations         =   new ArrayList();
+    private List<Location> spawnLocations         =   new ArrayList();
     
     
     /**
@@ -127,7 +123,7 @@ public class PlacedEncounter {
      * 
      * @param jsonConfiguration The JSON configuration
      */
-    protected PlacedEncounter(JSONObject jsonConfiguration){
+    private PlacedEncounter(JSONObject jsonConfiguration){
         try{
             uuid                    =   UUID.fromString((String) jsonConfiguration.get("uuid"));
             sacked                  =   (Boolean) jsonConfiguration.get("sacked");
@@ -171,64 +167,42 @@ public class PlacedEncounter {
      * @param encounter The parent Encounter
      * @param location The location to place the encounter
      */
-    protected PlacedEncounter(Encounter encounter,Location location){
+    private PlacedEncounter(Encounter encounter,Location location){
         this.uuid       =   UUID.randomUUID();
         this.encounter  =   encounter;
         this.location   =   location;
-        encounter.getStructure().place(encounter,location);
-        populateSafeSpawnLocations();
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Prepairing to place "+encounter.getMobs().size()+" mobs for encounter "+encounter.getName());
+        if(encounter.getStructure()!=null){
+            encounter.getStructure().place(this);
         }
-        for(Mob mob : encounter.getMobs()){
-            this.mobs.addAll(mob.placeMob(this,location));
-        }
+        
         setupExpansions();
         instances.add(this);        
+    }
+    
+    public void placeMobs(){
+        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
+    }
+    
+    public void addMobs(Set<PlacedMob> newMobs){
+        mobs.addAll(newMobs);
+    }
+    
+    public void setSpawnLocations(List<Location> locations){
+        spawnLocations =   locations;
     }
     
     /**
      * Sets up the cloned expansion configurations for newly generated PlacedEncounters.
      */
-    protected final void setupExpansions(){
+    private void setupExpansions(){
         expansions.clear();
         for(Expansion expansion : encounter.getExpansions()){
             try {
-                expansions.add(expansion.clone());
+                Expansion clonedExpansion   =   expansion.clone(this);
+                expansions.add(clonedExpansion);
             } catch (CloneNotSupportedException e) {
                 RandomEncounters.getInstance().logError("Clone failed for expansion: "+e.getMessage());
             }
-        }
-    }
-    
-    /**
-     * Internal method to locate safe spawn locations for creatures.
-     * 
-     * Attempts to avoid placing creatures in walls.
-     */
-    protected final void populateSafeSpawnLocations(){
-        Structure structure =   encounter.getStructure();
-        Integer minX        =   location.getBlockX()-(structure.getWidth()/2);
-        Integer maxX        =   location.getBlockX()+(structure.getWidth()/2);
-        Integer minY        =   location.getBlockY()-(structure.getHeight()/2);
-        Integer maxY        =   location.getBlockY()+(structure.getHeight()/2);
-        Integer minZ        =   location.getBlockZ()-(structure.getLength()/2);
-        Integer maxZ        =   location.getBlockZ()+(structure.getLength()/2);
-        for(int x=minX;x<maxX;x++){
-            for(int y=minY;y<maxY;y++){
-                for(int z=minZ;z<maxZ;z++){
-                    Block block =   location.getWorld().getBlockAt(x, y, z);
-                    if(block.getType().isSolid() && block.getRelative(BlockFace.UP).getType().equals(Material.AIR) && block.getRelative(BlockFace.UP).getRelative(BlockFace.UP).getType().equals(Material.AIR)){
-                        spawnLocations.add(block.getRelative(BlockFace.UP).getLocation());
-                    }
-                }
-            }
-        }
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Found "+spawnLocations.size()+" safe spawn locations for encounter");
-        }
-        if(spawnLocations.isEmpty()){
-            RandomEncounters.getInstance().logWarning("Unable to locate any safe spawnning locations for encounter: "+uuid);
         }
     }
     
@@ -238,9 +212,6 @@ public class PlacedEncounter {
      * @return Returns a location to spawn a creature.
      */
     public Location findSafeSpawnLocation(){
-        if(spawnLocations.isEmpty()){
-            populateSafeSpawnLocations();
-        }
         if(spawnLocations.isEmpty()){
             return null;
         }
@@ -293,8 +264,8 @@ public class PlacedEncounter {
      * Adds a mob to the encounter
      * @param mob 
      */
-    public void addMob(Set<PlacedMob> mob){
-        mobs.addAll(mob);
+    public void addMob(PlacedMob mob){
+        mobs.add(mob);
     }
     
     /**

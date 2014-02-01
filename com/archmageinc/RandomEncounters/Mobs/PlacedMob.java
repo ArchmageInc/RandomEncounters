@@ -1,5 +1,9 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Mobs;
 
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.Mobs.Mob;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Tasks.SpawningTask;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -23,27 +27,27 @@ public class PlacedMob {
     /**
      * The singleton instances of PlacedMobs.
      */
-    protected static HashSet<PlacedMob> instances   =   new HashSet();
+    private static HashSet<PlacedMob> instances   =   new HashSet();
     
     /**
      * The unique ID of the entity in the world.
      */
-    protected UUID uuid;
+    private UUID uuid;
     
     /**
      * The parent Mob Configuration.
      */
-    protected Mob mob;
+    private Mob mob;
     
     /**
      * The LivingEntity in the world.
      */
-    protected LivingEntity entity;
+    private LivingEntity entity;
     
     /**
      * The parent Encounter Configuration.
      */
-    protected PlacedEncounter encounter;
+    private PlacedEncounter encounter;
     
     /**
      * Get an instance of the PlacedMob based on the Unique ID.
@@ -86,9 +90,12 @@ public class PlacedMob {
      * 
      * @param mob
      * @param encounter
-     * @param location
      * @return Returns the newly created PlacedMob
      */
+    public static PlacedMob create(Mob mob,PlacedEncounter encounter){
+        return new PlacedMob(mob,encounter,null);
+    }
+    
     public static PlacedMob create(Mob mob,PlacedEncounter encounter, Location location){
         return new PlacedMob(mob,encounter,location);
     }
@@ -98,18 +105,17 @@ public class PlacedMob {
      * 
      * @param mob The Mob configuration
      * @param encounter The PlacedEncounter to which this creature will belong
-     * @param location The location to spawn the creature.
      */
-    protected PlacedMob(Mob mob,PlacedEncounter encounter,Location location){
+    private PlacedMob(Mob mob,PlacedEncounter encounter,Location location){
         
         this.mob                =   mob;
         this.encounter          =   encounter;
-        Location spawnLocation  =   encounter.findSafeSpawnLocation();
+        Location spawnLocation  =   location==null ? encounter.findSafeSpawnLocation() : location;
         if(spawnLocation==null){
-            spawnLocation   =   location;
-            RandomEncounters.getInstance().logWarning("Attempted to spawn a mob, but no safe spawn was located");
+            spawnLocation   =   encounter.getLocation();
+            RandomEncounters.getInstance().logWarning("Attempt to spawn "+encounter.getName()+": "+mob.getName()+" had no safe spawn locations, using encounter location.");
         }
-        entity     =   (LivingEntity) location.getWorld().spawnEntity(spawnLocation, mob.getType());
+        entity     =   (LivingEntity) encounter.getLocation().getWorld().spawnEntity(spawnLocation, mob.getType());
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
         if(mob.getTagName()!=null){
@@ -132,7 +138,7 @@ public class PlacedMob {
             ((PigZombie) entity).setAngry(true);
         }
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Created new placed mob "+mob.getName()+" at "+spawnLocation.toString()+": "+uuid.toString());
+            RandomEncounters.getInstance().logMessage("Placed mob "+encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") at "+spawnLocation.getWorld().getName()+": "+spawnLocation.getX()+","+spawnLocation.getY()+","+spawnLocation.getZ()+" - "+uuid.toString());
         }
         instances.add(this);
     }
@@ -143,7 +149,7 @@ public class PlacedMob {
      * @param jsonConfiguration
      * @param encounter The PlacedEncounter to which the creature should belong.
      */
-    protected PlacedMob(JSONObject jsonConfiguration,PlacedEncounter encounter){
+    private PlacedMob(JSONObject jsonConfiguration,PlacedEncounter encounter){
         try{
             this.encounter   =   encounter;
             uuid             =   UUID.fromString((String) jsonConfiguration.get("uuid"));
@@ -215,7 +221,7 @@ public class PlacedMob {
             }
             Mob deathSpawn  =   mob.getDeathSpawn();
             if(deathSpawn!=null){
-                encounter.addMob(deathSpawn.placeMob(encounter, entity.getLocation()));
+                (new SpawningTask(deathSpawn,encounter,getEntity().getLocation())).runTaskTimer(RandomEncounters.getInstance(),1,1);
             }
         }else{
             RandomEncounters.getInstance().logWarning(encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") died but could not be found: "+uuid.toString());

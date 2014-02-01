@@ -1,5 +1,7 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Listeners;
 
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +23,7 @@ public class WorldListener implements Listener {
      * Placing a structure has the potential to cause new chunks to generate, and therefore more checks for placement.
      * This is to reduce overall system overhead. 
      */
-    protected boolean processing =   false;
+    private boolean processing =   false;
     
     
     @EventHandler
@@ -29,7 +31,7 @@ public class WorldListener implements Listener {
         if(processing){
             return;
         }
-        if(RandomEncounters.getInstance().getLogLevel()>6){
+        if(RandomEncounters.getInstance().getLogLevel()>8){
             RandomEncounters.getInstance().logMessage("New chunk detected, prepairing to run checks");
         }
         processing                      =   true;
@@ -38,11 +40,7 @@ public class WorldListener implements Listener {
         encounterList.addAll(encounters);
         Collections.shuffle(encounterList,new Random(System.nanoTime()));
         for(Encounter encounter : encounterList){
-            PlacedEncounter placedEncounter =   encounter.checkPlace(event.getChunk());
-            if(placedEncounter!=null){
-                RandomEncounters.getInstance().addPlacedEncounter(placedEncounter);
-                break;
-            }
+            encounter.checkPlace(event.getChunk());
         }
         processing  =   false;
     }

@@ -1,5 +1,15 @@
 package com.archmageinc.RandomEncounters;
 
+import com.archmageinc.RandomEncounters.Structures.Structure;
+import com.archmageinc.RandomEncounters.Listeners.WorldListener;
+import com.archmageinc.RandomEncounters.Listeners.CommandListener;
+import com.archmageinc.RandomEncounters.Utilities.JSONReader;
+import com.archmageinc.RandomEncounters.Listeners.PlacedMobListener;
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.Mobs.Mob;
+import com.archmageinc.RandomEncounters.Treasures.Treasure;
+import com.archmageinc.RandomEncounters.Tasks.ExpansionTask;
 import java.util.HashSet;
 import java.util.Set;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,14 +40,19 @@ public class RandomEncounters extends JavaPlugin {
     private boolean midas                               =   false;
     
     /**
+     * Maximum amount of time we are allowed to lock the server in ms.
+     */
+    private int maxLockTime                         =   10;
+    
+    /**
      * The set of encounter configurations for the plugin.
      */
-    private Set<Encounter> encounters                   =   new HashSet();
+    private final Set<Encounter> encounters                   =   new HashSet();
     
     /**
      * The set of PlacedEncounters / savedEncounters.
      */
-    private HashSet<PlacedEncounter> placedEncounters   =   new HashSet();
+    private final HashSet<PlacedEncounter> placedEncounters   =   new HashSet();
     
     /**
      * The task responsible for checking expansions.
@@ -53,7 +68,7 @@ public class RandomEncounters extends JavaPlugin {
      * is from Bukkit.
      */
     public RandomEncounters(){
-        RandomEncounters.instance   =   this;
+        this.instance   =   this;
     }
     
     /**
@@ -75,6 +90,7 @@ public class RandomEncounters extends JavaPlugin {
         reloadConfig();
 	logLevel        =   getConfig().getInt("debug.loglevel");
         midas           =   getConfig().getBoolean("debug.midas");
+        maxLockTime     =   getConfig().getInt("maxLockTime");
         expansionTask   =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
         if(logLevel>0){
             logMessage("Log Level set to: "+logLevel);
@@ -84,9 +100,8 @@ public class RandomEncounters extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new PlacedMobListener(),this);
         getServer().getPluginManager().registerEvents(new WorldListener(),this);
-        loadStructures();
-        loadMobs();
-        loadEncounters();
+        getCommand("re").setExecutor(new CommandListener());
+        loadConfigurations();
         loadPlacedEncounters();
     }
     
@@ -98,6 +113,14 @@ public class RandomEncounters extends JavaPlugin {
     public void onDisable(){
         saveConfig();
         savePlacedEncounters();
+        logMessage("Saved "+placedEncounters.size()+" Placed Encounters.");
+    }
+    
+    public void loadConfigurations(){
+        loadStructures();
+        loadTreasures();
+        loadMobs();
+        loadEncounters();
     }
     
     /**
@@ -105,14 +128,14 @@ public class RandomEncounters extends JavaPlugin {
      * 
      * @TODO Needs to write the default structure file to the file system if it doesn't already exist
      */
-    public void loadStructures(){
+    private void loadStructures(){
         try{
             String structureFileName    =   getConfig().getString("structureConfig");
             JSONObject structureConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+structureFileName);
             JSONArray jsonStructures    =   (JSONArray) structureConfig.get("structures");
             if(jsonStructures!=null){
                 for(int i=0;i<jsonStructures.size();i++){
-                    Structure.getInstance((JSONObject) jsonStructures.get(i));
+                    Structure.getInstance((JSONObject) jsonStructures.get(i),true);
                 }
                 logMessage("Loaded "+jsonStructures.size()+" Structure configurations");
             }else{
@@ -129,14 +152,14 @@ public class RandomEncounters extends JavaPlugin {
      * 
      * @TODO Needs to write the default mob file to the file system if it doesn't already exist
      */
-    public void loadMobs(){
+    private void loadMobs(){
         try{
             String mobFileName    =   getConfig().getString("mobConfig");
             JSONObject mobConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+mobFileName);
             JSONArray jsonMobs    =   (JSONArray) mobConfig.get("mobs");
             if(jsonMobs!=null){
                 for(int i=0;i<jsonMobs.size();i++){
-                    Mob.getInstance((JSONObject) jsonMobs.get(i));
+                    Mob.getInstance((JSONObject) jsonMobs.get(i),true);
                 }
                 logMessage("Loaded "+jsonMobs.size()+" Mob configurations");
             }else{
@@ -148,19 +171,38 @@ public class RandomEncounters extends JavaPlugin {
         
     }
     
+    private void loadTreasures(){
+        try{
+            String treasureFileName     =   getConfig().getString("treasureConfig");
+            JSONObject treasureConfig   =   JSONReader.getInstance().read(getDataFolder()+"/"+treasureFileName);
+            JSONArray jsonTreasures     =   (JSONArray) treasureConfig.get("treasures");
+            if(jsonTreasures!=null){
+                for(int i=0;i<jsonTreasures.size();i++){
+                    Treasure.getInstance((JSONObject) jsonTreasures.get(i),true);
+                }
+                logMessage("Loaded "+jsonTreasures.size()+" Treasure configurations");
+            }else{
+                logWarning("No Treasure configurations found");
+            }
+        }catch(ClassCastException e){
+            logError("Invalid base Treasure configuration: "+e.getMessage());
+        }
+    }
+    
     /**
      * Load the encounter configurations from the file system.
      * 
      * @TODO Needs to write the default encounter file to the file system if it doesn't already exist
      */
-    public void loadEncounters(){
+    private void loadEncounters(){
         try{
+            encounters.clear();
             String encounterFileName    =   getConfig().getString("encounterConfig");
             JSONObject encounterConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+encounterFileName);
             JSONArray jsonEncounters    =   (JSONArray) encounterConfig.get("encounters");
             if(jsonEncounters!=null){
                 for(int i=0;i<jsonEncounters.size();i++){
-                    encounters.add(Encounter.getInstance((JSONObject) jsonEncounters.get(i)));
+                    encounters.add(Encounter.getInstance((JSONObject) jsonEncounters.get(i),true));
                 }
                 logMessage("Loaded "+jsonEncounters.size()+" Encounter configurations");
             }else{
@@ -177,7 +219,7 @@ public class RandomEncounters extends JavaPlugin {
      * 
      * @TODO Needs to write the default savedEncounter file to the file system if it doesn't already exist
      */
-    public void loadPlacedEncounters(){
+    private void loadPlacedEncounters(){
         if(encounters.isEmpty()){
             logError("Not attempting to load placed encounters due to no loaded encounter configurations");
             return;
@@ -217,7 +259,6 @@ public class RandomEncounters extends JavaPlugin {
             savedEncounters.add(encounter.toJSON());
         }
         jsonConfiguration.put("savedEncounters", savedEncounters);
-        
         JSONReader.getInstance().write(getDataFolder()+"/"+encounterFileName, jsonConfiguration);
     }
     
@@ -287,6 +328,14 @@ public class RandomEncounters extends JavaPlugin {
      */
     public boolean midas(){
         return midas;
+    }
+    
+    /**
+     * Get the maximum time in ms we are allowed to lock the server.
+     * @return 
+     */
+    public int lockTime(){
+        return maxLockTime;
     }
     
     /**

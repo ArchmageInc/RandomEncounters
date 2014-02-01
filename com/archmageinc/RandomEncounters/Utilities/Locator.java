@@ -1,19 +1,22 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Utilities;
 
+import com.archmageinc.RandomEncounters.Encounters.Encounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Structures.Structure;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-
+@Deprecated
 public class Locator {
-    protected static Locator instance  =   new Locator();
+    private static final Locator instance  =   new Locator();
     
     public static Locator getInstance(){
         return instance;
     }
-    protected Locator(){
+    private Locator(){
         
     }
     

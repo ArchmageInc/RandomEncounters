@@ -1,5 +1,8 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Tasks;
 
+import com.archmageinc.RandomEncounters.Encounters.Expansion;
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.Calendar;
 import java.util.HashSet;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,8 +30,7 @@ public class ExpansionTask extends BukkitRunnable{
                     Calendar nextRun    =   (Calendar) expansion.getLastCheck().clone();
                     nextRun.add(Calendar.MINUTE, expansion.getDuration().intValue());
                     if(nextRun.before(Calendar.getInstance())){
-                        expansion.checkExpansion(placedEncounter);
-                        expansion.updateLastCheck();
+                        expansion.checkExpansion();
                     }
                 }
             }else{

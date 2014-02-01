@@ -1,5 +1,6 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Utilities;
 
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -16,7 +17,7 @@ import org.json.simple.parser.ParseException;
  * @author ArchmageInc
  */
 public class JSONReader {
-    protected static JSONReader instance = new JSONReader();
+    private static final JSONReader instance = new JSONReader();
     
     /**
      * Get the instance of the JSONReader

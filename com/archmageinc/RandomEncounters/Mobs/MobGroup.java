@@ -1,8 +1,11 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Mobs;
 
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.RandomEncounters;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import org.bukkit.Location;
 import org.json.simple.JSONObject;
 
 
@@ -12,11 +15,11 @@ import org.json.simple.JSONObject;
  * @author ArchmageInc
  */
 public class MobGroup {
-    protected String mobName;
-    protected Integer min;
-    protected Integer max;
-    protected Double probability;
-    protected Mob mob;
+    private String mobName;
+    private Integer min;
+    private Integer max;
+    private Double probability;
+    private Mob mob;
     
     public MobGroup(JSONObject jsonConfiguration){
         try{
@@ -29,28 +32,38 @@ public class MobGroup {
         }
     }
     
-    public Set<PlacedMob> placeGroup(PlacedEncounter encounter,Location location){
+    public Set<PlacedMob> placeGroup(PlacedEncounter encounter){
         Set<PlacedMob> placements   =   new HashSet();
         Integer count               =   getCount();
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("   = Prepairing to place "+count+" sets of "+getMob().getName());
-        }
         for(int i=0;i<count;i++){
-            placements.addAll(getMob().placeMob(encounter, location));
+            if(getMob()!=null){
+                placements.addAll(getMob().placeMob(encounter));
+            }
         }
         return placements;
     }
     
-    protected Integer getCount(){
+    public List<Mob> getPlacements(){
+        List<Mob> toPlace    =   new ArrayList();
+        Integer count        =   getCount();
+        for(int i=0;i<count;i++){
+            if(getMob()!=null){
+                toPlace.addAll(getMob().getPlacements());
+            }
+        }
+        return toPlace;
+    }
+    
+    private Integer getCount(){
         Integer count   =   min;
-        for(int i=min.intValue();i<max;i++){
+        for(int i=min;i<max;i++){
             if(Math.random()<probability)
                 count++;
         }
         return count;
     }
     
-    public Mob getMob(){
+    private Mob getMob(){
         if(mob==null){
             mob =   Mob.getInstance(mobName);
             if(mob==null){

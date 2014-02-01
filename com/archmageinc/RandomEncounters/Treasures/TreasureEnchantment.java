@@ -1,5 +1,6 @@
-package com.archmageinc.RandomEncounters;
+package com.archmageinc.RandomEncounters.Treasures;
 
+import com.archmageinc.RandomEncounters.RandomEncounters;
 import org.bukkit.enchantments.Enchantment;
 import org.json.simple.JSONObject;
 
@@ -13,17 +14,17 @@ public class TreasureEnchantment {
     /**
      * The enchantment for the item.
      */
-    protected Enchantment enchantment;
+    private Enchantment enchantment;
     
     /**
      * The probability of having the enchantment.
      */
-    protected Double probability;
+    private Double probability;
     
     /**
      * The enchantment level.
      */
-    protected Integer level;
+    private Integer level;
     
     /**
      * Constructor for a TreasureEnchantment based on an enchantment and probability.
@@ -46,6 +47,9 @@ public class TreasureEnchantment {
             level       =   ((Number) jsonConfiguration.get("level")).intValue();
             if(level==null){
                 level   =   enchantment.getStartLevel();
+            }
+            if(enchantment==null){
+                RandomEncounters.getInstance().logError("Invalid enchantment "+(String) jsonConfiguration.get("enchantment"));
             }
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid TreasureEnchantment configuration: "+e.getMessage());
