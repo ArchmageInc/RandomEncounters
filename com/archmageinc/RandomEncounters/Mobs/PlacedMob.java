@@ -93,7 +93,11 @@ public class PlacedMob {
      * @return Returns the newly created PlacedMob
      */
     public static PlacedMob create(Mob mob,PlacedEncounter encounter){
-        return new PlacedMob(mob,encounter);
+        return new PlacedMob(mob,encounter,null);
+    }
+    
+    public static PlacedMob create(Mob mob,PlacedEncounter encounter, Location location){
+        return new PlacedMob(mob,encounter,location);
     }
     
     /**
@@ -102,11 +106,11 @@ public class PlacedMob {
      * @param mob The Mob configuration
      * @param encounter The PlacedEncounter to which this creature will belong
      */
-    private PlacedMob(Mob mob,PlacedEncounter encounter){
+    private PlacedMob(Mob mob,PlacedEncounter encounter,Location location){
         
         this.mob                =   mob;
         this.encounter          =   encounter;
-        Location spawnLocation  =   encounter.findSafeSpawnLocation();
+        Location spawnLocation  =   location==null ? encounter.findSafeSpawnLocation() : location;
         if(spawnLocation==null){
             spawnLocation   =   encounter.getLocation();
             RandomEncounters.getInstance().logWarning("Attempt to spawn "+encounter.getName()+": "+mob.getName()+" had no safe spawn locations, using encounter location.");
@@ -217,7 +221,7 @@ public class PlacedMob {
             }
             Mob deathSpawn  =   mob.getDeathSpawn();
             if(deathSpawn!=null){
-                (new SpawningTask(deathSpawn,encounter)).runTaskTimer(RandomEncounters.getInstance(),1,1);
+                (new SpawningTask(deathSpawn,encounter,getEntity().getLocation())).runTaskTimer(RandomEncounters.getInstance(),1,1);
             }
         }else{
             RandomEncounters.getInstance().logWarning(encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") died but could not be found: "+uuid.toString());

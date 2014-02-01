@@ -7,6 +7,7 @@ import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -17,6 +18,7 @@ public class SpawningTask extends BukkitRunnable   {
     private final PlacedEncounter placedEncounter;
     private final List<Mob> placements;
     private final Iterator<Mob> itr;
+    private Location location;
     
     public SpawningTask(PlacedEncounter placedEncounter){
         this.placedEncounter    =   placedEncounter;
@@ -30,13 +32,20 @@ public class SpawningTask extends BukkitRunnable   {
         itr                     =   placements.iterator();
     }
     
+    public SpawningTask(Mob mob,PlacedEncounter placedEncounter,Location location){
+        this.placedEncounter    =   placedEncounter;
+        this.placements         =   mob.getPlacements();
+        this.location           =   location;
+        itr                     =   placements.iterator();
+    }
+    
     @Override
     public void run() {
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
         timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
         while(itr.hasNext()){
             Mob mob =   itr.next();
-            placedEncounter.addMob(PlacedMob.create(mob, placedEncounter));
+            placedEncounter.addMob(PlacedMob.create(mob, placedEncounter,location));
             if(Calendar.getInstance().after(timeLimit))
                 break;
         }
