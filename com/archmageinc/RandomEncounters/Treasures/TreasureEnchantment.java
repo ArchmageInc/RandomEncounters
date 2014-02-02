@@ -43,8 +43,8 @@ public class TreasureEnchantment {
     public TreasureEnchantment(JSONObject jsonConfiguration){
         try{
             enchantment =   Enchantment.getByName((String) jsonConfiguration.get("enchantment"));
-            probability =   ((Number) jsonConfiguration.get("probability")).doubleValue();
-            level       =   ((Number) jsonConfiguration.get("level")).intValue();
+            probability =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
+            level       =   jsonConfiguration.get("level")==null ? 0 : ((Number) jsonConfiguration.get("level")).intValue();
             if(level==null){
                 level   =   enchantment.getStartLevel();
             }

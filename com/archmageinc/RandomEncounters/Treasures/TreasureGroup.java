@@ -20,9 +20,9 @@ public class TreasureGroup {
     public TreasureGroup(JSONObject jsonConfiguration){
         try{
             treasureName                =   (String) jsonConfiguration.get("name");
-            min                         =   ((Number) jsonConfiguration.get("min")).intValue();
-            max                         =   ((Number) jsonConfiguration.get("max")).intValue();
-            probability                 =   ((Number) jsonConfiguration.get("probability")).doubleValue();
+            min                         =   jsonConfiguration.get("min")==null ? 0 : ((Number) jsonConfiguration.get("min")).intValue();
+            max                         =   jsonConfiguration.get("max")==null ? 0 : ((Number) jsonConfiguration.get("max")).intValue();
+            probability                 =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid Treasure Group Configuration for "+treasureName+": "+e.getMessage());
         }

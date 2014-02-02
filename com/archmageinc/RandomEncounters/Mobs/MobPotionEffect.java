@@ -45,10 +45,10 @@ public class MobPotionEffect {
      */
     public MobPotionEffect(JSONObject jsonConfiguration){
         try{
-            probability =   ((Number) jsonConfiguration.get("probability")).longValue();
+            probability =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).longValue();
             type        =   PotionEffectType.getByName((String) jsonConfiguration.get("type"));
-            amplifier   =   ((Number) jsonConfiguration.get("amplifier")).longValue();
-            duration    =   ((Number) jsonConfiguration.get("duration")).longValue();
+            amplifier   =   jsonConfiguration.get("amplifier")==null ? 0 : ((Number) jsonConfiguration.get("amplifier")).longValue();
+            duration    =   jsonConfiguration.get("duration")==null ? 0 : ((Number) jsonConfiguration.get("duration")).longValue();
             if(type!=null){
                 effect  =   new PotionEffect(type,duration.intValue()*50,amplifier.intValue());
             }else{

@@ -85,9 +85,9 @@ public class Treasure {
             enchantments.clear();
             name                            =   (String) jsonConfiguration.get("name");
             material                        =   Material.getMaterial((String) jsonConfiguration.get("material"));
-            min                             =   ((Number) jsonConfiguration.get("min")).longValue();
-            max                             =   ((Number) jsonConfiguration.get("max")).longValue();
-            probability                     =   ((Number) jsonConfiguration.get("probability")).doubleValue();
+            min                             =   jsonConfiguration.get("min")==null ? 0 : ((Number) jsonConfiguration.get("min")).longValue();
+            max                             =   jsonConfiguration.get("max")==null ? 0 : ((Number) jsonConfiguration.get("max")).longValue();
+            probability                     =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
             tagName                         =   (String) jsonConfiguration.get("tagName");
             JSONArray jsonEnchantments      =   (JSONArray) jsonConfiguration.get("enchantments");
             JSONArray jsonTreasures         =   (JSONArray) jsonConfiguration.get("treasureGroups");

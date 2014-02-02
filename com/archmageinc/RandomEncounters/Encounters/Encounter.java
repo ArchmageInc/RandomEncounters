@@ -128,7 +128,7 @@ public class Encounter implements EncounterPlacer{
             mobs.clear();
             name        =   (String) jsonConfiguration.get("name");
             enabled     =   (Boolean) jsonConfiguration.get("enabled");
-            probability =   ((Number) jsonConfiguration.get("probability")).doubleValue();
+            probability =    jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
             structure   =   Structure.getInstance((String) jsonConfiguration.get("structure"));
             JSONArray jsonValidBiomes   =   (JSONArray) jsonConfiguration.get("validBiomes");
             JSONArray jsonInvalidBiomes =   (JSONArray) jsonConfiguration.get("invalidBiomes");
