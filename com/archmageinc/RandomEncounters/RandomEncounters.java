@@ -97,6 +97,8 @@ public class RandomEncounters extends JavaPlugin {
             if(Integer.parseInt(parts[2].substring(0, 1))<8){
                 return false;
             }
+        }else{
+            return false;
         }
         return true;
         
