@@ -140,12 +140,24 @@ public class Structure {
             JSONArray jsonInvalid   =   (JSONArray) jsonConfiguration.get("invalid");
             if(jsonTrump!=null){
                 for(int i=0;i<jsonTrump.size();i++){
-                    trump.add(Material.getMaterial((String) jsonTrump.get(i)));
+                    Material material   =   Material.getMaterial((String) jsonTrump.get(i));
+                    if(material!=null){
+                        trump.add(material);
+                    }else{
+                        RandomEncounters.getInstance().logWarning("Invalid trump material "+(String) jsonTrump.get(i)+" in "+name+" structure configuration");
+                    }
                 }
+            }else{
+                trump.addAll(RandomEncounters.getInstance().getDefaultTrump());
             }
             if(jsonInvalid!=null){
                 for(int i=0;i<jsonInvalid.size();i++){
-                    invalid.add(Material.getMaterial((String) jsonInvalid.get(i)));
+                    Material material   =   Material.getMaterial((String) jsonInvalid.get(i));
+                    if(material!=null){
+                        invalid.add(material);
+                    }else{
+                        RandomEncounters.getInstance().logWarning("Invalid material "+(String) jsonInvalid.get(i)+" in "+name+" structure configuration");
+                    }
                 }
             }
             loaded  =   load();

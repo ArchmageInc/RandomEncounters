@@ -12,6 +12,7 @@ import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ExpansionTask;
 import java.util.HashSet;
 import java.util.Set;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONArray;
@@ -53,6 +54,8 @@ public class RandomEncounters extends JavaPlugin {
      * The set of PlacedEncounters / savedEncounters.
      */
     private final HashSet<PlacedEncounter> placedEncounters   =   new HashSet();
+    
+    private final Set<Material> defaultTrump                    =   new HashSet();
     
     /**
      * The task responsible for checking expansions.
@@ -117,10 +120,32 @@ public class RandomEncounters extends JavaPlugin {
     }
     
     public void loadConfigurations(){
+        loadDefaultTrump();
         loadStructures();
         loadTreasures();
         loadMobs();
         loadEncounters();
+    }
+    
+    private void loadDefaultTrump(){
+        try{
+            String structureFileName    =   getConfig().getString("structureConfig");
+            JSONObject structureConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+structureFileName);
+            JSONArray jsonTrump         =   (JSONArray) structureConfig.get("defaultTrump");
+            if(jsonTrump!=null){
+                for(int i=0;i<jsonTrump.size();i++){
+                    Material material   =   Material.getMaterial((String) jsonTrump.get(i));
+                    if(material!=null){
+                        defaultTrump.add(material);
+                    }else{
+                        logWarning("Invalid material "+(String) jsonTrump.get(i)+" in default trump");
+                    }
+                }
+                logMessage("Loaded "+defaultTrump.size()+" Default trump materials");
+            }
+        }catch(ClassCastException e){
+            logError("Invalid base default trump configuration: "+e.getMessage());
+        }
     }
     
     /**
@@ -336,6 +361,10 @@ public class RandomEncounters extends JavaPlugin {
      */
     public int lockTime(){
         return maxLockTime;
+    }
+    
+    public Set<Material> getDefaultTrump(){
+        return defaultTrump;
     }
     
     /**
