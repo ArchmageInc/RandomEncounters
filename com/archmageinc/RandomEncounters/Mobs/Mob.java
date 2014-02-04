@@ -137,10 +137,10 @@ public final class Mob{
             deathSpawn                  =   null;
             name                        =   (String) jsonConfiguration.get("name");
             typeName                    =   (String) jsonConfiguration.get("type");
-            min                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("min")).longValue() : null;
-            max                         =   jsonConfiguration.get("min")!=null ? ((Number) jsonConfiguration.get("max")).longValue() : null;
+            min                         =   jsonConfiguration.get("min")==null ? null : ((Number) jsonConfiguration.get("min")).longValue();
+            max                         =   jsonConfiguration.get("max")==null ? null : ((Number) jsonConfiguration.get("max")).longValue();
             enabled                     =   (Boolean) jsonConfiguration.get("enabled");
-            probability                 =   jsonConfiguration.get("probability")!=null ? ((Number) jsonConfiguration.get("probability")).doubleValue() : null;
+            probability                 =   jsonConfiguration.get("probability")==null ? null : ((Number) jsonConfiguration.get("probability")).doubleValue();
             equipment                   =   (JSONObject) jsonConfiguration.get("equipment");
             tagName                     =   (String) jsonConfiguration.get("tagName");
             deathSpawnName              =   (String) jsonConfiguration.get("deathSpawn");

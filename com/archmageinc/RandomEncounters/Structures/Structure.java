@@ -4,7 +4,6 @@ import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.StructurePlacementTask;
 import com.sk89q.worldedit.CuboidClipboard;
-import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 import java.io.File;
@@ -134,8 +133,8 @@ public class Structure {
             cuboid                  =   null;
             name                    =   (String) jsonConfiguration.get("name");
             fileName                =   (String) jsonConfiguration.get("file");
-            minY                    =   ((Number) jsonConfiguration.get("minY")).longValue();
-            maxY                    =   ((Number) jsonConfiguration.get("maxY")).longValue();
+            minY                    =   jsonConfiguration.get("minY")==null ? 0 : ((Number) jsonConfiguration.get("minY")).longValue();
+            maxY                    =   jsonConfiguration.get("maxY")==null ? 0 : ((Number) jsonConfiguration.get("maxY")).longValue();
             JSONArray jsonTrump     =   (JSONArray) jsonConfiguration.get("trump");
             JSONArray jsonInvalid   =   (JSONArray) jsonConfiguration.get("invalid");
             if(jsonTrump!=null){

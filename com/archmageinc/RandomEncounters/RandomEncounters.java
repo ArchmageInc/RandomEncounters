@@ -83,6 +83,30 @@ public class RandomEncounters extends JavaPlugin {
         return RandomEncounters.instance;
     }
     
+    private boolean checkDependencies(){
+        if(getServer().getPluginManager().getPlugin("WorldEdit")==null){
+            return false;
+        }
+        String version  =   getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
+        logMessage("Found WorldEdit version "+version);
+        String[] parts  =   version.split("\\.");
+        if(parts.length>2){
+            if(Integer.parseInt(parts[0])<5){
+                return false;
+            }
+            if(Integer.parseInt(parts[1])<5){
+                return false;
+            }
+            if(Integer.parseInt(parts[2].substring(0, 1))<8){
+                return false;
+            }
+        }else{
+            return false;
+        }
+        return true;
+        
+    }
+    
     /**
      * Start 'er up.
      * 
@@ -90,6 +114,10 @@ public class RandomEncounters extends JavaPlugin {
      */
     @Override
     public void onEnable(){
+        if(!checkDependencies()){
+            logError("WorldEdit version 5.5.8 or greater is required! Refusing to start");
+            return;
+        }
         reloadConfig();
 	logLevel        =   getConfig().getInt("debug.loglevel");
         midas           =   getConfig().getBoolean("debug.midas");
