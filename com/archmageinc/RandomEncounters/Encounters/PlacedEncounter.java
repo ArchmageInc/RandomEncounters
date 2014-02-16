@@ -115,6 +115,14 @@ public class PlacedEncounter {
      * @see PlacedEncounter#PlacedEncounter(com.archmageinc.RandomEncounters.Encounter, org.bukkit.Location) 
      */
     public static PlacedEncounter create(Encounter encounter,Location location){
+        if(encounter==null){
+            RandomEncounters.getInstance().logError("Missing encounter during placed encounter creation");
+            return null;
+        }
+        if(location==null){
+            RandomEncounters.getInstance().logError("An invalid location was passed to create a placed encounter: "+encounter.getName());
+            return null;
+        }
         return new PlacedEncounter(encounter,location);
     }
     
