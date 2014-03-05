@@ -321,4 +321,9 @@ public class Encounter implements EncounterPlacer{
     public Encounter getEncounter() {
         return this;
     }
+
+    @Override
+    public double getInitialAngle() {
+        return 0;
+    }
 }

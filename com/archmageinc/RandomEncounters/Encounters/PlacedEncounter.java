@@ -51,6 +51,8 @@ public class PlacedEncounter {
      */
     private final Set<UUID> placedExpansions            =   new HashSet();
     
+    private PlacedEncounter parent                      =   null;
+    
     /**
      * The set of valid expansion configurations for this Placed Encounter.
      * 
@@ -234,6 +236,7 @@ public class PlacedEncounter {
      */
     public void addExpansion(PlacedEncounter expansion){
         placedExpansions.add(expansion.getUUID());
+        expansion.setParent(this);
     }
     
     /**
@@ -306,6 +309,14 @@ public class PlacedEncounter {
      */
     public Set<Expansion> getExpansions(){
         return expansions;
+    }
+    
+    public PlacedEncounter getParent(){
+        return this.parent;
+    }
+    
+    public void setParent(PlacedEncounter parent){
+        this.parent =   parent;
     }
     
     /**

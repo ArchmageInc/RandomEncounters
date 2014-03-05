@@ -41,7 +41,7 @@ public class SpaceCheckTask extends BukkitRunnable{
         x                   =   sx;
         z                   =   sz;
         y                   =   sy;
-        if(RandomEncounters.getInstance().getLogLevel()>10){
+        if(RandomEncounters.getInstance().getLogLevel()>11){
             RandomEncounters.getInstance().logMessage("Space Check for "+structure.getName()+" prepairing to run starting at "+startingBlock.getX()+","+startingBlock.getY()+","+startingBlock.getZ());
         }
         
@@ -173,7 +173,7 @@ public class SpaceCheckTask extends BukkitRunnable{
     }
     
     private void fail(){
-        if(RandomEncounters.getInstance().getLogLevel()>10){
+        if(RandomEncounters.getInstance().getLogLevel()>11){
             RandomEncounters.getInstance().logMessage("Space Check for "+structure.getName()+" "+startingBlock.getX()+","+startingBlock.getY()+","+startingBlock.getZ()+" is not a valid location");
         }
         chunkTask.setLocation(null);

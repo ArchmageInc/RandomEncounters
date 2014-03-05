@@ -1,8 +1,5 @@
 package com.archmageinc.RandomEncounters.Encounters;
 
-import com.archmageinc.RandomEncounters.Encounters.EncounterPlacer;
-import com.archmageinc.RandomEncounters.Encounters.Encounter;
-import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
 import java.util.Calendar;
@@ -46,7 +43,12 @@ public class Expansion implements Cloneable,EncounterPlacer{
     /**
      * The maximum distance in chunks from the parent encounter this expansion can be placed.
      */
-    private Long distance;
+    private Long maxDistance;
+    
+    /**
+     * The minimum distance in chunks from the parent encounter this expansion can be placed.
+     */
+    private Long minDistance;
     
     /**
      * The last time this expansion was checked to expand.
@@ -70,7 +72,8 @@ public class Expansion implements Cloneable,EncounterPlacer{
             probability     =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
             duration        =   jsonConfiguration.get("duration")==null ? Long.MAX_VALUE : ((Number) jsonConfiguration.get("duration")).longValue();
             max             =   jsonConfiguration.get("max")==null ? 0 : ((Number) jsonConfiguration.get("max")).longValue();
-            distance        =   jsonConfiguration.get("distance")==null ? 0 : ((Number) jsonConfiguration.get("distance")).longValue();
+            maxDistance     =   jsonConfiguration.get("maxDistance")==null ? 1 : ((Number) jsonConfiguration.get("maxDistance")).longValue();
+            minDistance     =   jsonConfiguration.get("minDistance")==null ? 1 : ((Number) jsonConfiguration.get("minDistance")).longValue();
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid expansion configuration: "+e.getMessage());
         }
@@ -100,7 +103,7 @@ public class Expansion implements Cloneable,EncounterPlacer{
                 RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
             }
             if(validExpansions.size()<max){
-               (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),distance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
+               (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
             }
         }
     }
@@ -166,6 +169,15 @@ public class Expansion implements Cloneable,EncounterPlacer{
      */
     public void updateLastCheck(){
         lastCheck   =   (Calendar) Calendar.getInstance().clone();
+    }
+    
+    @Override
+    public double getInitialAngle(){
+        if(expandingEncounter.getParent()!=null){
+           return Math.atan2(expandingEncounter.getLocation().getChunk().getX()-expandingEncounter.getParent().getLocation().getChunk().getX(),expandingEncounter.getLocation().getChunk().getZ()-expandingEncounter.getParent().getLocation().getChunk().getZ())-(Math.PI/2);
+        }else{
+            return new Double(0);
+        }
     }
 
     @Override

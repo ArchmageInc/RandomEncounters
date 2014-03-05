@@ -12,6 +12,7 @@ import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ExpansionTask;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -295,7 +296,18 @@ public class RandomEncounters extends JavaPlugin {
         }catch(ClassCastException e){
             logError("Invalid base PlacedEncounter configuration: "+e.getMessage());
         }
-        
+        setupPlacedEncounterRelationships();
+    }
+    
+    private void setupPlacedEncounterRelationships(){
+        for(PlacedEncounter encounter : placedEncounters){
+            for(UUID id : encounter.getPlacedExpansions()){
+                PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+                if(child!=null){
+                    child.setParent(encounter);
+                }
+            }
+        }
     }
     
     /**

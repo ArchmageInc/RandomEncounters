@@ -122,7 +122,7 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
             return;
         }
         radiusEncounter =   encounter;
-        (new ChunkLocatorTask(this,chunk,distance)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
+        (new ChunkLocatorTask(this,chunk,distance,1)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
         
     }
     
@@ -168,6 +168,11 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
     @Override
     public Encounter getEncounter() {
         return radiusEncounter;
+    }
+
+    @Override
+    public double getInitialAngle() {
+        return 0;
     }
     
 }

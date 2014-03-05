@@ -62,14 +62,14 @@ public class ChunkCheckTask extends BukkitRunnable{
             sz              =   0;
             x               =   sx;
             z               =   sz;
-            y               =   sy;
+            y               =   my;
         }
     }
     
     @Override
     public void run() {
         if(wait){
-            if(RandomEncounters.getInstance().getLogLevel()>10){
+            if(RandomEncounters.getInstance().getLogLevel()>11){
                 RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" still waiting for space check");
             }
             return;
@@ -81,7 +81,7 @@ public class ChunkCheckTask extends BukkitRunnable{
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
         timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
         
-        while(y<my){
+        while(y>=sy){
             
             x   =   x>=mx ? sx : x;
             while(x<mx){
@@ -112,7 +112,7 @@ public class ChunkCheckTask extends BukkitRunnable{
                             RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" starting to wait for space check at "+currentBlock.getX()+","+currentBlock.getY()+","+currentBlock.getZ());
                         }
                     }else{
-                        if(RandomEncounters.getInstance().getLogLevel()>10){
+                        if(RandomEncounters.getInstance().getLogLevel()>11){
                             RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" "+currentBlock.getX()+","+currentBlock.getY()+","+currentBlock.getZ()+" is not a valid location");
                         }
                     }
@@ -128,7 +128,7 @@ public class ChunkCheckTask extends BukkitRunnable{
                 }
                 if(Calendar.getInstance().after(timeLimit)|| wait){
                     if(x>=mx){
-                        y++;
+                        y--;
                     }
                     break;
                 }
@@ -136,10 +136,10 @@ public class ChunkCheckTask extends BukkitRunnable{
             }
             if(Calendar.getInstance().after(timeLimit)|| wait)
                break;
-            y++;
+            y--;
         }
         
-        if(y>=my){
+        if(y<sy){
             fail();
         }else{
             if(RandomEncounters.getInstance().getLogLevel()>11){
