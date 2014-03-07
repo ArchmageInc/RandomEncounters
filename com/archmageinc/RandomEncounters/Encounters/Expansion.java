@@ -56,6 +56,8 @@ public class Expansion implements Cloneable,EncounterPlacer{
     
     private Long pattern;
     
+    private boolean checking    =   false;
+    
     /**
      * The last time this expansion was checked to expand.
      */
@@ -102,27 +104,24 @@ public class Expansion implements Cloneable,EncounterPlacer{
      * If successful, the encounter will be placed in the world.
      */
     public void checkExpansion(){
-        updateLastCheck();
-        Double random   =   Math.random();
-        if(RandomEncounters.getInstance().getLogLevel()>6){
-            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
-        }
-        if(random<probability){
-            Set<PlacedEncounter> validExpansions    =   new HashSet();
-            for(UUID expansionUUID : expandingEncounter.getPlacedExpansions()){
-                PlacedEncounter placedExpansion =   PlacedEncounter.getInstance(expansionUUID);
-                if(placedExpansion!=null){
-                    if(placedExpansion.getEncounter().equals(getEncounter())){
-                        validExpansions.add(placedExpansion);
-                    }
+        if(!checking){
+            updateLastCheck();
+            Double random   =   Math.random();
+            if(RandomEncounters.getInstance().getLogLevel()>6){
+                RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
+            }
+            if(random<probability){
+                Set<PlacedEncounter> validExpansions    =   expandingEncounter.getPlacedExpansions(encounter);
+                if(RandomEncounters.getInstance().getLogLevel()>6){
+                    RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
+                }
+                if(validExpansions.size()<max){
+                    checking    =   true;
+                   (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
                 }
             }
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
-            }
-            if(validExpansions.size()<max){
-               (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
-            }
+        }else if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" is still running checks");
         }
     }
     
@@ -237,6 +236,7 @@ public class Expansion implements Cloneable,EncounterPlacer{
 
     @Override
     public void addPlacedEncounter(PlacedEncounter newEncounter) {
+        checking    =   false;
         if(newEncounter!=null){
             expandingEncounter.addExpansion(newEncounter);
             RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
