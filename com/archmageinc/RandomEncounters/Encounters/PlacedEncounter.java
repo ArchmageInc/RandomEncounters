@@ -71,6 +71,8 @@ public class PlacedEncounter {
      */
     private List<Location> spawnLocations               =   new ArrayList();
     
+    private PlacedEncounter root                        =   null;
+    
     
     /**
      * Get an instance of the placed encounter based on the Unique ID.
@@ -315,9 +317,11 @@ public class PlacedEncounter {
     }
     
     public PlacedEncounter getRoot(){
-        PlacedEncounter root    =   this;
-        if(this.parent!=null){
-            return parent.getRoot();
+        if(root==null){
+            root    =   this;
+            if(this.parent!=null){
+                root    =   parent.getRoot();
+            }
         }
         
         return root;
