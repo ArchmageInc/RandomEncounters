@@ -5,6 +5,8 @@ import com.archmageinc.RandomEncounters.Encounters.Encounter;
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -157,7 +159,17 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
     private void reloadConfigurations(){
         RandomEncounters.getInstance().loadConfigurations();
     }
-
+    
+    @Override
+    public Map<String,Long> getProximities(){
+        return new HashMap<>();
+    }
+    
+    @Override
+    public long getPattern(){
+        return -1;
+    }
+    
     @Override
     public void addPlacedEncounter(PlacedEncounter newEncounter) {
         if(newEncounter!=null){

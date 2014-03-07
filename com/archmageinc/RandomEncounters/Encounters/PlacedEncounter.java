@@ -43,7 +43,7 @@ public class PlacedEncounter {
     /**
      * Has this encounter been sacked.
      */
-    private Boolean sacked                        =   false;
+    private Boolean sacked                              =   false;
     
     /**
      * The set of placed encounter unique IDs that have expanded from this placed encounter.
@@ -64,12 +64,12 @@ public class PlacedEncounter {
     /**
      * The singlton instances of loaded PlacedEncounters.
      */
-    private static Set<PlacedEncounter> instances =   new HashSet();
+    private static Set<PlacedEncounter> instances       =   new HashSet();
     
     /**
      * An internal list of safe creature spawn locations.
      */
-    private List<Location> spawnLocations         =   new ArrayList();
+    private List<Location> spawnLocations               =   new ArrayList();
     
     
     /**
@@ -302,6 +302,27 @@ public class PlacedEncounter {
     public Set<UUID> getPlacedExpansions(){
         return placedExpansions;
     }
+    
+    public Set<PlacedEncounter> getPlacedExpansions(Encounter type){
+        Set<PlacedEncounter> placements =   new HashSet();
+        for(UUID id : placedExpansions){
+            PlacedEncounter placedEncounter =   PlacedEncounter.getInstance(id);
+            if(placedEncounter!=null && placedEncounter.getEncounter().equals(type)){
+                placements.add(placedEncounter);
+            }
+        }
+        return placements;
+    }
+    
+    public PlacedEncounter getRoot(){
+        PlacedEncounter root    =   this;
+        if(this.parent!=null){
+            return parent.getRoot();
+        }
+        
+        return root;
+    }
+    
     
     /**
      * Gets the set of Expansion configurations for this PlacedEncounter.

@@ -423,4 +423,14 @@ public class RandomEncounters extends JavaPlugin {
         return placedEncounters;
     }
     
+    public HashSet<PlacedEncounter> getPlacedEncounters(Encounter type){
+        HashSet<PlacedEncounter> placements =   new HashSet();
+        for(PlacedEncounter check : placedEncounters){
+            if(check.getEncounter().equals(type)){
+                placements.add(check);
+            }
+        }
+        return placements;
+    }
+    
 }

@@ -633,7 +633,13 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":     30
+                "maxDistance":     30,
+                "proximities":	[
+		  {
+		    "encounter": "tower3",
+		    "minDistance": 10
+		  }
+                ]
             },
             {
                 "encounter":    "house1",
@@ -1817,7 +1823,13 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          8,
-                "maxDistance":     30
+                "maxDistance":     30,
+                "proximities":	[
+		  {
+		    "encounter": "tower3",
+		    "minDistance": 10
+		  }
+                ]
             },
             {
                 "encounter":    "shop1",

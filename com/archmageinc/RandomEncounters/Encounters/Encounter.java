@@ -6,8 +6,10 @@ import com.archmageinc.RandomEncounters.Structures.Structure;
 import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ChunkCheckTask;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.bukkit.Chunk;
 import org.bukkit.block.Biome;
@@ -309,7 +311,16 @@ public class Encounter implements EncounterPlacer{
     public HashSet<Expansion> getExpansions(){
         return expansions;
     }
-
+    
+    @Override
+    public Map<String,Long> getProximities(){
+        return new HashMap<>();
+    }
+    
+    @Override
+    public long getPattern(){
+        return -1;
+    }
     @Override
     public void addPlacedEncounter(PlacedEncounter newEncounter) {
         if(newEncounter!=null){
