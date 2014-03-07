@@ -128,6 +128,7 @@ public class ChunkLocatorTask extends BukkitRunnable implements EncounterPlacer{
             if(Calendar.getInstance().after(timeLimit)|| wait)
                 break;
             r+=pr;
+            i=0;
         }
         if(pr>0 ? r>fr : r<fr){
             fail();

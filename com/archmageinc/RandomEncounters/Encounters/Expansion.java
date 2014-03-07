@@ -4,11 +4,8 @@ import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-import org.bukkit.Location;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -63,7 +60,9 @@ public class Expansion implements Cloneable,EncounterPlacer{
      */
     private Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
     
-    private HashMap<String,Long> proximities   =   new HashMap();
+    private HashMap<String,Long> proximities      =   new HashMap();
+    
+    private boolean canExpand                     =   true;
     
     /**
      * The encounter that will expand.
@@ -104,25 +103,34 @@ public class Expansion implements Cloneable,EncounterPlacer{
      * If successful, the encounter will be placed in the world.
      */
     public void checkExpansion(){
-        if(!checking){
-            updateLastCheck();
-            Double random   =   Math.random();
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
+        if(checking){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" is still running checks");
             }
-            if(random<probability){
-                Set<PlacedEncounter> validExpansions    =   expandingEncounter.getPlacedExpansions(encounter);
-                if(RandomEncounters.getInstance().getLogLevel()>6){
-                    RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
-                }
-                if(validExpansions.size()<max){
-                    checking    =   true;
-                   (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
-                }
-            }
-        }else if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" is still running checks");
+            return;
         }
+        updateLastCheck();
+        if(!canExpand){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" reportedly has nowhere to expand");
+            }
+            return;
+        }
+        Double random   =   Math.random();
+        if(RandomEncounters.getInstance().getLogLevel()>6){
+            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
+        }
+        if(random<probability){
+            Set<PlacedEncounter> validExpansions    =   expandingEncounter.getPlacedExpansions(encounter);
+            if(RandomEncounters.getInstance().getLogLevel()>6){
+                RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
+            }
+            if(validExpansions.size()<max){
+                checking    =   true;
+               (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
+            }
+        }
+        
     }
     
     /**
@@ -201,36 +209,10 @@ public class Expansion implements Cloneable,EncounterPlacer{
     @Override
     public double getInitialAngle(){
         if(expandingEncounter.getParent()!=null){
-            //(n-1) Tangent
-            double adjust   =   expandingEncounter.getPlacedExpansions(encounter).size()*(Math.PI/8)+(Math.PI/2);
+           double adjust   =   expandingEncounter.getPlacedExpansions(encounter).size()*(Math.PI/8)+(Math.PI/2);
            return Math.atan2(expandingEncounter.getLocation().getChunk().getX()-expandingEncounter.getRoot().getLocation().getChunk().getX(),expandingEncounter.getLocation().getChunk().getZ()-expandingEncounter.getRoot().getLocation().getChunk().getZ())-adjust;
         }else{
             return Math.random()*(Math.PI*2);
-            /*
-            Set<PlacedEncounter> children   =   expandingEncounter.getPlacedExpansions(encounter);
-            if(children.isEmpty()){
-                return Math.random()*(Math.PI*2);
-            }
-            if(children.size()==1){
-                PlacedEncounter child   =   children.iterator().next();
-                return Math.atan2(expandingEncounter.getLocation().getChunk().getX()-child.getLocation().getChunk().getX(),expandingEncounter.getLocation().getChunk().getZ()-child.getLocation().getChunk().getZ())-(Math.PI/2);  
-            }
-            double distance     =   0;
-            Location midpoint   =   null;
-            for(PlacedEncounter child1 : children){
-                for(PlacedEncounter child2 : children){
-                    if(child1.getLocation().distance(child2.getLocation()) > distance){
-                        distance    =   child1.getLocation().distance(child2.getLocation());
-                        midpoint    =   child1.getLocation().toVector().getMidpoint(child2.getLocation().toVector()).toLocation(child1.getLocation().getWorld());
-                    }
-                }
-            }
-            if(midpoint==null){
-                RandomEncounters.getInstance().logWarning("An expansion's attempt to retrieve a seed's initial angle for "+encounter.getName()+" resulted in no midpoint between "+children.size()+" children");
-                return Math.random()*(Math.PI*2);
-            }
-            return Math.atan2(expandingEncounter.getLocation().getChunk().getX()-midpoint.getChunk().getX(),expandingEncounter.getLocation().getChunk().getZ()-midpoint.getChunk().getZ())-(Math.PI/2);  
-            */
         }
     }
 
@@ -240,6 +222,8 @@ public class Expansion implements Cloneable,EncounterPlacer{
         if(newEncounter!=null){
             expandingEncounter.addExpansion(newEncounter);
             RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
+        }else{
+            canExpand   =   false;
         }
     }
 }
