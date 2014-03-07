@@ -354,6 +354,18 @@ public class PlacedEncounter {
      */
     public JSONObject toJSON(){
         JSONObject jsonConfiguration    =   new JSONObject();
+        if(location==null){
+            RandomEncounters.getInstance().logError("Attempted to save: "+encounter.getName()+" but the location was null");
+            return jsonConfiguration;
+        }
+        if(location.getWorld()==null){
+            RandomEncounters.getInstance().logError("Attempted to save: "+encounter.getName()+" but the world in the location was null: "+location.toString());
+            return jsonConfiguration;
+        }
+        if(location.getWorld().getName()==null){
+            RandomEncounters.getInstance().logError("Attempted to save: "+encounter.getName()+" but the world name in the location was null: "+location.toString());
+            return jsonConfiguration;
+        }
         jsonConfiguration.put("uuid", uuid.toString());
         jsonConfiguration.put("encounter",encounter.getName());
         jsonConfiguration.put("sacked",sacked);
