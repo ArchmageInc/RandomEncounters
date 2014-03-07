@@ -5,8 +5,10 @@ import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
@@ -38,20 +40,20 @@ public class PlacedEncounter {
     /**
      * The set of PlacedMobs that were spawned with this encounter.
      */
-    private final Set<PlacedMob> mobs                   =   new HashSet();
+    private final Set<PlacedMob> mobs                       =   new HashSet();
     
     /**
      * Has this encounter been sacked.
      */
-    private Boolean sacked                              =   false;
+    private Boolean sacked                                  =   false;
     
     /**
      * The set of placed encounter unique IDs that have expanded from this placed encounter.
      * 
      */
-    private final Set<UUID> placedExpansions            =   new HashSet();
+    private final Set<UUID> placedExpansions                =   new HashSet();
     
-    private PlacedEncounter parent                      =   null;
+    private PlacedEncounter parent                          =   null;
     
     /**
      * The set of valid expansion configurations for this Placed Encounter.
@@ -59,19 +61,21 @@ public class PlacedEncounter {
      * This is a clone of the Encounter configuration expansions
      * @see Encounter#expansions
      */
-    private final Set<Expansion> expansions             =   new HashSet();
+    private final Set<Expansion> expansions                 =   new HashSet();
     
     /**
      * The singlton instances of loaded PlacedEncounters.
      */
-    private static Set<PlacedEncounter> instances       =   new HashSet();
+    private static Set<PlacedEncounter> instances           =   new HashSet();
     
     /**
      * An internal list of safe creature spawn locations.
      */
-    private List<Location> spawnLocations               =   new ArrayList();
+    private List<Location> spawnLocations                   =   new ArrayList();
     
-    private PlacedEncounter root                        =   null;
+    private PlacedEncounter root                            =   null;
+    
+    private static Map<UUID,PlacedEncounter> uuidInstances  =   new HashMap();
     
     
     /**
@@ -81,12 +85,7 @@ public class PlacedEncounter {
      * @return Returns the PlacedEncounter if found, null otherwise.
      */
     public static PlacedEncounter getInstance(UUID uuid){
-        for(PlacedEncounter instance : instances){
-            if(instance.getUUID().equals(uuid)){
-                return instance;
-            }
-        }
-        return null;
+        return uuidInstances.get(uuid);
     }
     
     /**
@@ -166,6 +165,7 @@ public class PlacedEncounter {
             }
             setupExpansions();
             instances.add(this);
+            uuidInstances.put(uuid, this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid PlacedEncounter configuration: "+e.getMessage());
         }catch(IllegalArgumentException e){
@@ -188,7 +188,8 @@ public class PlacedEncounter {
         }
         
         setupExpansions();
-        instances.add(this);        
+        instances.add(this);
+        uuidInstances.put(uuid, this);
     }
     
     public void placeMobs(){

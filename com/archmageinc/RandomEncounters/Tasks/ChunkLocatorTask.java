@@ -5,7 +5,6 @@ import com.archmageinc.RandomEncounters.Encounters.EncounterPlacer;
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -65,7 +64,7 @@ public class ChunkLocatorTask extends BukkitRunnable implements EncounterPlacer{
                     Vector checkV   =   new Vector(check.getLocation().getChunk().getX(),0,check.getLocation().getChunk().getZ());
                     double distance =   currentV.distance(checkV);
                     if(distance<minDistance){
-                        if(RandomEncounters.getInstance().getLogLevel()>9){
+                        if(RandomEncounters.getInstance().getLogLevel()>11){
                             RandomEncounters.getInstance().logMessage("Proximity alert: "+placer.getEncounter().getName()+" attempted to check "+distance+" from "+proxName+" must be at least "+minDistance);
                         }
                         return false;
