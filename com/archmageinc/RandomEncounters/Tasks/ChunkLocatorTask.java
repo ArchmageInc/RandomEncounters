@@ -66,7 +66,7 @@ public class ChunkLocatorTask extends BukkitRunnable implements EncounterPlacer{
                     double distance =   currentV.distance(checkV);
                     if(distance<minDistance){
                         if(RandomEncounters.getInstance().getLogLevel()>9){
-                            RandomEncounters.getInstance().logMessage("Proximity alert: "+placer.getEncounter().getName()+" attempted to be placed "+distance+" from "+proxName+" must be at least "+minDistance);
+                            RandomEncounters.getInstance().logMessage("Proximity alert: "+placer.getEncounter().getName()+" attempted to check "+distance+" from "+proxName+" must be at least "+minDistance);
                         }
                         return false;
                     }
@@ -122,7 +122,7 @@ public class ChunkLocatorTask extends BukkitRunnable implements EncounterPlacer{
                        r--;
                     }
                     break;
-                } 
+                }
                 
             }
             if(Calendar.getInstance().after(timeLimit)|| wait)
