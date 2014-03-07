@@ -85,23 +85,22 @@ public class RandomEncounters extends JavaPlugin {
             return false;
         }
         String version  =   getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
+        version         =   version.replaceAll("[^0-9.].*", "");
         logMessage("Found WorldEdit version "+version);
-        String[] parts  =   version.split("\\.");
-        if(parts.length>2){
-            if(Integer.parseInt(parts[0])<5){
-                return false;
-            }
-            if(Integer.parseInt(parts[1])<5){
-                return false;
-            }
-            if(Integer.parseInt(parts[2].substring(0, 1))<8){
-                return false;
-            }
-        }else{
-            return false;
+        String minimum  =   "5.5.8";
+        String[] vals1  =   minimum.split("\\.");
+        String[] vals2  =   version.split("\\.");
+        int i=0;
+        while(i<vals1.length && i<vals2.length && vals1[i].equals(vals2[i])) {
+          i++;
         }
-        return true;
-        
+
+        if (i<vals1.length && i<vals2.length) {
+            int diff = Integer.valueOf(vals1[i]).compareTo(Integer.valueOf(vals2[i]));
+            return Integer.signum(diff)<=0;
+        }
+
+        return Integer.signum(vals1.length - vals2.length)<=0;
     }
     
     /**
