@@ -10,6 +10,7 @@ import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.Mobs.Mob;
 import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ExpansionTask;
+import com.archmageinc.RandomEncounters.Tasks.ResourceCollectionTask;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -34,27 +35,27 @@ public class RandomEncounters extends JavaPlugin {
     /**
      * The loglevel determines how much to spam the console.
      */
-    private int logLevel                                =   0;
+    private int logLevel                                        =   0;
     
     /**
      * Debug Midas turns checked blocks to gold for verification.
      */
-    private boolean midas                               =   false;
+    private boolean midas                                       =   false;
     
     /**
      * Maximum amount of time we are allowed to lock the server in ms.
      */
-    private int maxLockTime                         =   10;
+    private int maxLockTime                                     =   10;
     
     /**
      * The set of encounter configurations for the plugin.
      */
-    private final Set<Encounter> encounters                   =   new HashSet();
+    private final Set<Encounter> encounters                     =   new HashSet();
     
     /**
      * The set of PlacedEncounters / savedEncounters.
      */
-    private final HashSet<PlacedEncounter> placedEncounters   =   new HashSet();
+    private final HashSet<PlacedEncounter> placedEncounters     =   new HashSet();
     
     private final Set<Material> defaultTrump                    =   new HashSet();
     
@@ -62,6 +63,8 @@ public class RandomEncounters extends JavaPlugin {
      * The task responsible for checking expansions.
      */
     private BukkitTask expansionTask;
+    
+    private BukkitTask resourceCollectionTask;
     
     
     /**
@@ -119,10 +122,11 @@ public class RandomEncounters extends JavaPlugin {
             return;
         }
         reloadConfig();
-	logLevel        =   getConfig().getInt("debug.loglevel");
-        midas           =   getConfig().getBoolean("debug.midas");
-        maxLockTime     =   getConfig().getInt("maxLockTime");
-        expansionTask   =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
+	logLevel                =   getConfig().getInt("debug.loglevel");
+        midas                   =   getConfig().getBoolean("debug.midas");
+        maxLockTime             =   getConfig().getInt("maxLockTime");
+        expansionTask           =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
+        resourceCollectionTask  =   new ResourceCollectionTask().runTaskTimer(this,1600,1600);
         if(logLevel>0){
             logMessage("Log Level set to: "+logLevel);
         }

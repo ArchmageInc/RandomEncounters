@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.bukkit.Material;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -53,16 +54,22 @@ public class Expansion implements Cloneable,EncounterPlacer{
     
     private Long pattern;
     
-    private boolean checking    =   false;
+    private boolean checking                                    =   false;
+    
+    private boolean vault                                       =   false;
     
     /**
      * The last time this expansion was checked to expand.
      */
-    private Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
+    private Calendar lastCheck                                  =   (Calendar) Calendar.getInstance().clone();
     
-    private HashMap<String,Long> proximities      =   new HashMap();
+    private final HashMap<String,Long> proximities              =   new HashMap();
     
-    private boolean canExpand                     =   true;
+    private boolean canExpand                                   =   true;
+    
+    private HashMap<Material,Integer> rootResources             =   new HashMap();
+    
+    private HashMap<Material,Integer> parentResources           =   new HashMap();
     
     /**
      * The encounter that will expand.
@@ -84,6 +91,8 @@ public class Expansion implements Cloneable,EncounterPlacer{
             maxDistance                   =   jsonConfiguration.get("maxDistance")==null ? 1 : ((Number) jsonConfiguration.get("maxDistance")).longValue();
             minDistance                   =   jsonConfiguration.get("minDistance")==null ? 1 : ((Number) jsonConfiguration.get("minDistance")).longValue();
             pattern                       =   jsonConfiguration.get("pattern")==null ? -1 : ((Number) jsonConfiguration.get("pattern")).longValue();
+            vault                         =   jsonConfiguration.get("vault")==null ? false : (boolean) jsonConfiguration.get("vault");
+            JSONObject jsonRequirements   =   (JSONObject) jsonConfiguration.get("requirements");
             JSONArray jsonProximities     =   (JSONArray) jsonConfiguration.get("proximities");
             if(jsonProximities!=null){
                 for(int i=0;i<jsonProximities.size();i++){
@@ -93,9 +102,32 @@ public class Expansion implements Cloneable,EncounterPlacer{
                     proximities.put(proxName, proxMinDistance);
                 }
             }
+            if(jsonRequirements!=null){
+                rootResources               =   getResourceAmounts((JSONObject) jsonRequirements.get("root"));
+                parentResources             =   getResourceAmounts((JSONObject) jsonRequirements.get("parent"));
+            }
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid expansion configuration: "+e.getMessage());
         }
+    }
+    
+    private HashMap<Material,Integer> getResourceAmounts(JSONObject requirements){
+        HashMap<Material,Integer> resourceRequirements  =   new HashMap();
+        if(requirements!=null){
+            JSONObject jsonResources   =   (JSONObject) requirements.get("resources");
+            if(jsonResources!=null){
+                for(String materialName : (Set<String>) jsonResources.keySet()){
+                    Material material   =   Material.getMaterial(materialName);
+                    if(material!=null){
+                        Integer amount  =   ((Number) jsonResources.get(materialName)).intValue();
+                        resourceRequirements.put(material, amount);
+                    }else{
+                        RandomEncounters.getInstance().logWarning("Invalid material in resource requirements: "+materialName);
+                    }
+                }
+            }
+        }
+        return resourceRequirements;
     }
     
     /**
@@ -121,16 +153,41 @@ public class Expansion implements Cloneable,EncounterPlacer{
             RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
         }
         if(random<probability){
-            Set<PlacedEncounter> validExpansions    =   expandingEncounter.getPlacedExpansions(encounter);
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
+            if(expandingEncounter.getPlacedExpansions(encounter).size()>=max){
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" has reached the maximum number of expansions");
+                }
+                return;
             }
-            if(validExpansions.size()<max){
-                checking    =   true;
-               (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
+            if(isVault() && expandingEncounter.hasVaultSpace()){
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" still has vault space");
+                }
+                return;
             }
+            if(!expandingEncounter.getRoot().hasResources((HashMap<Material,Integer>) rootResources.clone())){
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" does not have the required root resources");
+                }
+                return;
+            }
+            if(!expandingEncounter.hasResources((HashMap<Material,Integer>) parentResources.clone())){
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" does not have the required local resources");
+                }
+                return;
+            }
+            deductResources();
+            checking    =   true;
+           (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
+            
         }
         
+    }
+    
+    private void deductResources(){
+        expandingEncounter.getRoot().withdrawResources((HashMap<Material,Integer>) rootResources.clone());
+        expandingEncounter.withdrawResources((HashMap<Material,Integer>) parentResources.clone());
     }
     
     /**
@@ -161,6 +218,10 @@ public class Expansion implements Cloneable,EncounterPlacer{
             RandomEncounters.getInstance().logError("Unable to locate encounter "+encounterName+" for expansion!!");
         }
         return encounter;
+    }
+    
+    public boolean isVault(){
+        return vault;
     }
     
     /**
@@ -218,11 +279,17 @@ public class Expansion implements Cloneable,EncounterPlacer{
 
     @Override
     public void addPlacedEncounter(PlacedEncounter newEncounter) {
+       
         checking    =   false;
         if(newEncounter!=null){
+            if(vault){
+                expandingEncounter.addVault(newEncounter);
+            }
             expandingEncounter.addExpansion(newEncounter);
             RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
         }else{
+            expandingEncounter.getRoot().depositResources((HashMap<Material,Integer>) rootResources.clone());
+            expandingEncounter.depositResources((HashMap<Material,Integer>) parentResources.clone());
             canExpand   =   false;
         }
     }

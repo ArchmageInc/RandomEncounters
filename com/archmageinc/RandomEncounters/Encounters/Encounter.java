@@ -54,29 +54,31 @@ public class Encounter implements EncounterPlacer{
      * An empty set implies only invalid biome restrictions. 
      * If both sets are empty, the encounter may be placed in any biome.
      */
-    private final Set<Biome> validBiomes            =   new HashSet();
+    private final Set<Biome> validBiomes                    =   new HashSet();
     
     /**
      * The set of Biomes where this encounter is not allowed to be placed.
      * An empty set implies only valid biome restrictions.
      * If both sets are empty, the encounter may be placed in any biome. 
      */
-    private final Set<Biome> invalidBiomes          =   new HashSet();
+    private final Set<Biome> invalidBiomes                  =   new HashSet();
     
     /**
      * The set of Mobs that will be placed with this encounter.
      */
-    private final Set<Mob> mobs                     =   new HashSet();
+    private final Set<Mob> mobs                             =   new HashSet();
     
     /**
      * The set of Treasures that will be placed in chests of the structure.
      */
-    private final Set<Treasure> treasures           =   new HashSet();
+    private final Set<Treasure> treasures                   =   new HashSet();
     
     /**
      * The set of Expansions that this encounter is allowed to spawn.
      */
-    private final HashSet<Expansion> expansions     =   new HashSet();
+    private final HashSet<Expansion> expansions             =   new HashSet();
+    
+    private JSONArray jsonCollections;
     
     /**
      * Get an instance of the encounter based on the name.
@@ -128,10 +130,11 @@ public class Encounter implements EncounterPlacer{
             treasures.clear();
             expansions.clear();
             mobs.clear();
-            name        =   (String) jsonConfiguration.get("name");
-            enabled     =   (Boolean) jsonConfiguration.get("enabled");
-            probability =    jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
-            structure   =   Structure.getInstance((String) jsonConfiguration.get("structure"));
+            name            =   (String) jsonConfiguration.get("name");
+            enabled         =   jsonConfiguration.get("enabled")==null ? true : (Boolean) jsonConfiguration.get("enabled");
+            probability     =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
+            structure       =   Structure.getInstance((String) jsonConfiguration.get("structure"));
+            jsonCollections =   (JSONArray) jsonConfiguration.get("collections");
             JSONArray jsonValidBiomes   =   (JSONArray) jsonConfiguration.get("validBiomes");
             JSONArray jsonInvalidBiomes =   (JSONArray) jsonConfiguration.get("invalidBiomes");
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
@@ -170,7 +173,8 @@ public class Encounter implements EncounterPlacer{
             if(jsonExpansions!=null){
                 for(int i=0;i<jsonExpansions.size();i++){
                     JSONObject jsonExpansion    =   (JSONObject) jsonExpansions.get(i);
-                    expansions.add(new Expansion(jsonExpansion));
+                    Expansion expansion         =   new Expansion(jsonExpansion);
+                    expansions.add(expansion);
                 }
             }
             if(jsonMobs!=null){
@@ -265,6 +269,10 @@ public class Encounter implements EncounterPlacer{
     
     public boolean hasTreasures(){
         return !treasures.isEmpty();
+    }
+    
+    public JSONArray getCollectionConfiguration(){
+        return jsonCollections;
     }
     
     /**

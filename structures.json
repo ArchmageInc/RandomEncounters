@@ -23,6 +23,18 @@
   ],
   "structures":	[
       {
+      "name":		"Vault1",
+      "file":		"schematics/Vault1.schematic",
+      "minY":		0,
+      "maxY":		196,
+      "trump":		null,
+      "invalid":	[
+	"AIR",
+	"STATIONARY_WATER",
+	"WATER"
+      ]
+    },
+      {
       "name":		"House1",
       "file":		"schematics/houses/FarmHouse1.schematic",
       "minY":		0,

@@ -1,6 +1,20 @@
 {
   "encounters":	[
       {
+        "name":             "vault3",
+        "structure":        "Vault1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    null,
+        "mobs":             [
+            "GeordianBattalion"
+        ]
+      },
+      {
         "name":             "farm1",
         "structure":        "Farm1",
         "probability":      0.0,
@@ -627,7 +641,64 @@
             "DEEP_OCEAN",
             "SKY"
         ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 10,
+                "destination":  "root",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    50,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 20,
+                "total":    500,
+                "duration": 5,
+                "maxHeight": 72,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+	      "distance": 5,
+	      "total":    2,
+	      "duration": 10,
+	      "destination": "self",
+	      "resources": [
+		"STONE"
+	      ]
+            }
+        ],
         "expansions":   [
+            {
+	      "encounter":	"vault3",
+	      "probability":	0.5,
+	      "duration":	1,
+	      "max":		1,
+	      "maxDistance":	4,
+	      "vault":		true,
+	      "pattern":	1
+	    },
             {
                 "encounter":    "tower3",
                 "probability":  0.00001,
@@ -635,6 +706,16 @@
                 "max":          1,
                 "maxDistance":  30,
                 "minDistance":  10,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 100,
+		      "COAL":	  60,
+		      "GOLD_ORE": 8,
+		      "LOG":	  25
+		    }
+		  }
+                },
                 "proximities":	[
 		  {
 		    "encounter": "tower3",
@@ -651,21 +732,48 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":  4
+                "maxDistance":  4,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  20,
+		      "IRON_ORE": 5,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":  4
+                "maxDistance":  4,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  20,
+		      "IRON_ORE": 5,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":     4
+                "maxDistance":     4,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  20,
+		      "IRON_ORE": 5,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house4",
@@ -679,28 +787,64 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":  4
+                "maxDistance":  4,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  20,
+		      "IRON_ORE": 5,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":  4
+                "maxDistance":  4,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  20,
+		      "IRON_ORE": 5,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":  4
+                "maxDistance":  4,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  20,
+		      "IRON_ORE": 5,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":  4
+                "maxDistance":  4,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  20,
+		      "IRON_ORE": 5,
+		      "LOG":	  25
+		    }
+		  }
+                }
             }
         ]
       },
@@ -930,9 +1074,19 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "maxDistance":     15
+                "maxDistance":  15,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COBBLESTONE": 576,
+                      "GOLD_ORE": 200,
+                      "COAL": 400,
+                      "IRON_ORE": 200
+		    }
+		  }
+                }
             }
-        ]  
+        ] 
       },
       
       
@@ -1822,7 +1976,61 @@
           "OCEAN",
           "DEEP_OCEAN"
         ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 1,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+	      "distance": 5,
+	      "total":    2,
+	      "duration": 10,
+	      "destination": "self",
+	      "resources": [
+		"STONE"
+	      ]
+            }
+        ],
         "expansions":       [
+            {
+                "encounter":        "vault3",
+                "probability":      0.5,
+                "duration":         10,
+                "max":              8,
+                "maxDistance":      20,
+                "minDistance":      3,
+                "pattern":          1,
+                "vault":            true,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COBBLESTONE": 576
+		    }
+		  }
+                }
+            },
             {
                 "encounter":        "tower3",
                 "probability":      0.001,
@@ -1839,21 +2047,52 @@
                     "encounter":    "castle3",
 		    "minDistance":  10  
                   }
-                ]
+                ],
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 100,
+		      "COAL":	  200,
+		      "GOLD_ORE": 8,
+		      "LOG":	  25,
+		      "COBBLESTONE": 576
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
-                "duration":     75,
+                "duration":     20,
                 "max":          1,
-                "maxDistance":     15
+                "maxDistance":  5,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 20,
+		      "COAL":	  200,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "maxDistance":  15
+                "maxDistance":  15,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 20,
+		      "COAL":	  200,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house1",
@@ -1862,7 +2101,17 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house2",
@@ -1871,7 +2120,17 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house3",
@@ -1880,7 +2139,17 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house4",
@@ -1889,7 +2158,17 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house5",
@@ -1898,7 +2177,17 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house6",
@@ -1907,7 +2196,17 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house7",
@@ -1916,7 +2215,17 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "house8",
@@ -1925,14 +2234,34 @@
                 "max":          4,
                 "maxDistance":  10,
                 "minDistance":  2,
-                "pattern":      1
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 10,
+		      "COAL":	  100,
+		      "GOLD_ORE": 2,
+		      "LOG":	  25
+		    }
+		  }
+                }
             },
             {
                 "encounter":    "shrine3",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "maxDistance":  15
+                "maxDistance":  15,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 60,
+		      "COAL":	  400,
+		      "GOLD_ORE": 30,
+		      "LOG":	  50
+		    }
+		  }
+                }
             }
         ]  
       },

@@ -2,6 +2,7 @@ package com.archmageinc.RandomEncounters.Encounters;
 
 import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
 import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.ResourceCollection;
 import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -75,8 +78,13 @@ public class PlacedEncounter {
     
     private PlacedEncounter root                            =   null;
     
+    private final Set<Vault> vaults                         =   new HashSet();
+    
+    private Vault selfVault;
+    
     private static Map<UUID,PlacedEncounter> uuidInstances  =   new HashMap();
     
+    private final Set<ResourceCollection> collections       =   new HashSet();
     
     /**
      * Get an instance of the placed encounter based on the Unique ID.
@@ -164,6 +172,7 @@ public class PlacedEncounter {
                 }
             }
             setupExpansions();
+            setupCollections();
             instances.add(this);
             uuidInstances.put(uuid, this);
         }catch(ClassCastException e){
@@ -188,8 +197,92 @@ public class PlacedEncounter {
         }
         
         setupExpansions();
+        setupCollections();
         instances.add(this);
         uuidInstances.put(uuid, this);
+    }
+    
+    private void setupCollections(){
+        collections.clear();
+        JSONArray jsonCollections   =   encounter.getCollectionConfiguration();
+        if(jsonCollections!=null){
+            for(int i=0;i<jsonCollections.size();i++){
+                collections.add(new ResourceCollection(this,(JSONObject) jsonCollections.get(i)));
+            }
+        }
+    }
+    
+    public void runCollectionChecks(){
+        for(ResourceCollection collection : collections){
+            collection.check();
+        }
+    }
+    
+    public void depositResources(List<ItemStack> items){
+        for(Vault vault : getVaults()){
+            if(!vault.isFull()){
+                items   =   vault.deposit(items);
+                if(items.isEmpty()){
+                    break;
+                }
+            }
+        }
+    }
+    
+    public void depositResources(HashMap<Material,Integer> resources){
+        List<ItemStack> items   =   new ArrayList();
+        for(Vault vault : getVaults()){
+            if(!vault.isFull()){
+                items   =   items.isEmpty() ? vault.deposit(resources) : vault.deposit(items);
+                if(items.isEmpty()){
+                    break;
+                }
+            }
+        }
+    }
+    
+    public boolean hasResources(HashMap<Material,Integer> resources){
+        if(resources.isEmpty()){
+            return true;
+        }
+        HashMap<Material,Integer> leftover  =   resources;
+        for(Vault vault : getVaults()){
+            leftover    =   vault.contains(leftover);
+            if(leftover.isEmpty()){
+                break;
+            }
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>9){
+            for(Material material : leftover.keySet()){
+                RandomEncounters.getInstance().logMessage("      # need "+leftover.get(material)+" "+material.name());
+            }
+        }
+        return leftover.isEmpty();
+    }
+    
+    public HashMap<Material,Integer> withdrawResources(HashMap<Material,Integer> resources){
+        if(resources.isEmpty()){
+            return resources;
+        }
+        HashMap<Material,Integer> leftover  =   resources;
+        for(Vault vault : getVaults()){
+            leftover    =   vault.withdraw(leftover);
+            if(leftover.isEmpty()){
+                break;
+            }
+        }
+        return leftover;
+    }
+    
+    public boolean hasVaultSpace(){
+        for(Vault vault : getVaults()){
+            if(!vault.getEncounter().equals(this)){
+                if(!vault.isFull()){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     public void placeMobs(){
@@ -217,6 +310,28 @@ public class PlacedEncounter {
                 RandomEncounters.getInstance().logError("Clone failed for expansion: "+e.getMessage());
             }
         }
+    }
+    
+    public void addVault(PlacedEncounter vault){
+        if(vaults.isEmpty()){
+            getVaults();
+        }
+        vaults.add(new Vault(vault));
+    }
+    
+    public Set<Vault> getVaults(){
+        if(vaults.isEmpty()){
+            for(Expansion exp : expansions){
+                if(exp.isVault()){
+                    for(PlacedEncounter enc : getPlacedExpansions(exp.getEncounter())){
+                        vaults.add(new Vault(enc));
+                    }
+                }
+            }
+            selfVault   =   new Vault(this);
+            vaults.add(selfVault);
+        }
+        return vaults;
     }
     
     /**
