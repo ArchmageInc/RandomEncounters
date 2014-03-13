@@ -137,48 +137,66 @@ public class Expansion implements Cloneable,EncounterPlacer{
     public void checkExpansion(){
         if(checking){
             if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" is still running checks");
+                RandomEncounters.getInstance().logMessage("    * Expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" is still running checks");
+            }
+            return;
+        }
+        Calendar nextRun    =   (Calendar) getLastCheck().clone();
+        nextRun.add(Calendar.MINUTE, getDuration().intValue());
+        if(nextRun.after(Calendar.getInstance())){
+            if(RandomEncounters.getInstance().getLogLevel()>11){
+                int difference      =   Math.round(nextRun.compareTo(Calendar.getInstance())/(1000*60));
+                RandomEncounters.getInstance().logMessage("    * Expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" waiting "+difference+" minutes");
             }
             return;
         }
         updateLastCheck();
         if(!canExpand){
             if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" reportedly has nowhere to expand");
+                RandomEncounters.getInstance().logMessage("    * Expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" reportedly has nowhere to expand");
+            }
+            return;
+        }
+        if(expandingEncounter.isSacked()){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("    * "+expandingEncounter.getName()+" is sacked and cannot expand");
             }
             return;
         }
         Double random   =   Math.random();
-        if(RandomEncounters.getInstance().getLogLevel()>6){
-            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" : ("+random+","+probability+") ");
         }
         if(random<probability){
-            if(expandingEncounter.getPlacedExpansions(encounter).size()>=max){
+            if(expandingEncounter.getChildren(encounter).size()>=max){
                 if(RandomEncounters.getInstance().getLogLevel()>7){
-                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" has reached the maximum number of expansions");
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" has reached the maximum number of expansions");
                 }
                 return;
             }
             if(isVault() && expandingEncounter.hasVaultSpace()){
                 if(RandomEncounters.getInstance().getLogLevel()>7){
-                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" still has vault space");
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" still has vault space");
                 }
                 return;
             }
             if(!expandingEncounter.getRoot().hasResources((HashMap<Material,Integer>) rootResources.clone())){
                 if(RandomEncounters.getInstance().getLogLevel()>7){
-                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" does not have the required root resources");
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" does not have the required root resources");
                 }
                 return;
             }
             if(!expandingEncounter.hasResources((HashMap<Material,Integer>) parentResources.clone())){
                 if(RandomEncounters.getInstance().getLogLevel()>7){
-                    RandomEncounters.getInstance().logMessage("    * expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" does not have the required local resources");
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" does not have the required local resources");
                 }
                 return;
             }
             deductResources();
             checking    =   true;
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" has started looking for a suitable location");
+            }
            (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
             
         }
@@ -258,6 +276,11 @@ public class Expansion implements Cloneable,EncounterPlacer{
     }
     
     @Override
+    public String getLineageName(){
+        return expandingEncounter.getName()+"->"+encounter.getName();
+    }
+    
+    @Override
     public Map<String,Long> getProximities(){
         return proximities;
     }
@@ -270,7 +293,7 @@ public class Expansion implements Cloneable,EncounterPlacer{
     @Override
     public double getInitialAngle(){
         if(expandingEncounter.getParent()!=null){
-           double adjust   =   expandingEncounter.getPlacedExpansions(encounter).size()*(Math.PI/8)+(Math.PI/2);
+           double adjust   =   expandingEncounter.getChildren(encounter).size()*(Math.PI/8)+(Math.PI/2);
            return Math.atan2(expandingEncounter.getLocation().getChunk().getX()-expandingEncounter.getRoot().getLocation().getChunk().getX(),expandingEncounter.getLocation().getChunk().getZ()-expandingEncounter.getRoot().getLocation().getChunk().getZ())-adjust;
         }else{
             return Math.random()*(Math.PI*2);
@@ -285,7 +308,7 @@ public class Expansion implements Cloneable,EncounterPlacer{
             if(vault){
                 expandingEncounter.addVault(newEncounter);
             }
-            expandingEncounter.addExpansion(newEncounter);
+            expandingEncounter.addChild(newEncounter);
             RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
         }else{
             expandingEncounter.getRoot().depositResources((HashMap<Material,Integer>) rootResources.clone());

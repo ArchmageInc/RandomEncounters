@@ -12,4 +12,5 @@ public interface EncounterPlacer {
     public double getInitialAngle();
     public long getPattern();
     public Map<String,Long> getProximities();
+    public String getLineageName();
 }

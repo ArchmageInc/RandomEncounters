@@ -1,8 +1,10 @@
 package com.archmageinc.RandomEncounters.Encounters;
 
 import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Utilities.Accountant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -22,11 +24,13 @@ import org.bukkit.inventory.ItemStack;
 public class Vault {
     
     private final PlacedEncounter placedEncounter;
-    private final Set<Location> locations       =   new HashSet();
-    private boolean full                        =   false;
+    private final Set<Location> locations               =   new HashSet();
+    private boolean full                                =   false;
+    private final HashMap<Material,Integer> ledger      =   new HashMap();
+    private static final HashMap<Location,Vault> owners =   new HashMap();
     
-    public Vault(PlacedEncounter encounter){
-        placedEncounter =   encounter;
+    public Vault(PlacedEncounter placedEncounter){
+        this.placedEncounter =   placedEncounter;
         findChests();
     }
     
@@ -47,7 +51,14 @@ public class Vault {
                 while(z<mz){
                     Block block =   placedEncounter.getLocation().getWorld().getBlockAt(x,y,z);
                     if(block.getState() instanceof Chest){
-                        locations.add(block.getLocation());
+                        if(!owners.containsKey(block.getLocation())){
+                            locations.add(block.getLocation());
+                            owners.put(block.getLocation(), this);
+                        }else{
+                            if(RandomEncounters.getInstance().getLogLevel()>5){
+                                RandomEncounters.getInstance().logWarning(getVaultName()+" attempted to grab a chest from "+owners.get(block.getLocation()).getVaultName());
+                            }
+                        }
                     }
                     z++;
                 }
@@ -55,9 +66,13 @@ public class Vault {
             }
             x++;
         }
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage(placedEncounter.getName()+"(Vault) located "+locations.size()+" storage inventories");
+        if(locations.isEmpty()){
+            full    =   true;
         }
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage(getVaultName()+" located "+locations.size()+" storage inventories");
+        }
+        initializeLedger();
     }
     
     public PlacedEncounter getEncounter(){
@@ -69,74 +84,75 @@ public class Vault {
     }
     
     public List<ItemStack> deposit(HashMap<Material,Integer> resources){
-        List<ItemStack> leftovers   =   Arrays.asList(convertResources(resources));
-        return deposit(leftovers);
+        return deposit(Accountant.convert(resources));
     }
-    
     public List<ItemStack> deposit(List<ItemStack> items){
+        return deposit(items.toArray(new ItemStack[0]));
+    }
+    public List<ItemStack> deposit(ItemStack[] items){
         if(RandomEncounters.getInstance().getLogLevel()>5){
-            RandomEncounters.getInstance().logMessage("Depositing "+items.size()+" item stacks into "+placedEncounter.getName()+"(Vault)");
+            RandomEncounters.getInstance().logMessage(getVaultName()+ " - Attempting to deposit "+items.length+" item stacks");
         }
-        List<ItemStack> leftovers   =   items;
-        Iterator<Location> itr     =   locations.iterator();
-        if(!items.isEmpty()){
-            int i   =   1;
-            while(itr.hasNext()){
-                Location location =   itr.next();
-                if(validInventory(location,itr)){
-                    Inventory inventory                 =   ((Chest) location.getBlock().getState()).getBlockInventory();
-                    ItemStack[] itemArray               =   leftovers.toArray(new ItemStack[0]);
-                    HashMap<Integer,ItemStack> bounce   =   inventory.addItem(itemArray);
-                    leftovers   =   new ArrayList(bounce.values());
+        List<ItemStack> leftovers   =   Arrays.asList(items);
+        if(!locations.isEmpty() && items.length>0){
+            Iterator<Location> litr =   locations.iterator();
+            while(litr.hasNext()){
+                Location location   =   litr.next();
+                if(validInventory(location,litr)){
+                    Inventory inventory =   ((Chest) location.getBlock().getState()).getBlockInventory();
+                    leftovers           =   new ArrayList(inventory.addItem(items).values());
                     if(leftovers.isEmpty()){
                         if(RandomEncounters.getInstance().getLogLevel()>9){
-                            RandomEncounters.getInstance().logMessage("All stacks fit into this vault");
+                            RandomEncounters.getInstance().logMessage(getVaultName()+" - Successfully deposited all items");
                         }
                         break;
                     }
                 }
-                i++;
             }
         }
-        if(!leftovers.isEmpty()){
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage(placedEncounter.getName()+"(Vault) is full");
-            }
-            full = true;
-        }else{
-            full = false;
-        }
+        ledgerTransaction(Accountant.subtract(Accountant.convert(items), Accountant.convert(leftovers)),1);
+        full    =   leftovers.isEmpty();
         return leftovers;
     }
     
-    public HashMap<Material,Integer> withdraw(HashMap<Material,Integer> resources){
+    public List<ItemStack> withdraw(HashMap<Material,Integer> resources){
+        return withdraw(Accountant.convert(resources));
+    }
+    public List<ItemStack> withdraw(List<ItemStack> items){
+        return withdraw(items.toArray(new ItemStack[0]));
+    }
+    public List<ItemStack> withdraw(ItemStack[] items){
         if(RandomEncounters.getInstance().getLogLevel()>5){
-            RandomEncounters.getInstance().logMessage("widthdrawing "+resources.size()+" types of resources from "+placedEncounter.getName()+"(Vault)");
+            RandomEncounters.getInstance().logMessage(getVaultName()+ " - Attempting to withdraw "+items.length+" item stacks");
         }
-        if(resources.isEmpty()){
-            return resources;
-        }
-        HashMap<Material,Integer> leftover  =   resources;
-        Iterator<Location> itr              =   locations.iterator();
-        while(itr.hasNext()){
-            Location location   =   itr.next();
-            if(validInventory(location,itr)){
-                Inventory inventory =   ((Chest) location.getBlock().getState()).getBlockInventory();
-                leftover            =   convertStacks(inventory.removeItem(convertResources(leftover)));
+        List<ItemStack> leftovers   =   Arrays.asList(items);
+        if(!locations.isEmpty() && items.length>0){
+            Iterator<Location> litr =   locations.iterator();
+            while(litr.hasNext()){
+                Location location   =   litr.next();
+                if(validInventory(location,litr)){
+                    Inventory inventory =   ((Chest) location.getBlock().getState()).getBlockInventory();
+                    leftovers           =   new ArrayList(inventory.removeItem(items).values());
+                    if(leftovers.isEmpty()){
+                        if(RandomEncounters.getInstance().getLogLevel()>9){
+                            RandomEncounters.getInstance().logMessage(getVaultName()+" - Successfully withdrew all items");
+                        }
+                        break;
+                    }
+                }
             }
-            if(leftover.isEmpty()){
-                break;
-            }
         }
-        full = false;
-        return leftover;
+        ledgerTransaction(Accountant.subtract(Accountant.convert(items),Accountant.convert(leftovers)),-1);
+        full    =   false;
+        return leftovers;
     }
     
     private boolean validInventory(Location location,Iterator<Location> itr){
         if(location==null || !(location.getBlock().getState() instanceof Chest)){
            if(RandomEncounters.getInstance().getLogLevel()>4){
-                RandomEncounters.getInstance().logMessage("Vault detected missing inventory, removing it");
+                RandomEncounters.getInstance().logMessage(getVaultName()+" detected missing inventory, removing it");
            }
+           owners.remove(location);
            itr.remove(); 
            return false;
         }
@@ -144,63 +160,46 @@ public class Vault {
     }
     
     public HashMap<Material,Integer> contains(HashMap<Material,Integer> amounts){
-        HashMap<Material,Integer> leftover    =   amounts;
-        if(!amounts.isEmpty()){
+        return  Accountant.complement(amounts, ledger);
+    }
+    
+    private void ledgerTransaction(HashMap<Material,Integer> amounts,int type){
+       if(amounts.isEmpty()){
+           return;
+       }
+       type =   type<0 ? -1 : 1;
+       for(Material material : amounts.keySet()){
+            int amount  =   ledger.containsKey(material) ? ledger.get(material)+(amounts.get(material)*type) : amounts.get(material);
+            if(amount==0){
+                ledger.remove(material);
+            }else{
+                ledger.put(material, amount);
+            }
+        }
+    }
+    
+    private void initializeLedger(){
+        if(!locations.isEmpty()){
             Iterator<Location> itr            =   locations.iterator();
-            int i   =   1;
+            List<ItemStack> items             =   new ArrayList();
             while(itr.hasNext()){
                 Location location =   itr.next();
                 if(validInventory(location,itr)){
-                   Inventory inventory      =   ((Chest) location.getBlock().getState()).getBlockInventory();
-                   Iterator<Material> iitr  =   leftover.keySet().iterator();
-                   while(iitr.hasNext()){
-                       Material material        =   iitr.next();
-                       Integer amount           =   leftover.get(material);
-                       List<ItemStack> contents =   new ArrayList(((HashMap<Integer,ItemStack>) inventory.all(material)).values());
-                       if(!contents.isEmpty()){
-                           for(ItemStack item : contents){
-                               amount   -=   item.getAmount();
-                               if(amount<=0){
-                                   iitr.remove();
-                                   break;
-                               }else{
-                                   leftover.put(material, amount);
-                               }
-                           }
+                   Inventory inventory                  =   ((Chest) location.getBlock().getState()).getBlockInventory();
+                   
+                   for(ItemStack item : inventory.getContents()){
+                       if(item==null){
+                           continue;
                        }
-                   }
-                   if(leftover.isEmpty()){
-                       break;
+                       items.add(item);
                    }
                 }
-                i++;
             }
+            ledgerTransaction(Accountant.convert(items),1);
         }
-        return leftover;
     }
     
-    private ItemStack[] convertResources(HashMap<Material,Integer> resources){
-        List<ItemStack> items   =   new ArrayList();
-        for(Material material : resources.keySet()){
-            if(material!=null){
-                ItemStack item  =   new ItemStack(material,resources.get(material));
-                items.add(item);
-            }
-        }
-        
-        return items.toArray(new ItemStack[0]);
-    }
-    
-    private HashMap<Material,Integer> convertStacks(HashMap<Integer,ItemStack> items){
-        HashMap<Material,Integer> resources =   new HashMap();
-        for(Integer i : items.keySet()){
-            ItemStack item  =   items.get(i);
-            Integer amount  =   item.getAmount();
-            if(resources.containsKey(item.getType())){
-                amount  +=  resources.get(item.getType());
-            }
-            resources.put(item.getType(), amount);
-        }
-        return resources;
+    private String getVaultName(){
+        return placedEncounter.getName()+"(Vault)";
     }
 }

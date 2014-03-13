@@ -321,6 +321,11 @@ public class Encounter implements EncounterPlacer{
     }
     
     @Override
+    public String getLineageName(){
+        return "Root->"+getName();
+    }
+    
+    @Override
     public Map<String,Long> getProximities(){
         return new HashMap<>();
     }

@@ -21,8 +21,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class ResourceCollectorTask extends BukkitRunnable{
     
     private final ResourceCollection collector;
-    private int i                   =   0;
-    private List<ItemStack> items   =   new ArrayList();
+    private int i                         =   0;
+    private final List<ItemStack> items   =   new ArrayList();
     
     public ResourceCollectorTask(ResourceCollection collection){
         collector   =   collection;
@@ -59,7 +59,7 @@ public class ResourceCollectorTask extends BukkitRunnable{
         if(collector.validResource(block.getType())){
             resourceItems.addAll(block.getDrops());
             block.setType(Material.AIR);
-            if(n<20){
+            if(n<10){
                 resourceItems.addAll(getResources(block.getRelative(BlockFace.UP),n+1));
                 resourceItems.addAll(getResources(block.getRelative(BlockFace.DOWN),n+1));
                 resourceItems.addAll(getResources(block.getRelative(BlockFace.EAST),n+1));

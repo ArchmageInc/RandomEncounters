@@ -44,7 +44,7 @@ public class ResourceCollectionTask extends BukkitRunnable{
         }
         if(itr.hasNext()){
             wait    =   true;
-            if(RandomEncounters.getInstance().getLogLevel()>9){
+            if(RandomEncounters.getInstance().getLogLevel()>11){
                 RandomEncounters.getInstance().logMessage("More time needed for resource collection");
             }
         }else{

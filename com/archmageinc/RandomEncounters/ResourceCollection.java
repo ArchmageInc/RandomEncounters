@@ -80,7 +80,7 @@ public class ResourceCollection {
             return placedEncounter.getRoot();
         }
         if(destination.equalsIgnoreCase("parent")){
-            return placedEncounter.getParent();
+            return placedEncounter.getParent()!=null ? placedEncounter.getParent() : placedEncounter;
         }
         return placedEncounter;
     }
@@ -93,16 +93,16 @@ public class ResourceCollection {
         if(!checking && nextRun.before(Calendar.getInstance())){
             lastCheck   =   (Calendar) Calendar.getInstance().clone();
             checking    =   true;
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage(placedEncounter.getName()+": resource collection rule started");
+            if(RandomEncounters.getInstance().getLogLevel()>8){
+                RandomEncounters.getInstance().logMessage("  * "+placedEncounter.getName()+": resource collection rule started");
             }
             (new ResourceCollectorTask(this)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
         }
     }
     
     public void collectResources(List<ItemStack> items){
-        if(RandomEncounters.getInstance().getLogLevel()>6){
-            RandomEncounters.getInstance().logMessage(placedEncounter.getName()+": resource collection rule finished: "+items.size());
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("  * "+placedEncounter.getName()+": resource collection rule finished: "+items.size());
         }
         getDestination().depositResources(items);
         checking    =   false;

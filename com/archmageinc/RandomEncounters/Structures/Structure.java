@@ -219,20 +219,20 @@ public class Structure {
      * The Origin of the cuboid lines up with this some how. I have no idea what I was doing here,
      * but it seemed to work so.... yeah.
      * 
-     * @param encounter The encounter configuration for this structure.
+     * @param placedEncounter The encounter configuration for this structure.
      */
-    public void place(PlacedEncounter encounter){
+    public void place(PlacedEncounter placedEncounter){
         if(!loaded){
             RandomEncounters.getInstance().logWarning("Attempted to place a non-loaded structure: "+name);
             return;
         }
         if(placing){
-            queue.add(encounter);
+            queue.add(placedEncounter);
             return;
         }
         
         placing =   true;
-        (new StructurePlacementTask(encounter)).runTaskTimer(RandomEncounters.getInstance(), 1, 2);
+        (new StructurePlacementTask(placedEncounter)).runTaskTimer(RandomEncounters.getInstance(), 1, 2);
     }
     
     public void placed(){

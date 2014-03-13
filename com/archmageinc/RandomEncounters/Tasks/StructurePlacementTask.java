@@ -23,7 +23,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class StructurePlacementTask extends BukkitRunnable {
     private final Structure structure;
-    private final PlacedEncounter encounter;
+    private final PlacedEncounter placedEncounter;
     private final EditSession session;
     private final CuboidClipboard cuboid;
     private final Vector v;
@@ -47,21 +47,21 @@ public class StructurePlacementTask extends BukkitRunnable {
         if(encounter==null){
             throw new IllegalArgumentException("PlacedEncounter is required for structure placement!");
         }
-        this.encounter  =   encounter;
-        this.structure  =   encounter.getEncounter().getStructure();
-        this.cuboid     =   encounter.getEncounter().getStructure().getCuboid();
-        this.pass       =   1;
-        this.v          =   new Vector(encounter.getLocation().getX(),encounter.getLocation().getY(),encounter.getLocation().getZ());
-        this.sx         =   -cuboid.getSize().getBlockX()/2;
-        this.sy         =   cuboid.getOffset().getBlockY();
-        this.sz         =   -cuboid.getSize().getBlockZ()/2;
-        this.mx         =   cuboid.getSize().getBlockX()/2;
-        this.my         =   cuboid.getSize().getBlockY()+cuboid.getOffset().getBlockY();
-        this.mz         =   cuboid.getSize().getBlockZ()/2;
-        this.x          =   sx;
-        this.y          =   sy;
-        this.z          =   sz;
-        this.session    =   new EditSession((new BukkitWorld(encounter.getLocation().getWorld())),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight()*2);
+        this.placedEncounter    =   encounter;
+        this.structure          =   encounter.getEncounter().getStructure();
+        this.cuboid             =   encounter.getEncounter().getStructure().getCuboid();
+        this.pass               =   1;
+        this.v                  =   new Vector(encounter.getLocation().getX(),encounter.getLocation().getY(),encounter.getLocation().getZ());
+        this.sx                 =   -cuboid.getSize().getBlockX()/2;
+        this.sy                 =   cuboid.getOffset().getBlockY();
+        this.sz                 =   -cuboid.getSize().getBlockZ()/2;
+        this.mx                 =   cuboid.getSize().getBlockX()/2;
+        this.my                 =   cuboid.getSize().getBlockY()+cuboid.getOffset().getBlockY();
+        this.mz                 =   cuboid.getSize().getBlockZ()/2;
+        this.x                  =   sx;
+        this.y                  =   sy;
+        this.z                  =   sz;
+        this.session            =   new EditSession((new BukkitWorld(encounter.getLocation().getWorld())),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight()*2);
     }
     
     private void checkBlock(int x, int y, int z){
@@ -90,15 +90,15 @@ public class StructurePlacementTask extends BukkitRunnable {
     }
     
     private boolean isPlayerNearby(){
-        Location location      =   encounter.getLocation();
+        Location location      =   placedEncounter.getLocation();
         List<Player> players   =   location.getWorld().getPlayers();
         for(Player player : players){
             if(RandomEncounters.getInstance().getLogLevel()>11){
-                RandomEncounters.getInstance().logMessage(player.getDisplayName()+" is "+location.distance(player.getLocation())+" away from placing structure "+structure.getName());
+                RandomEncounters.getInstance().logMessage(player.getDisplayName()+" is "+location.distance(player.getLocation())+" away from placing structure "+placedEncounter.getName());
             }
             if(location.distance(player.getLocation())<structure.getLength() || location.distance(player.getLocation())<structure.getWidth()){
                 if(RandomEncounters.getInstance().getLogLevel()>10){
-                    RandomEncounters.getInstance().logMessage("A player is "+location.distance(player.getLocation())+" away from placing structure "+structure.getName()+". Backing down to 1ms");
+                    RandomEncounters.getInstance().logMessage("A player is "+location.distance(player.getLocation())+" away from placing structure "+placedEncounter.getName()+". Backing down to 1ms");
                 }
                 return true;
             }
@@ -130,15 +130,15 @@ public class StructurePlacementTask extends BukkitRunnable {
             BaseBlock block =   lastQueue.get(bv);
             setBlock(bv,block);
             if(Calendar.getInstance().after(timeLimit)){
-                if(RandomEncounters.getInstance().getLogLevel()>9){
-                    RandomEncounters.getInstance().logMessage("Structure placement needs more time for "+structure.getName()+" P2("+bv.getBlockX()+","+bv.getBlockY()+","+bv.getBlockZ()+")");
+                if(RandomEncounters.getInstance().getLogLevel()>11){
+                    RandomEncounters.getInstance().logMessage("Structure placement needs more time for "+placedEncounter.getName()+" P2("+bv.getBlockX()+","+bv.getBlockY()+","+bv.getBlockZ()+")");
                 }
                 break;
             }
         }
         if(!lastItr.hasNext()){
-            if(RandomEncounters.getInstance().getLogLevel()>9){
-                RandomEncounters.getInstance().logMessage("Structure placement for "+structure.getName()+" completed second pass [P3: "+finalQueue.size()+"]");
+            if(RandomEncounters.getInstance().getLogLevel()>10){
+                RandomEncounters.getInstance().logMessage("Structure placement for "+placedEncounter.getName()+" completed second pass [P3: "+finalQueue.size()+"]");
             }
             pass++;
         }
@@ -152,15 +152,15 @@ public class StructurePlacementTask extends BukkitRunnable {
             BaseBlock block =   finalQueue.get(bv);
             setBlock(bv,block);
             if(Calendar.getInstance().after(timeLimit)){
-                if(RandomEncounters.getInstance().getLogLevel()>9){
-                    RandomEncounters.getInstance().logMessage("Structure placement needs more time for "+structure.getName()+" P3("+bv.getBlockX()+","+bv.getBlockY()+","+bv.getBlockZ()+")");
+                if(RandomEncounters.getInstance().getLogLevel()>11){
+                    RandomEncounters.getInstance().logMessage("Structure placement needs more time for "+placedEncounter.getName()+" P3("+bv.getBlockX()+","+bv.getBlockY()+","+bv.getBlockZ()+")");
                 }
                 break;
             }
         }
         if(!finalItr.hasNext()){
-            if(RandomEncounters.getInstance().getLogLevel()>9){
-                RandomEncounters.getInstance().logMessage("Structure placement for "+structure.getName()+" completed third pass");
+            if(RandomEncounters.getInstance().getLogLevel()>10){
+                RandomEncounters.getInstance().logMessage("Structure placement for "+placedEncounter.getName()+" completed third pass");
             }
             pass++;
         }
@@ -200,24 +200,23 @@ public class StructurePlacementTask extends BukkitRunnable {
         if(x>=mx){
             setupIterators();
             pass++;
-            if(RandomEncounters.getInstance().getLogLevel()>9){
-                RandomEncounters.getInstance().logMessage("Structure placement for "+structure.getName()+" completed first pass [P2: "+lastQueue.size()+", P3: "+finalQueue.size()+"]");
+            if(RandomEncounters.getInstance().getLogLevel()>10){
+                RandomEncounters.getInstance().logMessage("Structure placement for "+placedEncounter.getName()+" completed first pass [P2: "+lastQueue.size()+", P3: "+finalQueue.size()+"]");
             }
         }else{
-            if(RandomEncounters.getInstance().getLogLevel()>9){
-                RandomEncounters.getInstance().logMessage("Structure placement needs more time for "+structure.getName()+" P1("+x+"/"+mx+","+y+"/"+my+","+z+"/"+mz+")");
+            if(RandomEncounters.getInstance().getLogLevel()>11){
+                RandomEncounters.getInstance().logMessage("Structure placement needs more time for "+placedEncounter.getName()+" P1("+x+"/"+mx+","+y+"/"+my+","+z+"/"+mz+")");
             }
         }
         
     }
     
     private void stop(){
-        if(RandomEncounters.getInstance().getLogLevel()>6){
-            RandomEncounters.getInstance().logMessage("Structure placement finished for "+structure.getName());
+        if(RandomEncounters.getInstance().getLogLevel()>9){
+            RandomEncounters.getInstance().logMessage("Structure placement finished for "+placedEncounter.getName());
         }        
-        encounter.placeMobs();
         structure.placed();
-        (new TreasurePlacementTask(encounter)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
+        placedEncounter.setupEncounter(true);
         cancel();
     }
     

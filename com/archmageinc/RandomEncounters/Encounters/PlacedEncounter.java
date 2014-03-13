@@ -4,6 +4,8 @@ import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.ResourceCollection;
 import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
+import com.archmageinc.RandomEncounters.Tasks.TreasurePlacementTask;
+import com.archmageinc.RandomEncounters.Utilities.Accountant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -54,7 +56,7 @@ public class PlacedEncounter {
      * The set of placed encounter unique IDs that have expanded from this placed encounter.
      * 
      */
-    private final Set<UUID> placedExpansions                =   new HashSet();
+    private final Set<UUID> children                        =   new HashSet();
     
     private PlacedEncounter parent                          =   null;
     
@@ -64,12 +66,7 @@ public class PlacedEncounter {
      * This is a clone of the Encounter configuration expansions
      * @see Encounter#expansions
      */
-    private final Set<Expansion> expansions                 =   new HashSet();
-    
-    /**
-     * The singlton instances of loaded PlacedEncounters.
-     */
-    private static Set<PlacedEncounter> instances           =   new HashSet();
+    private final HashSet<Expansion> expansions                 =   new HashSet();
     
     /**
      * An internal list of safe creature spawn locations.
@@ -165,15 +162,13 @@ public class PlacedEncounter {
                     JSONObject jsonExpansion    =   (JSONObject) jsonExpansions.get(i);
                     try{
                         UUID expansionUUID          =   UUID.fromString((String) jsonExpansion.get("uuid"));
-                        placedExpansions.add(expansionUUID);
+                        children.add(expansionUUID);
                     }catch(IllegalArgumentException e){
                         RandomEncounters.getInstance().logError("Invalid UUID in PlacedEncounter expansion configuration: "+e.getMessage());
                     }
                 }
             }
-            setupExpansions();
-            setupCollections();
-            instances.add(this);
+            setupEncounter(false);
             uuidInstances.put(uuid, this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid PlacedEncounter configuration: "+e.getMessage());
@@ -195,11 +190,17 @@ public class PlacedEncounter {
         if(encounter.getStructure()!=null){
             encounter.getStructure().place(this);
         }
-        
+        uuidInstances.put(uuid, this);
+    }
+    
+    public final void setupEncounter(boolean isNew){
+        if(isNew){
+            placeMobs();
+            placeTreasures();
+        }
         setupExpansions();
         setupCollections();
-        instances.add(this);
-        uuidInstances.put(uuid, this);
+        //selfVault   =   new Vault(this);
     }
     
     private void setupCollections(){
@@ -210,91 +211,6 @@ public class PlacedEncounter {
                 collections.add(new ResourceCollection(this,(JSONObject) jsonCollections.get(i)));
             }
         }
-    }
-    
-    public void runCollectionChecks(){
-        for(ResourceCollection collection : collections){
-            collection.check();
-        }
-    }
-    
-    public void depositResources(List<ItemStack> items){
-        for(Vault vault : getVaults()){
-            if(!vault.isFull()){
-                items   =   vault.deposit(items);
-                if(items.isEmpty()){
-                    break;
-                }
-            }
-        }
-    }
-    
-    public void depositResources(HashMap<Material,Integer> resources){
-        List<ItemStack> items   =   new ArrayList();
-        for(Vault vault : getVaults()){
-            if(!vault.isFull()){
-                items   =   items.isEmpty() ? vault.deposit(resources) : vault.deposit(items);
-                if(items.isEmpty()){
-                    break;
-                }
-            }
-        }
-    }
-    
-    public boolean hasResources(HashMap<Material,Integer> resources){
-        if(resources.isEmpty()){
-            return true;
-        }
-        HashMap<Material,Integer> leftover  =   resources;
-        for(Vault vault : getVaults()){
-            leftover    =   vault.contains(leftover);
-            if(leftover.isEmpty()){
-                break;
-            }
-        }
-        if(RandomEncounters.getInstance().getLogLevel()>9){
-            for(Material material : leftover.keySet()){
-                RandomEncounters.getInstance().logMessage("      # need "+leftover.get(material)+" "+material.name());
-            }
-        }
-        return leftover.isEmpty();
-    }
-    
-    public HashMap<Material,Integer> withdrawResources(HashMap<Material,Integer> resources){
-        if(resources.isEmpty()){
-            return resources;
-        }
-        HashMap<Material,Integer> leftover  =   resources;
-        for(Vault vault : getVaults()){
-            leftover    =   vault.withdraw(leftover);
-            if(leftover.isEmpty()){
-                break;
-            }
-        }
-        return leftover;
-    }
-    
-    public boolean hasVaultSpace(){
-        for(Vault vault : getVaults()){
-            if(!vault.getEncounter().equals(this)){
-                if(!vault.isFull()){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    
-    public void placeMobs(){
-        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
-    }
-    
-    public void addMobs(Set<PlacedMob> newMobs){
-        mobs.addAll(newMobs);
-    }
-    
-    public void setSpawnLocations(List<Location> locations){
-        spawnLocations =   locations;
     }
     
     /**
@@ -312,6 +228,96 @@ public class PlacedEncounter {
         }
     }
     
+    public void runCollectionChecks(){
+        for(ResourceCollection collection : collections){
+            collection.check();
+        }
+    }
+    
+    public List<ItemStack> depositResources(List<ItemStack> items){
+        return depositResources(Accountant.convert(items));
+    }
+    public List<ItemStack> depositResources(HashMap<Material,Integer> resources){
+        if(resources.isEmpty()){
+            return new ArrayList<>();
+        }
+        List<ItemStack> leftovers   =   Accountant.convert(resources);
+        for(Vault vault : getVaults()){
+            leftovers   =   vault.deposit(leftovers);
+            if(leftovers.isEmpty()){
+                break;
+            }
+        }
+        if(!leftovers.isEmpty() && parent!=null){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("Leftover deposit from "+getName()+", sending to parent.");
+            }
+            return parent.depositResources(Accountant.convert(leftovers));
+        }
+        return leftovers;
+    }
+    
+    public List<ItemStack> withdrawResources(List<ItemStack> items){
+        return withdrawResources(Accountant.convert(items));
+    }
+    public List<ItemStack> withdrawResources(HashMap<Material,Integer> resources){
+        if(resources.isEmpty()){
+            return new ArrayList<>();
+        }
+        List<ItemStack> leftover    =   Accountant.convert(resources);
+        for(Vault vault : getVaults()){
+            leftover    =   vault.withdraw(leftover);
+            if(leftover.isEmpty()){
+                break;
+            }
+        }
+        return leftover;
+    }
+    public boolean hasResources(HashMap<Material,Integer> resources){
+        if(resources.isEmpty()){
+            return true;
+        }
+        HashMap<Material,Integer> leftover  =   (HashMap<Material,Integer>) resources.clone();
+        for(Vault vault : getVaults()){
+            leftover    =   vault.contains(leftover);
+            if(leftover.isEmpty()){
+                break;
+            }
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>9){
+            for(Material material : leftover.keySet()){
+                RandomEncounters.getInstance().logMessage("        - "+leftover.get(material)+" more "+material.name()+" needed");
+            }
+        }
+        return leftover.isEmpty();
+    }
+    public boolean hasVaultSpace(){
+        for(Vault vault : getVaults()){
+            if(!vault.getEncounter().equals(this)){
+                if(!vault.isFull()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    private void placeMobs(){
+        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
+    }
+    
+    private void placeTreasures(){
+        (new TreasurePlacementTask(this)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
+    }
+    
+    public void addMobs(Set<PlacedMob> newMobs){
+        mobs.addAll(newMobs);
+    }
+    
+    public void setSpawnLocations(List<Location> locations){
+        spawnLocations =   locations;
+    }
+    
     public void addVault(PlacedEncounter vault){
         if(vaults.isEmpty()){
             getVaults();
@@ -319,17 +325,16 @@ public class PlacedEncounter {
         vaults.add(new Vault(vault));
     }
     
-    public Set<Vault> getVaults(){
+    private Set<Vault> getVaults(){
         if(vaults.isEmpty()){
             for(Expansion exp : expansions){
                 if(exp.isVault()){
-                    for(PlacedEncounter enc : getPlacedExpansions(exp.getEncounter())){
+                    for(PlacedEncounter enc : getChildren(exp.getEncounter())){
                         vaults.add(new Vault(enc));
                     }
                 }
             }
-            selfVault   =   new Vault(this);
-            vaults.add(selfVault);
+            vaults.add(new Vault(this));
         }
         return vaults;
     }
@@ -350,11 +355,15 @@ public class PlacedEncounter {
     /**
      * Adds an expansion to the list.
      * 
-     * @param expansion The PlacedEncounter that expanded.
+     * @param placedEncounter The PlacedEncounter that expanded.
      */
-    public void addExpansion(PlacedEncounter expansion){
-        placedExpansions.add(expansion.getUUID());
-        expansion.setParent(this);
+    public void addChild(PlacedEncounter placedEncounter){
+        children.add(placedEncounter.getUUID());
+        placedEncounter.setParent(this);
+    }
+    
+    public void removeChild(PlacedEncounter placedEncounter){
+        children.remove(placedEncounter.getUUID());
     }
     
     /**
@@ -377,15 +386,10 @@ public class PlacedEncounter {
      * Removes the PlacedMob from the list of Mobs in this encounter.
      * @param mob The PlacedMob to be removed
      */
-    public void notifyMobDeath(PlacedMob mob){
+    public void removeMob(PlacedMob mob){
         mobs.remove(mob);
         if(mobs.isEmpty()){
-            sacked  =   true;
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage(encounter.getName()+" has been sacked!");
-            }
-            RandomEncounters.getInstance().removePlacedEncounter(this);
-            instances.remove(this);
+            sack();
         }
     }
     
@@ -410,20 +414,36 @@ public class PlacedEncounter {
      * @return 
      */
     public String getName(){
+        if(RandomEncounters.getInstance().getLogLevel()>11){
+            if(parent!=null && !parent.isSacked()){
+                return parent.getName()+"->"+encounter.getName();
+            }
+            return encounter.getName();
+        }
+        if(parent!=null && !parent.isSacked()){
+            return getRoot().getName()+"->["+(getGeneration()-1)+"]->"+encounter.getName();
+        }
         return encounter.getName();
+    }
+    
+    public int getGeneration(){
+        if(parent!=null && !parent.isSacked()){
+            return parent.getGeneration()+1;
+        }
+        return 0;
     }
     
     /**
      * Gets the set of unique IDs of expansions spawned from this PlacedEncounter.
      * @return 
      */
-    public Set<UUID> getPlacedExpansions(){
-        return placedExpansions;
+    public Set<UUID> getChildren(){
+        return children;
     }
     
-    public Set<PlacedEncounter> getPlacedExpansions(Encounter type){
+    public Set<PlacedEncounter> getChildren(Encounter type){
         Set<PlacedEncounter> placements =   new HashSet();
-        for(UUID id : placedExpansions){
+        for(UUID id : children){
             PlacedEncounter placedEncounter =   PlacedEncounter.getInstance(id);
             if(placedEncounter!=null && placedEncounter.getEncounter().equals(type)){
                 placements.add(placedEncounter);
@@ -432,24 +452,23 @@ public class PlacedEncounter {
         return placements;
     }
     
+    /**
+     * Gets the set of Expansion configurations for this PlacedEncounter.
+     * @return 
+     */
+    public HashSet<Expansion> getExpansions(){
+        return expansions;
+    }
+    
     public PlacedEncounter getRoot(){
         if(root==null){
             root    =   this;
-            if(this.parent!=null){
+            if(this.parent!=null && !this.parent.isSacked()){
                 root    =   parent.getRoot();
             }
         }
         
         return root;
-    }
-    
-    
-    /**
-     * Gets the set of Expansion configurations for this PlacedEncounter.
-     * @return 
-     */
-    public Set<Expansion> getExpansions(){
-        return expansions;
     }
     
     public PlacedEncounter getParent(){
@@ -468,6 +487,18 @@ public class PlacedEncounter {
         return sacked;
     }
     
+    private void sack(){
+        sacked  =   true;
+        if(RandomEncounters.getInstance().getLogLevel()>6){
+            RandomEncounters.getInstance().logMessage(getName()+" has been sacked!");
+        }
+        if(parent!=null){
+            parent.removeChild(this);
+        }
+        RandomEncounters.getInstance().removePlacedEncounter(this);
+        uuidInstances.remove(uuid);
+    }
+    
     /**
      * Convert the PlacedEncounter into a JSONObject for serialization.
      * @return Returns the JSONObject
@@ -475,15 +506,15 @@ public class PlacedEncounter {
     public JSONObject toJSON(){
         JSONObject jsonConfiguration    =   new JSONObject();
         if(location==null){
-            RandomEncounters.getInstance().logError("Attempted to save: "+encounter.getName()+" but the location was null");
+            RandomEncounters.getInstance().logError("Attempted to save: "+getName()+" but the location was null");
             return jsonConfiguration;
         }
         if(location.getWorld()==null){
-            RandomEncounters.getInstance().logError("Attempted to save: "+encounter.getName()+" but the world in the location was null: "+location.toString());
+            RandomEncounters.getInstance().logError("Attempted to save: "+getName()+" but the world in the location was null: "+location.toString());
             return jsonConfiguration;
         }
         if(location.getWorld().getName()==null){
-            RandomEncounters.getInstance().logError("Attempted to save: "+encounter.getName()+" but the world name in the location was null: "+location.toString());
+            RandomEncounters.getInstance().logError("Attempted to save: "+getName()+" but the world name in the location was null: "+location.toString());
             return jsonConfiguration;
         }
         jsonConfiguration.put("uuid", uuid.toString());
@@ -504,7 +535,7 @@ public class PlacedEncounter {
         jsonConfiguration.put("mobs",jsonMobs);
         
         JSONArray jsonExpansions        =   new JSONArray();
-        for(UUID expansion : placedExpansions){
+        for(UUID expansion : children){
             JSONObject jsonExpansion    =   new JSONObject();
             jsonExpansion.put("uuid",expansion.toString());
             jsonExpansions.add(jsonExpansion);

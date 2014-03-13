@@ -205,6 +205,11 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
     }
     
     @Override
+    public String getLineageName(){
+        return "Command->"+radiusEncounter.getName();
+    }
+    
+    @Override
     public Map<String,Long> getProximities(){
         return new HashMap<>();
     }

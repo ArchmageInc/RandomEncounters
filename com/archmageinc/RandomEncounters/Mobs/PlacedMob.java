@@ -1,10 +1,9 @@
 package com.archmageinc.RandomEncounters.Mobs;
 
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
-import com.archmageinc.RandomEncounters.Mobs.Mob;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.SpawningTask;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.Location;
@@ -27,7 +26,8 @@ public class PlacedMob {
     /**
      * The singleton instances of PlacedMobs.
      */
-    private static HashSet<PlacedMob> instances   =   new HashSet();
+    
+    private static HashMap<UUID,PlacedMob> instances    =   new HashMap();
     
     /**
      * The unique ID of the entity in the world.
@@ -47,7 +47,7 @@ public class PlacedMob {
     /**
      * The parent Encounter Configuration.
      */
-    private PlacedEncounter encounter;
+    private PlacedEncounter placedEncounter;
     
     /**
      * Get an instance of the PlacedMob based on the Unique ID.
@@ -55,12 +55,7 @@ public class PlacedMob {
      * @return Returns the PlacedMob if found, null otherwise.
      */
     public static PlacedMob getInstance(UUID uuid){
-        for(PlacedMob instance : instances){
-            if(instance.getUUID().equals(uuid)){
-                return instance;
-            }
-        }
-        return null;
+        return instances.get(uuid);
     }
     
     /**
@@ -106,16 +101,16 @@ public class PlacedMob {
      * @param mob The Mob configuration
      * @param encounter The PlacedEncounter to which this creature will belong
      */
-    private PlacedMob(Mob mob,PlacedEncounter encounter,Location location){
+    private PlacedMob(Mob mob,PlacedEncounter placedEncounter,Location location){
         
         this.mob                =   mob;
-        this.encounter          =   encounter;
-        Location spawnLocation  =   location==null ? encounter.findSafeSpawnLocation() : location;
+        this.placedEncounter    =   placedEncounter;
+        Location spawnLocation  =   location==null ? placedEncounter.findSafeSpawnLocation() : location;
         if(spawnLocation==null){
-            spawnLocation   =   encounter.getLocation();
-            RandomEncounters.getInstance().logWarning("Attempt to spawn "+encounter.getName()+": "+mob.getName()+" had no safe spawn locations, using encounter location.");
+            spawnLocation   =   placedEncounter.getLocation();
+            RandomEncounters.getInstance().logWarning("Attempt to spawn "+placedEncounter.getName()+": "+mob.getName()+" had no safe spawn locations, using encounter location.");
         }
-        entity     =   (LivingEntity) encounter.getLocation().getWorld().spawnEntity(spawnLocation, mob.getType());
+        entity     =   (LivingEntity) placedEncounter.getLocation().getWorld().spawnEntity(spawnLocation, mob.getType());
         uuid       =   entity.getUniqueId();
         entity.setRemoveWhenFarAway(false);
         if(mob.getTagName()!=null){
@@ -138,9 +133,9 @@ public class PlacedMob {
             ((PigZombie) entity).setAngry(true);
         }
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Placed mob "+encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") at "+spawnLocation.getWorld().getName()+": "+spawnLocation.getX()+","+spawnLocation.getY()+","+spawnLocation.getZ()+" - "+uuid.toString());
+            RandomEncounters.getInstance().logMessage("Placed mob "+placedEncounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") at "+spawnLocation.getWorld().getName()+": "+spawnLocation.getX()+","+spawnLocation.getY()+","+spawnLocation.getZ()+" - "+uuid.toString());
         }
-        instances.add(this);
+        instances.put(uuid,this);
     }
     
     /**
@@ -149,17 +144,17 @@ public class PlacedMob {
      * @param jsonConfiguration
      * @param encounter The PlacedEncounter to which the creature should belong.
      */
-    private PlacedMob(JSONObject jsonConfiguration,PlacedEncounter encounter){
+    private PlacedMob(JSONObject jsonConfiguration,PlacedEncounter placedEncounter){
         try{
-            this.encounter   =   encounter;
-            uuid             =   UUID.fromString((String) jsonConfiguration.get("uuid"));
-            mob              =   Mob.getInstance((String) jsonConfiguration.get("mob"));
+            this.placedEncounter    =   placedEncounter;
+            uuid                    =   UUID.fromString((String) jsonConfiguration.get("uuid"));
+            mob                     =   Mob.getInstance((String) jsonConfiguration.get("mob"));
             if(mob==null){
                 RandomEncounters.getInstance().logError("Missing Mob ("+(String) jsonConfiguration.get("mob")+") from PlacedMob configuration");
             }
             entity  =   getEntity();
             mob.setEffects(entity);
-            instances.add(this);
+            instances.put(uuid,this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid PlacedMob configuration: "+e.getMessage());
         }catch(IllegalArgumentException e){
@@ -185,11 +180,8 @@ public class PlacedMob {
                 for(LivingEntity wentity : world.getLivingEntities()){
                     if(wentity.getUniqueId().equals(uuid)){
                         entity  =   wentity;
-                        break;
+                        return entity;
                     }
-                }
-                if(entity!=null){
-                    break;
                 }
             }
         }
@@ -213,7 +205,7 @@ public class PlacedMob {
      */
     public void die(){
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage(encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") has died.");
+            RandomEncounters.getInstance().logMessage(placedEncounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") has died.");
         }
         if(getEntity()!=null){
             for(ItemStack item : getDrop()){
@@ -221,17 +213,17 @@ public class PlacedMob {
             }
             Mob deathSpawn  =   mob.getDeathSpawn();
             if(deathSpawn!=null){
-                (new SpawningTask(deathSpawn,encounter,getEntity().getLocation())).runTaskTimer(RandomEncounters.getInstance(),1,1);
+                (new SpawningTask(deathSpawn,placedEncounter,getEntity().getLocation())).runTaskTimer(RandomEncounters.getInstance(),1,1);
             }
         }else{
-            RandomEncounters.getInstance().logWarning(encounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") died but could not be found: "+uuid.toString());
+            RandomEncounters.getInstance().logWarning(placedEncounter.getName()+": "+mob.getName()+" ("+mob.getTypeName()+") died but could not be found: "+uuid.toString());
         }
-        encounter.notifyMobDeath(this);
-        instances.remove(this);
+        placedEncounter.removeMob(this);
+        instances.remove(uuid);
     }
     
     public PlacedEncounter getPlacedEncounter(){
-        return encounter;
+        return placedEncounter;
     }
     
     public Mob getMob(){

@@ -150,10 +150,15 @@ public class ChunkLocatorTask extends BukkitRunnable implements EncounterPlacer{
     
     private void fail(){
         if(RandomEncounters.getInstance().getLogLevel()>8){
-            RandomEncounters.getInstance().logMessage("Chunk Locator for "+placer.getEncounter().getName()+" did not find any available locations");
+            RandomEncounters.getInstance().logMessage("Chunk Locator for "+placer.getLineageName()+" did not find any available locations");
         }
         placer.addPlacedEncounter(null);
         cancel();
+    }
+    
+    @Override
+    public String getLineageName(){
+        return placer.getLineageName();
     }
     
     @Override

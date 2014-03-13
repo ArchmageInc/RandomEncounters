@@ -304,7 +304,7 @@ public class RandomEncounters extends JavaPlugin {
     
     private void setupPlacedEncounterRelationships(){
         for(PlacedEncounter encounter : placedEncounters){
-            for(UUID id : encounter.getPlacedExpansions()){
+            for(UUID id : encounter.getChildren()){
                 PlacedEncounter child   =   PlacedEncounter.getInstance(id);
                 if(child!=null){
                     child.setParent(encounter);
@@ -403,7 +403,8 @@ public class RandomEncounters extends JavaPlugin {
      * @return 
      */
     public int lockTime(){
-        return maxLockTime;
+        int tasks   =   getServer().getScheduler().getPendingTasks().size();
+        return ((Double) Math.ceil(maxLockTime/tasks)).intValue();
     }
     
     public Set<Material> getDefaultTrump(){
