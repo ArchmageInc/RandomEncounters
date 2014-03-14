@@ -36,6 +36,9 @@ public class Accountant {
         }
         if(n<vaults.size()){
             vaults.get(n).deposit(this, resources, n);
+            if(RandomEncounters.getInstance().getLogLevel()>10){
+                vaults.get(n).logBalance();
+            }
             return;
         }
         if(owner.getParent()!=null){
@@ -58,6 +61,9 @@ public class Accountant {
         }
         if(n<vaults.size()){
             vaults.get(n).withdraw(this, resources, n);
+            if(RandomEncounters.getInstance().getLogLevel()>10){
+                vaults.get(n).logBalance();
+            }
             return;
         }
         if(owner.getParent()!=null){

@@ -62,6 +62,9 @@ public class StructurePlacementTask extends BukkitRunnable {
         this.y                  =   sy;
         this.z                  =   sz;
         this.session            =   new EditSession((new BukkitWorld(encounter.getLocation().getWorld())),cuboid.getWidth()*cuboid.getLength()*cuboid.getHeight()*2);
+        if(RandomEncounters.getInstance().getLogLevel()>8){
+            RandomEncounters.getInstance().logMessage("Structure Placement for "+placedEncounter.getName()+" started");
+        }
     }
     
     private void checkBlock(int x, int y, int z){
@@ -215,7 +218,7 @@ public class StructurePlacementTask extends BukkitRunnable {
     }
     
     private void stop(){
-        if(RandomEncounters.getInstance().getLogLevel()>9){
+        if(RandomEncounters.getInstance().getLogLevel()>8){
             RandomEncounters.getInstance().logMessage("Structure placement finished for "+placedEncounter.getName());
         }        
         structure.placed();

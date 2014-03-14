@@ -196,8 +196,8 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
             sender.sendMessage("Not a valid location!");
             return;
         }
-        RandomEncounters.getInstance().addPlacedEncounter(PlacedEncounter.create(encounter, location));
-        sender.sendMessage("Encounter created dispite the terrain");
+        PlacedEncounter.create(encounter, location);
+        sender.sendMessage("Creating encounter dispite the terrain");
     }
     
     private void reloadConfigurations(){

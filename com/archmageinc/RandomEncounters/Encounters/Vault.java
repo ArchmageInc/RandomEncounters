@@ -236,6 +236,14 @@ public class Vault implements LoadListener {
         }
     }
     
+    public void logBalance(){
+        RandomEncounters.getInstance().logMessage("======LEDGER STATEMENT=======");
+        RandomEncounters.getInstance().logMessage("======"+getVaultName()+"=======");
+        for(Material material : ledger.keySet()){
+            RandomEncounters.getInstance().logMessage("  "+material.name()+": "+ledger.get(material));
+        }
+        RandomEncounters.getInstance().logMessage("======END STATUEMENT=======");
+    }
     private String getVaultName(){
         return placedEncounter.getName()+"(Vault)";
     }
