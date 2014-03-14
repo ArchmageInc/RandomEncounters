@@ -105,7 +105,7 @@ public class ResourceCollection {
         if(RandomEncounters.getInstance().getLogLevel()>7){
             RandomEncounters.getInstance().logMessage("  * "+placedEncounter.getName()+": resource collection rule finished: "+items.size());
         }
-        getDestination().getAccountant().depositResources(Accountant.convert(items));
+        getDestination().getAccountant().depositResources(items);
         checking    =   false;
     }
     

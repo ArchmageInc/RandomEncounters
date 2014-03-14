@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,6 +25,9 @@ public class Accountant {
         this.vaults =   vaults;
     }
     
+    public void depositResources(List<ItemStack> items){
+        depositResources(items,0);
+    }
     public void depositResources(HashMap<Material,Integer> resources){
         depositResources(resources,0);
     }
@@ -45,10 +49,24 @@ public class Accountant {
             if(RandomEncounters.getInstance().getLogLevel()>7){
                 RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", sending to parent.");
             }
-            owner.getParent().getAccountant().depositResources(resources,0); 
+            owner.getParent().getAccountant().depositResources(resources); 
+        }else{
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", with no parent sending to child.");
+            }
+            for(UUID id : owner.getChildren()){
+                PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+                if(child!=null){
+                    child.getAccountant().depositResources(resources);
+                    break;
+                }
+            }
         }
     }
     
+    public void withdrawResources(List<ItemStack> items){
+        withdrawResources(items,0);
+    }
     public void withdrawResources(HashMap<Material,Integer> resources){
         withdrawResources(resources,0);
     }
@@ -70,7 +88,18 @@ public class Accountant {
             if(RandomEncounters.getInstance().getLogLevel()>7){
                 RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", taking from parent.");
             }
-            owner.getParent().getAccountant().withdrawResources(resources,0); 
+            owner.getParent().getAccountant().withdrawResources(resources); 
+        }else{
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", with no parent taking from child.");
+            }
+            for(UUID id : owner.getChildren()){
+                PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+                if(child!=null){
+                    child.getAccountant().withdrawResources(resources);
+                    break;
+                }
+            }
         }
     }
     public boolean hasResources(HashMap<Material,Integer> resources){
