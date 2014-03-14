@@ -31,7 +31,7 @@ public class TreasurePlacementTask extends BukkitRunnable {
             blockLocations  =   placedEncounter.getBlockLocations();
         }
         if(RandomEncounters.getInstance().getLogLevel()>8){
-            RandomEncounters.getInstance().logWarning("Treasure Placement for "+placedEncounter.getName()+" checking "+(blockLocations.length/3)+" locations.");
+            RandomEncounters.getInstance().logMessage("Treasure Placement for "+placedEncounter.getName()+" checking "+(blockLocations.length/3)+" locations.");
         }
     }
     

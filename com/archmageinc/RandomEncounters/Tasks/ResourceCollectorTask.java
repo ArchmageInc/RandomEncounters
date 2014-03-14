@@ -1,5 +1,6 @@
 package com.archmageinc.RandomEncounters.Tasks;
 
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.ResourceCollection;
 import java.util.ArrayList;
@@ -40,8 +41,9 @@ public class ResourceCollectorTask extends BukkitRunnable{
             int cz      =   collector.getLocation().getChunk().getZ()+((int) Math.round(Math.cos(a)*r));
             Chunk chunk =   collector.getLocation().getWorld().getChunkAt(cx, cz);
             Block block =   getNonAirBlock(chunk);
-            
-            items.addAll(getResources(block,0));
+            if(!PlacedEncounter.isBlockOwned(block)){
+                items.addAll(getResources(block,0));
+            }
                 
             i++;
             if(Calendar.getInstance().after(timeLimit)){
@@ -74,15 +76,15 @@ public class ResourceCollectorTask extends BukkitRunnable{
     
     private Block getNonAirBlock(Chunk chunk){
         Block block     =   null;
-        int i           =   0;
-        while(i<100 && (block==null || block.getType().equals(Material.AIR))){
+        int n           =   0;
+        while(n<100 && (block==null || block.getType().equals(Material.AIR))){
             int h   =   ((Long) Math.round(Math.random()*(collector.getMaxHeight()-collector.getMinHeight())+collector.getMinHeight())).intValue();
             int x   =   ((Long) Math.round(Math.random()*16)).intValue();
             int y   =   ((Long) Math.round(Math.random()*h)).intValue();
             int z   =   ((Long) Math.round(Math.random()*16)).intValue();
             
             block   =   chunk.getBlock(x, y, z);
-            i++;
+            n++;
         }
         
         return block;

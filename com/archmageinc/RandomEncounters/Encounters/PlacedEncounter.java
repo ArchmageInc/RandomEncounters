@@ -3,6 +3,7 @@ package com.archmageinc.RandomEncounters.Encounters;
 import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.ResourceCollection;
+import com.archmageinc.RandomEncounters.Tasks.BlockOwnerTask;
 import com.archmageinc.RandomEncounters.Tasks.LocationLoadingTask;
 import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
 import com.archmageinc.RandomEncounters.Tasks.TreasurePlacementTask;
@@ -17,6 +18,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.metadata.MetadataValue;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -53,20 +56,12 @@ public class PlacedEncounter implements LoadListener{
     private Boolean sacked                                  =   false;
     
     /**
-     * The set of placed encounter unique IDs that have expanded from this placed encounter.
-     * 
-     */
-    private final Set<UUID> children                        =   new HashSet();
-    
-    private PlacedEncounter parent                          =   null;
-    
-    /**
      * The set of valid expansion configurations for this Placed Encounter.
      * 
      * This is a clone of the Encounter configuration expansions
      * @see Encounter#expansions
      */
-    private final HashSet<Expansion> expansions                 =   new HashSet();
+    private final HashSet<Expansion> expansions             =   new HashSet();
     
     /**
      * An internal list of safe creature spawn locations.
@@ -75,19 +70,23 @@ public class PlacedEncounter implements LoadListener{
     
     private PlacedEncounter root                            =   null;
     
-    private final List<Vault> vaults                        =   new ArrayList();
+    private PlacedEncounter parent                          =   null;
     
-    private Vault selfVault;
+    /**
+     * The set of placed encounter unique IDs that have expanded from this placed encounter.
+     * 
+     */
+    private final Set<UUID> children                        =   new HashSet();
+    
+    private final List<Vault> vaults                        =   new ArrayList();
     
     private static Map<UUID,PlacedEncounter> uuidInstances  =   new HashMap();
     
-    private final Set<ResourceCollection> collections       =   new HashSet();
+    private final Set<ResourceCollection> collectionRules   =   new HashSet();
     
     private int[] blockLocations;
     
-    private ArrayList<Integer> tmpBlockLocations            =   new ArrayList();
-    
-    private int bli =  0;
+    private final ArrayList<Integer> tmpBlockLocations      =   new ArrayList();
     
     private LocationLoadingTask loadingTask;
     
@@ -142,6 +141,24 @@ public class PlacedEncounter implements LoadListener{
             return null;
         }
         return new PlacedEncounter(encounter,location);
+    }
+    
+    public static boolean isBlockOwned(Block block){
+        return block.hasMetadata("placedEncounter");
+    }
+    
+    public static PlacedEncounter getBlockOwner(Block block){
+        if(block.hasMetadata("placedEncounter")){
+            for(MetadataValue mv : block.getMetadata("placedEncounter")){
+                if(mv.value() instanceof UUID){
+                    PlacedEncounter instance    =   getInstance((UUID) mv.value());
+                    if(instance!=null){
+                        return instance;
+                    }
+                }
+            }
+        }
+        return null;
     }
     
     /**
@@ -232,6 +249,7 @@ public class PlacedEncounter implements LoadListener{
             setupBlockLocations();
             placeMobs();
             placeTreasures();
+            setupBlockMeta();
             RandomEncounters.getInstance().addPlacedEncounter(this);
         }
         setupExpansions();
@@ -254,12 +272,16 @@ public class PlacedEncounter implements LoadListener{
         tmpBlockLocations.clear();
     }
     
+    private void setupBlockMeta(){
+        (new BlockOwnerTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
+    }
+    
     private void setupCollections(){
-        collections.clear();
+        collectionRules.clear();
         JSONArray jsonCollections   =   encounter.getCollectionConfiguration();
         if(jsonCollections!=null){
             for(int i=0;i<jsonCollections.size();i++){
-                collections.add(new ResourceCollection(this,(JSONObject) jsonCollections.get(i)));
+                collectionRules.add(new ResourceCollection(this,(JSONObject) jsonCollections.get(i)));
             }
         }
     }
@@ -280,7 +302,7 @@ public class PlacedEncounter implements LoadListener{
     }
     
     public void runCollectionChecks(){
-        for(ResourceCollection collection : collections){
+        for(ResourceCollection collection : collectionRules){
             collection.check();
         }
     }
@@ -497,6 +519,12 @@ public class PlacedEncounter implements LoadListener{
         if(parent!=null){
             parent.removeChild(this);
         }
+        for(UUID id : children){
+            PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+            if(child!=null){
+                child.setParent(null);
+            }
+        }
         RandomEncounters.getInstance().removePlacedEncounter(this);
         uuidInstances.remove(uuid);
     }
@@ -544,19 +572,19 @@ public class PlacedEncounter implements LoadListener{
         }
         jsonConfiguration.put("expansions", jsonExpansions);
         
-        JSONArray jsonBlockLocations    =   new JSONArray();
-        jsonConfiguration.put("blocks", jsonBlockLocations);
-        
         return jsonConfiguration;
     }
 
     @Override
     public void processLoad(LocationLoadingTask loadTask) {
+        if(loadTask==null || !loadTask.equals(loadingTask)){
+            return;
+        }
         if(RandomEncounters.getInstance().getLogLevel()>7){
             RandomEncounters.getInstance().logMessage("  "+getName()+" has been notified of loading completion.");
         }
         blockLocations  =   loadTask.getLocations();
-        bli             =   blockLocations.length;
         loadingTask     =   null;
+        setupBlockMeta();
     }
 }
