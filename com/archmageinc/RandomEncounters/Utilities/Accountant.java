@@ -49,19 +49,24 @@ public class Accountant {
             if(RandomEncounters.getInstance().getLogLevel()>7){
                 RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", sending to parent.");
             }
-            owner.getParent().getAccountant().depositResources(resources); 
-        }else{
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", with no parent sending to child.");
-            }
-            for(UUID id : owner.getChildren()){
-                PlacedEncounter child   =   PlacedEncounter.getInstance(id);
-                if(child!=null){
-                    child.getAccountant().depositResources(resources);
-                    break;
-                }
+            owner.getParent().getAccountant().depositResources(resources);
+            return;
+        }
+        
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", with no parent sending to child.");
+        }
+        for(UUID id : owner.getChildren()){
+            PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+            if(child!=null){
+                child.getAccountant().depositResources(resources);
+                return;
             }
         }
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", no space, no parent, no children, it's lost.");
+        }
+        
     }
     
     public void withdrawResources(List<ItemStack> items){
@@ -88,19 +93,23 @@ public class Accountant {
             if(RandomEncounters.getInstance().getLogLevel()>7){
                 RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", taking from parent.");
             }
-            owner.getParent().getAccountant().withdrawResources(resources); 
-        }else{
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", with no parent taking from child.");
-            }
-            for(UUID id : owner.getChildren()){
-                PlacedEncounter child   =   PlacedEncounter.getInstance(id);
-                if(child!=null){
-                    child.getAccountant().withdrawResources(resources);
-                    break;
-                }
+            owner.getParent().getAccountant().withdrawResources(resources);
+            return;
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", with no parent taking from child.");
+        }
+        for(UUID id : owner.getChildren()){
+            PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+            if(child!=null){
+                child.getAccountant().withdrawResources(resources);
+                return;
             }
         }
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", no space, no parent, no children, it's free.");
+        }
+        
     }
     public boolean hasResources(HashMap<Material,Integer> resources){
         if(resources.isEmpty()){
