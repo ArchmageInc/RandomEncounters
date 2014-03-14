@@ -66,8 +66,8 @@ public class StructurePlacementTask extends BukkitRunnable {
     
     private void checkBlock(int x, int y, int z){
         Vector bv        =   new Vector(x,y,z);
-        Vector cv        =  new Vector(x+cuboid.getSize().getBlockX()/2,y-cuboid.getOffset().getBlockY(),z+cuboid.getSize().getBlockZ()/2);
-        BaseBlock block =   cuboid.getBlock(cv);
+        Vector cv        =   new Vector(x+cuboid.getSize().getBlockX()/2,y-cuboid.getOffset().getBlockY(),z+cuboid.getSize().getBlockZ()/2);
+        BaseBlock block  =   cuboid.getBlock(cv);
         if(block==null){
             return;
         }
@@ -82,6 +82,9 @@ public class StructurePlacementTask extends BukkitRunnable {
     
     private void setBlock(Vector v,BaseBlock block){
         session.rawSetBlock(v, block);
+        if(block.getType()!=0){
+            placedEncounter.addBlockLocation(v.getBlockX(),v.getBlockY(),v.getBlockZ());
+        }
     }
     
     private void setupIterators(){

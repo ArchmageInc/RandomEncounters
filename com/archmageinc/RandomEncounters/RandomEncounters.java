@@ -10,7 +10,9 @@ import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.Mobs.Mob;
 import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ExpansionTask;
+import com.archmageinc.RandomEncounters.Tasks.LocationLoadingTask;
 import com.archmageinc.RandomEncounters.Tasks.ResourceCollectionTask;
+import com.archmageinc.RandomEncounters.Utilities.LocationManager;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -287,9 +289,10 @@ public class RandomEncounters extends JavaPlugin {
             JSONArray jsonEncounters    =   (JSONArray) encounterConfig.get("savedEncounters");
             if(jsonEncounters!=null){
                 for(int i=0;i<jsonEncounters.size();i++){
-                    PlacedEncounter encounter   =   PlacedEncounter.getInstance((JSONObject) jsonEncounters.get(i));
-                    if(!encounter.isSacked()){
-                        placedEncounters.add(encounter);
+                    PlacedEncounter placedEncounter   =   PlacedEncounter.getInstance((JSONObject) jsonEncounters.get(i));
+                    if(!placedEncounter.isSacked()){
+                        placedEncounter.setLoadingTask(new LocationLoadingTask(placedEncounter,getDataFolder()+"/locations/"+placedEncounter.getUUID().toString()+".dat"));
+                        placedEncounters.add(placedEncounter);
                     }
                 }
                 logMessage("Loaded "+jsonEncounters.size()+" PlacedEncounter configurations");
@@ -325,6 +328,7 @@ public class RandomEncounters extends JavaPlugin {
         JSONArray savedEncounters       =   new JSONArray();
         for(PlacedEncounter encounter : placedEncounters){
             savedEncounters.add(encounter.toJSON());
+            LocationManager.saveLocations(getDataFolder()+"/locations/"+encounter.getUUID().toString()+".dat", encounter.getBlockLocations());
         }
         jsonConfiguration.put("savedEncounters", savedEncounters);
         JSONReader.getInstance().write(getDataFolder()+"/"+encounterFileName, jsonConfiguration);

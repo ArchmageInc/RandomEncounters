@@ -1,10 +1,11 @@
 package com.archmageinc.RandomEncounters.Encounters;
 
 import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Tasks.LocationLoadingTask;
 import com.archmageinc.RandomEncounters.Utilities.Accountant;
+import com.archmageinc.RandomEncounters.Utilities.LoadListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,58 +22,80 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author ArchmageInc
  */
-public class Vault {
+public class Vault implements LoadListener {
     
     private final PlacedEncounter placedEncounter;
-    private final Set<Location> locations               =   new HashSet();
-    private boolean full                                =   false;
-    private final HashMap<Material,Integer> ledger      =   new HashMap();
-    private static final HashMap<Location,Vault> owners =   new HashMap();
+    private final Set<Location> locations                       =   new HashSet();
+    private boolean full                                        =   false;
+    private final HashMap<Material,Integer> ledger              =   new HashMap();
+    private static final HashMap<Location,Vault> owners         =   new HashMap();
+    private final HashMap<ItemStack[],Accountant> depositQueue  =   new HashMap();
+    private final HashMap<ItemStack[],Accountant> withdrawQueue =   new HashMap();
     
     public Vault(PlacedEncounter placedEncounter){
         this.placedEncounter =   placedEncounter;
+        if(placedEncounter.isLoaded()){
+            findChests();
+        }else{
+            placedEncounter.getLoadingTask().addListener(this);
+        }
+    }
+    
+    @Override
+    public void processLoad(LocationLoadingTask loadTask){
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("  "+getVaultName()+" has been notified of loading completion.");
+        }
         findChests();
+        processQueues();
     }
     
     private void findChests(){
-        int sx  =   placedEncounter.getLocation().getBlockX()-placedEncounter.getEncounter().getStructure().getWidth();
-        int sy  =   placedEncounter.getLocation().getBlockY()-placedEncounter.getEncounter().getStructure().getHeight();
-        int sz  =   placedEncounter.getLocation().getBlockZ()-placedEncounter.getEncounter().getStructure().getLength();
-        int mx  =   placedEncounter.getLocation().getBlockX()+placedEncounter.getEncounter().getStructure().getWidth();
-        int my  =   placedEncounter.getLocation().getBlockY()+placedEncounter.getEncounter().getStructure().getHeight();
-        int mz  =   placedEncounter.getLocation().getBlockZ()+placedEncounter.getEncounter().getStructure().getLength();
-        int x   =   sx;
-        int y   =   sy;
-        int z   =   sz;
-        while(x<mx){
-            y   =   y>=my ? sy : y;
-            while(y<my){
-                z   =   z>=mz ? sz : z;
-                while(z<mz){
-                    Block block =   placedEncounter.getLocation().getWorld().getBlockAt(x,y,z);
-                    if(block.getState() instanceof Chest){
-                        if(!owners.containsKey(block.getLocation())){
-                            locations.add(block.getLocation());
-                            owners.put(block.getLocation(), this);
-                        }else{
-                            if(RandomEncounters.getInstance().getLogLevel()>5){
-                                RandomEncounters.getInstance().logWarning(getVaultName()+" attempted to grab a chest from "+owners.get(block.getLocation()).getVaultName());
-                            }
+        int[] blockLocations    =   placedEncounter.getBlockLocations();
+        if(RandomEncounters.getInstance().getLogLevel()>8){
+            RandomEncounters.getInstance().logMessage(getVaultName()+": locating chests from "+(blockLocations.length/3)+" locations");
+        }
+        if(blockLocations==null){
+            return;
+        }
+        for(int i=0;i<blockLocations.length;i+=3){
+            int x               =   blockLocations[i];
+            int y               =   blockLocations[i+1];
+            int z               =   blockLocations[i+2];
+            
+            if(x+y+z!=0){
+                Block block         =   placedEncounter.getLocation().getWorld().getBlockAt(x, y, z);
+                if(block.getState() instanceof Chest){
+                    if(!owners.containsKey(block.getLocation())){
+                        locations.add(block.getLocation());
+                        owners.put(block.getLocation(), this);
+                    }else{
+                        if(RandomEncounters.getInstance().getLogLevel()>5){
+                            RandomEncounters.getInstance().logWarning(getVaultName()+" attempted to grab a chest from "+owners.get(block.getLocation()).getVaultName());
                         }
                     }
-                    z++;
                 }
-                y++;
             }
-            x++;
         }
         if(locations.isEmpty()){
             full    =   true;
         }
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage(getVaultName()+" located "+locations.size()+" storage inventories");
+            RandomEncounters.getInstance().logMessage(getVaultName()+": located "+locations.size()+" storage inventories");
         }
         initializeLedger();
+    }
+    
+    private void processQueues(){
+        if(RandomEncounters.getInstance().getLogLevel()>8){
+            RandomEncounters.getInstance().logMessage("  "+getVaultName()+": Processing queues [D:"+depositQueue.size()+" W:"+withdrawQueue.size()+"]");
+        }
+        for(ItemStack[] items : depositQueue.keySet()){
+            deposit(depositQueue.get(items),items,0);
+        }
+        for(ItemStack[] items : withdrawQueue.keySet()){
+            withdraw(withdrawQueue.get(items),items,0);
+        }
     }
     
     public PlacedEncounter getEncounter(){
@@ -83,15 +106,22 @@ public class Vault {
         return full;
     }
     
-    public List<ItemStack> deposit(HashMap<Material,Integer> resources){
-        return deposit(Accountant.convert(resources));
+    public void deposit(Accountant accountant,HashMap<Material,Integer> resources,int n){
+        deposit(accountant,Accountant.convert(resources),n);
     }
-    public List<ItemStack> deposit(List<ItemStack> items){
-        return deposit(items.toArray(new ItemStack[0]));
+    public void deposit(Accountant accountant,List<ItemStack> items,int n){
+        deposit(accountant,items.toArray(new ItemStack[0]),n);
     }
-    public List<ItemStack> deposit(ItemStack[] items){
+    public void deposit(Accountant accountant,ItemStack[] items,int n){
+        if(!placedEncounter.isLoaded()){
+            depositQueue.put(items,accountant);
+            if(RandomEncounters.getInstance().getLogLevel()>3){
+                RandomEncounters.getInstance().logMessage(getVaultName()+ ": Not yet loaded adding "+items.length+" item stacks to the deposit queue");
+            }
+            return;
+        }
         if(RandomEncounters.getInstance().getLogLevel()>5){
-            RandomEncounters.getInstance().logMessage(getVaultName()+ " - Attempting to deposit "+items.length+" item stacks");
+            RandomEncounters.getInstance().logMessage(getVaultName()+ ": Attempting to deposit "+items.length+" item stacks");
         }
         List<ItemStack> leftovers   =   Arrays.asList(items);
         if(!locations.isEmpty() && items.length>0){
@@ -103,7 +133,7 @@ public class Vault {
                     leftovers           =   new ArrayList(inventory.addItem(items).values());
                     if(leftovers.isEmpty()){
                         if(RandomEncounters.getInstance().getLogLevel()>9){
-                            RandomEncounters.getInstance().logMessage(getVaultName()+" - Successfully deposited all items");
+                            RandomEncounters.getInstance().logMessage(getVaultName()+": Successfully deposited all items");
                         }
                         break;
                     }
@@ -112,18 +142,25 @@ public class Vault {
         }
         ledgerTransaction(Accountant.subtract(Accountant.convert(items), Accountant.convert(leftovers)),1);
         full    =   leftovers.isEmpty();
-        return leftovers;
+        accountant.depositResources(leftovers,n+1);
     }
     
-    public List<ItemStack> withdraw(HashMap<Material,Integer> resources){
-        return withdraw(Accountant.convert(resources));
+    public void withdraw(Accountant accountant,HashMap<Material,Integer> resources,int n){
+        withdraw(accountant,Accountant.convert(resources),n);
     }
-    public List<ItemStack> withdraw(List<ItemStack> items){
-        return withdraw(items.toArray(new ItemStack[0]));
+    public void withdraw(Accountant accountant,List<ItemStack> items,int n){
+        withdraw(accountant,items.toArray(new ItemStack[0]),n);
     }
-    public List<ItemStack> withdraw(ItemStack[] items){
+    public void withdraw(Accountant accountant,ItemStack[] items, int n){
+        if(!placedEncounter.isLoaded()){
+            withdrawQueue.put(items,accountant);
+            if(RandomEncounters.getInstance().getLogLevel()>3){
+                RandomEncounters.getInstance().logMessage(getVaultName()+ ": Not yet loaded adding "+items.length+" item stacks to the deposit queue");
+            }
+            return;
+        }
         if(RandomEncounters.getInstance().getLogLevel()>5){
-            RandomEncounters.getInstance().logMessage(getVaultName()+ " - Attempting to withdraw "+items.length+" item stacks");
+            RandomEncounters.getInstance().logMessage(getVaultName()+ ": Attempting to withdraw "+items.length+" item stacks");
         }
         List<ItemStack> leftovers   =   Arrays.asList(items);
         if(!locations.isEmpty() && items.length>0){
@@ -135,7 +172,7 @@ public class Vault {
                     leftovers           =   new ArrayList(inventory.removeItem(items).values());
                     if(leftovers.isEmpty()){
                         if(RandomEncounters.getInstance().getLogLevel()>9){
-                            RandomEncounters.getInstance().logMessage(getVaultName()+" - Successfully withdrew all items");
+                            RandomEncounters.getInstance().logMessage(getVaultName()+": Successfully withdrew all items");
                         }
                         break;
                     }
@@ -144,13 +181,13 @@ public class Vault {
         }
         ledgerTransaction(Accountant.subtract(Accountant.convert(items),Accountant.convert(leftovers)),-1);
         full    =   false;
-        return leftovers;
+        accountant.withdrawResources(leftovers,n+1);
     }
     
     private boolean validInventory(Location location,Iterator<Location> itr){
         if(location==null || !(location.getBlock().getState() instanceof Chest)){
            if(RandomEncounters.getInstance().getLogLevel()>4){
-                RandomEncounters.getInstance().logMessage(getVaultName()+" detected missing inventory, removing it");
+                RandomEncounters.getInstance().logMessage(getVaultName()+": detected missing inventory, removing it");
            }
            owners.remove(location);
            itr.remove(); 

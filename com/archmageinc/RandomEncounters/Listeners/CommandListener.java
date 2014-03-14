@@ -220,11 +220,7 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
     }
     
     @Override
-    public void addPlacedEncounter(PlacedEncounter newEncounter) {
-        if(newEncounter!=null){
-            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
-        }
-    }
+    public void addPlacedEncounter(PlacedEncounter newEncounter) {}
 
     @Override
     public Encounter getEncounter() {

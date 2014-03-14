@@ -31,7 +31,7 @@ public class WorldListener implements Listener {
         if(processing){
             return;
         }
-        if(RandomEncounters.getInstance().getLogLevel()>8){
+        if(RandomEncounters.getInstance().getLogLevel()>11){
             RandomEncounters.getInstance().logMessage("New chunk detected, prepairing to run checks");
         }
         processing                      =   true;

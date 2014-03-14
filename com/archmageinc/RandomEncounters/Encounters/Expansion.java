@@ -174,19 +174,19 @@ public class Expansion implements Cloneable,EncounterPlacer{
                 }
                 return;
             }
-            if(isVault() && expandingEncounter.hasVaultSpace()){
+            if(isVault() && expandingEncounter.getAccountant().hasVaultSpace()){
                 if(RandomEncounters.getInstance().getLogLevel()>7){
                     RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" still has vault space");
                 }
                 return;
             }
-            if(!expandingEncounter.getRoot().hasResources((HashMap<Material,Integer>) rootResources.clone())){
+            if(!expandingEncounter.getRoot().getAccountant().hasResources((HashMap<Material,Integer>) rootResources.clone())){
                 if(RandomEncounters.getInstance().getLogLevel()>7){
                     RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" does not have the required root resources");
                 }
                 return;
             }
-            if(!expandingEncounter.hasResources((HashMap<Material,Integer>) parentResources.clone())){
+            if(!expandingEncounter.getAccountant().hasResources((HashMap<Material,Integer>) parentResources.clone())){
                 if(RandomEncounters.getInstance().getLogLevel()>7){
                     RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" does not have the required local resources");
                 }
@@ -204,8 +204,8 @@ public class Expansion implements Cloneable,EncounterPlacer{
     }
     
     private void deductResources(){
-        expandingEncounter.getRoot().withdrawResources((HashMap<Material,Integer>) rootResources.clone());
-        expandingEncounter.withdrawResources((HashMap<Material,Integer>) parentResources.clone());
+        expandingEncounter.getRoot().getAccountant().withdrawResources((HashMap<Material,Integer>) rootResources.clone());
+        expandingEncounter.getAccountant().withdrawResources((HashMap<Material,Integer>) parentResources.clone());
     }
     
     /**
@@ -309,10 +309,9 @@ public class Expansion implements Cloneable,EncounterPlacer{
                 expandingEncounter.addVault(newEncounter);
             }
             expandingEncounter.addChild(newEncounter);
-            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
         }else{
-            expandingEncounter.getRoot().depositResources((HashMap<Material,Integer>) rootResources.clone());
-            expandingEncounter.depositResources((HashMap<Material,Integer>) parentResources.clone());
+            expandingEncounter.getRoot().getAccountant().depositResources((HashMap<Material,Integer>) rootResources.clone());
+            expandingEncounter.getAccountant().depositResources((HashMap<Material,Integer>) parentResources.clone());
             canExpand   =   false;
         }
     }

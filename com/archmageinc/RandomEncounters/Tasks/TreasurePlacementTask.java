@@ -1,160 +1,71 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.archmageinc.RandomEncounters.Tasks;
 
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  *
- * @author bbrooks
+ * @author ArchmageInc
  */
 public class TreasurePlacementTask extends BukkitRunnable {
-    private final Set<Chest> chests                 =   new HashSet();
     private final PlacedEncounter placedEncounter;
-    private final int sx;
-    private final int sy;
-    private final int sz;
-    private final int mx;
-    private final int my;
-    private final int mz;
-    private int x;
-    private int y;
-    private int z;
-    private int pass;
-    private Iterator<Chest> itr;
+    private final int[] blockLocations;
+    private int i   =   0;
+    private int t   =   0;
     
     
     public TreasurePlacementTask(PlacedEncounter placedEncounter){
         this.placedEncounter    =   placedEncounter;
-        this.sx                 =   placedEncounter.getLocation().getBlockX()-placedEncounter.getEncounter().getStructure().getWidth();
-        this.sy                 =   placedEncounter.getLocation().getBlockY()-placedEncounter.getEncounter().getStructure().getHeight();
-        this.sz                 =   placedEncounter.getLocation().getBlockZ()-placedEncounter.getEncounter().getStructure().getLength();
-        this.mx                 =   placedEncounter.getLocation().getBlockX()+placedEncounter.getEncounter().getStructure().getWidth();
-        this.my                 =   placedEncounter.getLocation().getBlockY()+placedEncounter.getEncounter().getStructure().getHeight();
-        this.mz                 =   placedEncounter.getLocation().getBlockZ()+placedEncounter.getEncounter().getStructure().getLength();
-        this.x                  =   sx;
-        this.y                  =   sy;
-        this.z                  =   sz;
-        this.pass               =   1;
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Begining treasure placements for "+placedEncounter.getName());
+        if(placedEncounter.getEncounter().getStructure()==null){
+            if(RandomEncounters.getInstance().getLogLevel()>0){
+                RandomEncounters.getInstance().logWarning("Tresure Placement: "+placedEncounter.getName()+" has no structure: No treasures will be placed");
+            }
+            blockLocations  =   new int[0];
+        }else{
+            blockLocations  =   placedEncounter.getBlockLocations();
         }
-    }
-    
-    private void checkBlock(int bx,int by,int bz){
-        if(placedEncounter.getLocation().getWorld().getBlockAt(bx,by,bz).getState() instanceof Chest){
-            chests.add((Chest) placedEncounter.getLocation().getWorld().getBlockAt(bx,by,bz).getState());
+        if(RandomEncounters.getInstance().getLogLevel()>8){
+            RandomEncounters.getInstance().logWarning("Treasure Placement for "+placedEncounter.getName()+" checking "+(blockLocations.length/3)+" locations.");
         }
     }
     
     @Override
     public void run(){
-        if(!placedEncounter.getEncounter().hasTreasures()){
-            stop();
-            return;
-        }
-        switch(pass){
-            case 1: firstPass();
-                break;
-            case 2: secondPass();
-                break;
-            default: stop();
-                break;
-        }
-    }
-    
-    private void setupIterators(){
-        itr =   chests.iterator();
-    }
-    
-    private void secondPass(){
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
         timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
-        while(itr.hasNext()){
-            Chest chest       =   itr.next();
-            List<ItemStack> items   =   placedEncounter.getEncounter().getTreasure();
-            for(ItemStack item : items){
-                chest.getInventory().addItem(item);
+        while(i<blockLocations.length){
+            int x   =   blockLocations[i];
+            int y   =   blockLocations[i+1];
+            int z   =   blockLocations[i+2];
+            if(x+y+z!=0){
+                Block block         =   placedEncounter.getLocation().getWorld().getBlockAt(x, y, z);
+                if(block.getState() instanceof Chest){
+                    List<ItemStack> items   =   placedEncounter.getEncounter().getTreasure();
+                    ((Chest) block.getState()).getInventory().addItem(items.toArray(new ItemStack[0]));
+                    t++;
+                }
             }
-            
-            
+            i += 3;
             if(Calendar.getInstance().after(timeLimit)){
-                if(RandomEncounters.getInstance().getLogLevel()>9){
-                    RandomEncounters.getInstance().logMessage("Treasure placement needs more time for "+placedEncounter.getName());
-                }
                 break;
             }
         }
-        if(!itr.hasNext()){
-            if(RandomEncounters.getInstance().getLogLevel()>9){
-                RandomEncounters.getInstance().logMessage("Treasure placement for "+placedEncounter.getName()+" completed second pass");
+        if(i>=blockLocations.length){
+            if(RandomEncounters.getInstance().getLogLevel()>8){
+                RandomEncounters.getInstance().logMessage("Treasure Placement complete for "+placedEncounter.getName()+": found "+t+" chests");
             }
-            pass++;
-        }
-    }
-    
-    private void firstPass() {
-        Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
-        timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
-        while(x<mx){
-            
-            y   =   y>=my ? sy : y;
-            while(y<my){
-                
-                z   =   z>=mz ? sz : z;
-                while(z<mz){
-                    checkBlock(x,y,z);
-                    z++;
-                    if(Calendar.getInstance().after(timeLimit)){
-                        if(z>=mz){
-                            y++;
-                        }
-                        break;
-                    }
-                }
-                if(Calendar.getInstance().after(timeLimit)){
-                    if(y>=my){
-                        x++;
-                    }
-                    break;
-                }
-                y++;
-            }
-            if(Calendar.getInstance().after(timeLimit))
-                break;
-            x++;
-        }
-        if(x>=mx){
-            setupIterators();
-            pass++;
-            if(RandomEncounters.getInstance().getLogLevel()>9){
-                RandomEncounters.getInstance().logMessage("Treasure placement for "+placedEncounter.getName()+" completed first pass [P2: "+chests.size()+"]");
-            }
+            cancel();
         }else{
-            if(RandomEncounters.getInstance().getLogLevel()>9){
-                RandomEncounters.getInstance().logMessage("Treasure placement needs more time for "+placedEncounter.getName()+" P1("+x+"/"+mx+","+y+"/"+my+","+z+"/"+mz+")");
+            if(RandomEncounters.getInstance().getLogLevel()>11){
+                RandomEncounters.getInstance().logMessage("More time needed for "+placedEncounter.getName()+" Treasure Placement: "+t+" found so far");
             }
         }
-    }
-    
-    private void stop(){
-        if(RandomEncounters.getInstance().getLogLevel()>6){
-            RandomEncounters.getInstance().logMessage("Treasure placement finished for "+placedEncounter.getName());
-        }
-        cancel();
     }
     
 }

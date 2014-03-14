@@ -2,6 +2,7 @@ package com.archmageinc.RandomEncounters;
 
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.Tasks.ResourceCollectorTask;
+import com.archmageinc.RandomEncounters.Utilities.Accountant;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +105,7 @@ public class ResourceCollection {
         if(RandomEncounters.getInstance().getLogLevel()>7){
             RandomEncounters.getInstance().logMessage("  * "+placedEncounter.getName()+": resource collection rule finished: "+items.size());
         }
-        getDestination().depositResources(items);
+        getDestination().getAccountant().depositResources(Accountant.convert(items));
         checking    =   false;
     }
     

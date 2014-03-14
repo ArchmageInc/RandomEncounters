@@ -3,9 +3,11 @@ package com.archmageinc.RandomEncounters.Encounters;
 import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.ResourceCollection;
+import com.archmageinc.RandomEncounters.Tasks.LocationLoadingTask;
 import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
 import com.archmageinc.RandomEncounters.Tasks.TreasurePlacementTask;
 import com.archmageinc.RandomEncounters.Utilities.Accountant;
+import com.archmageinc.RandomEncounters.Utilities.LoadListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,8 +17,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -25,7 +25,7 @@ import org.json.simple.JSONObject;
  * 
  * @author ArchmageInc
  */
-public class PlacedEncounter {
+public class PlacedEncounter implements LoadListener{
     
     /**
      * The generated Unique ID.
@@ -75,13 +75,23 @@ public class PlacedEncounter {
     
     private PlacedEncounter root                            =   null;
     
-    private final Set<Vault> vaults                         =   new HashSet();
+    private final List<Vault> vaults                        =   new ArrayList();
     
     private Vault selfVault;
     
     private static Map<UUID,PlacedEncounter> uuidInstances  =   new HashMap();
     
     private final Set<ResourceCollection> collections       =   new HashSet();
+    
+    private int[] blockLocations;
+    
+    private ArrayList<Integer> tmpBlockLocations            =   new ArrayList();
+    
+    private int bli =  0;
+    
+    private LocationLoadingTask loadingTask;
+    
+    private Accountant accountant;
     
     /**
      * Get an instance of the placed encounter based on the Unique ID.
@@ -141,22 +151,23 @@ public class PlacedEncounter {
      */
     private PlacedEncounter(JSONObject jsonConfiguration){
         try{
-            uuid                    =   UUID.fromString((String) jsonConfiguration.get("uuid"));
-            sacked                  =   (Boolean) jsonConfiguration.get("sacked");
-            encounter               =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
-            JSONObject jsonLocation =   (JSONObject) jsonConfiguration.get("location");
-            location                =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
+            uuid                            =   UUID.fromString((String) jsonConfiguration.get("uuid"));
+            sacked                          =   (Boolean) jsonConfiguration.get("sacked");
+            encounter                       =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
+            JSONObject jsonLocation         =   (JSONObject) jsonConfiguration.get("location");
+            location                        =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
+            JSONArray jsonMobs              =   (JSONArray) jsonConfiguration.get("mobs");
+            JSONArray jsonExpansions        =   (JSONArray) jsonConfiguration.get("expansions");
             if(encounter==null){
                 RandomEncounters.getInstance().logError("Missing Encounter ("+(String) jsonConfiguration.get("encounter")+") from PlacedEncounter configuration");
             }
-            JSONArray jsonMobs   =   (JSONArray) jsonConfiguration.get("mobs");
+            
             if(jsonMobs!=null){
                 for(int i=0;i<jsonMobs.size();i++){
                     mobs.add(PlacedMob.getInstance((JSONObject) jsonMobs.get(i),this));
                 }
             }
             
-            JSONArray jsonExpansions    =   (JSONArray) jsonConfiguration.get("expansions");
             if(jsonExpansions!=null){
                 for(int i=0;i<jsonExpansions.size();i++){
                     JSONObject jsonExpansion    =   (JSONObject) jsonExpansions.get(i);
@@ -189,18 +200,58 @@ public class PlacedEncounter {
         this.location   =   location;
         if(encounter.getStructure()!=null){
             encounter.getStructure().place(this);
+        }else{
+            setupEncounter(true);
         }
         uuidInstances.put(uuid, this);
     }
     
+    public final void addBlockLocation(int x,int y,int z){
+        tmpBlockLocations.add(x);
+        tmpBlockLocations.add(y);
+        tmpBlockLocations.add(z);
+    }
+    
+    public final void removeBlockLocation(Location blockLocation){
+        //blockLocations.remove(blockLocation);
+    }
+    
+    public int[] getBlockLocations(){
+        return blockLocations;
+    }
+    
+    /**
+     * Finishes setting up the encounter.
+     * 
+     * This is called when the structure placement task is finished, or when loaded from JSON.
+     * 
+     * @param isNew Is this a new placed encounter
+     */    
     public final void setupEncounter(boolean isNew){
         if(isNew){
+            setupBlockLocations();
             placeMobs();
             placeTreasures();
+            RandomEncounters.getInstance().addPlacedEncounter(this);
         }
         setupExpansions();
         setupCollections();
-        //selfVault   =   new Vault(this);
+    }
+    
+    private void setupBlockLocations(){
+        if(tmpBlockLocations.isEmpty()){
+            if(RandomEncounters.getInstance().getLogLevel()>4){
+                RandomEncounters.getInstance().logWarning(getName()+": Temporary Block Locations was empty!");
+            }
+            return;
+        }
+        blockLocations  =   new int[tmpBlockLocations.size()];
+        int i   =   0;
+        for(Integer l : tmpBlockLocations){
+            blockLocations[i]   =   l;
+            i++;
+        }
+        tmpBlockLocations.clear();
     }
     
     private void setupCollections(){
@@ -234,84 +285,12 @@ public class PlacedEncounter {
         }
     }
     
-    public List<ItemStack> depositResources(List<ItemStack> items){
-        return depositResources(Accountant.convert(items));
-    }
-    public List<ItemStack> depositResources(HashMap<Material,Integer> resources){
-        if(resources.isEmpty()){
-            return new ArrayList<>();
-        }
-        List<ItemStack> leftovers   =   Accountant.convert(resources);
-        for(Vault vault : getVaults()){
-            leftovers   =   vault.deposit(leftovers);
-            if(leftovers.isEmpty()){
-                break;
-            }
-        }
-        if(!leftovers.isEmpty() && parent!=null){
-            if(RandomEncounters.getInstance().getLogLevel()>7){
-                RandomEncounters.getInstance().logMessage("Leftover deposit from "+getName()+", sending to parent.");
-            }
-            return parent.depositResources(Accountant.convert(leftovers));
-        }
-        return leftovers;
-    }
-    
-    public List<ItemStack> withdrawResources(List<ItemStack> items){
-        return withdrawResources(Accountant.convert(items));
-    }
-    public List<ItemStack> withdrawResources(HashMap<Material,Integer> resources){
-        if(resources.isEmpty()){
-            return new ArrayList<>();
-        }
-        List<ItemStack> leftover    =   Accountant.convert(resources);
-        for(Vault vault : getVaults()){
-            leftover    =   vault.withdraw(leftover);
-            if(leftover.isEmpty()){
-                break;
-            }
-        }
-        return leftover;
-    }
-    public boolean hasResources(HashMap<Material,Integer> resources){
-        if(resources.isEmpty()){
-            return true;
-        }
-        HashMap<Material,Integer> leftover  =   (HashMap<Material,Integer>) resources.clone();
-        for(Vault vault : getVaults()){
-            leftover    =   vault.contains(leftover);
-            if(leftover.isEmpty()){
-                break;
-            }
-        }
-        if(RandomEncounters.getInstance().getLogLevel()>9){
-            for(Material material : leftover.keySet()){
-                RandomEncounters.getInstance().logMessage("        - "+leftover.get(material)+" more "+material.name()+" needed");
-            }
-        }
-        return leftover.isEmpty();
-    }
-    public boolean hasVaultSpace(){
-        for(Vault vault : getVaults()){
-            if(!vault.getEncounter().equals(this)){
-                if(!vault.isFull()){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    
     private void placeMobs(){
         (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
     }
     
     private void placeTreasures(){
         (new TreasurePlacementTask(this)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
-    }
-    
-    public void addMobs(Set<PlacedMob> newMobs){
-        mobs.addAll(newMobs);
     }
     
     public void setSpawnLocations(List<Location> locations){
@@ -325,7 +304,7 @@ public class PlacedEncounter {
         vaults.add(new Vault(vault));
     }
     
-    private Set<Vault> getVaults(){
+    private List<Vault> getVaults(){
         if(vaults.isEmpty()){
             for(Expansion exp : expansions){
                 if(exp.isVault()){
@@ -401,6 +380,10 @@ public class PlacedEncounter {
         mobs.add(mob);
     }
     
+    public void addMobs(Set<PlacedMob> newMobs){
+        mobs.addAll(newMobs);
+    }
+    
     /**
      * Gets the parent Encounter configuration that generated this PlacedEncounter.
      * @return 
@@ -460,6 +443,17 @@ public class PlacedEncounter {
         return expansions;
     }
     
+    public Accountant getAccountant(){
+        if(accountant==null){
+            accountant  =   new Accountant(this,getVaults());
+        }
+        return accountant;
+    }
+    
+    public LocationLoadingTask getLoadingTask(){
+        return loadingTask;
+    }
+    
     public PlacedEncounter getRoot(){
         if(root==null){
             root    =   this;
@@ -479,12 +473,20 @@ public class PlacedEncounter {
         this.parent =   parent;
     }
     
+    public void setLoadingTask(LocationLoadingTask task){
+        loadingTask =   task;
+    }
+    
     /**
      * Has this encounter been sacked.
      * @return 
      */
     public boolean isSacked(){
         return sacked;
+    }
+    
+    public boolean isLoaded(){
+        return loadingTask==null;
     }
     
     private void sack(){
@@ -542,6 +544,19 @@ public class PlacedEncounter {
         }
         jsonConfiguration.put("expansions", jsonExpansions);
         
+        JSONArray jsonBlockLocations    =   new JSONArray();
+        jsonConfiguration.put("blocks", jsonBlockLocations);
+        
         return jsonConfiguration;
+    }
+
+    @Override
+    public void processLoad(LocationLoadingTask loadTask) {
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("  "+getName()+" has been notified of loading completion.");
+        }
+        blockLocations  =   loadTask.getLocations();
+        bli             =   blockLocations.length;
+        loadingTask     =   null;
     }
 }

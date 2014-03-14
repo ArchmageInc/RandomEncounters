@@ -335,11 +335,7 @@ public class Encounter implements EncounterPlacer{
         return -1;
     }
     @Override
-    public void addPlacedEncounter(PlacedEncounter newEncounter) {
-        if(newEncounter!=null){
-            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
-        }
-    }
+    public void addPlacedEncounter(PlacedEncounter newEncounter) {}
 
     @Override
     public Encounter getEncounter() {

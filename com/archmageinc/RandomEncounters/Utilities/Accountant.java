@@ -1,10 +1,13 @@
 package com.archmageinc.RandomEncounters.Utilities;
 
+import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
+import com.archmageinc.RandomEncounters.Encounters.Vault;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,6 +16,85 @@ import org.bukkit.inventory.ItemStack;
  * @author ArchmageInc
  */
 public class Accountant {
+    private final PlacedEncounter owner;
+    private final List<Vault> vaults;
+    
+    public Accountant(PlacedEncounter placedEncounter,List<Vault> vaults){
+        owner       =   placedEncounter;
+        this.vaults =   vaults;
+    }
+    
+    public void depositResources(HashMap<Material,Integer> resources){
+        depositResources(resources,0);
+    }
+    public void depositResources(List<ItemStack> items, int n){
+        depositResources(convert(items),n);
+    }
+    public void depositResources(HashMap<Material,Integer> resources,int n){
+        if(resources.isEmpty()){
+            return;
+        }
+        if(n<vaults.size()){
+            vaults.get(n).deposit(this, resources, n);
+            return;
+        }
+        if(owner.getParent()!=null){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", sending to parent.");
+            }
+            owner.getParent().getAccountant().depositResources(resources,0); 
+        }
+    }
+    
+    public void withdrawResources(HashMap<Material,Integer> resources){
+        withdrawResources(resources,0);
+    }
+    public void withdrawResources(List<ItemStack> items,int n){
+        withdrawResources(Accountant.convert(items),n);
+    }
+    public void withdrawResources(HashMap<Material,Integer> resources, int n){
+        if(resources.isEmpty()){
+            return;
+        }
+        if(n<vaults.size()){
+            vaults.get(n).withdraw(this, resources, n);
+            return;
+        }
+        if(owner.getParent()!=null){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", taking from parent.");
+            }
+            owner.getParent().getAccountant().withdrawResources(resources,0); 
+        }
+    }
+    public boolean hasResources(HashMap<Material,Integer> resources){
+        if(resources.isEmpty()){
+            return true;
+        }
+        HashMap<Material,Integer> leftover  =   (HashMap<Material,Integer>) resources.clone();
+        for(Vault vault : vaults){
+            leftover    =   vault.contains(leftover);
+            if(leftover.isEmpty()){
+                break;
+            }
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>9){
+            for(Material material : leftover.keySet()){
+                RandomEncounters.getInstance().logMessage("        - "+leftover.get(material)+" more "+material.name()+" needed");
+            }
+        }
+        return leftover.isEmpty();
+    }
+    public boolean hasVaultSpace(){
+        for(Vault vault : vaults){
+            if(!vault.getEncounter().equals(owner)){
+                if(!vault.isFull()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     public static List<ItemStack> convert(HashMap<Material,Integer> resources){
         List<ItemStack> items   =   new ArrayList();
