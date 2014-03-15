@@ -39,6 +39,8 @@ public class LocationLoadingTask extends BukkitRunnable {
             FileInputStream in          =   new FileInputStream(filename);
             ObjectInputStream stream    =   new ObjectInputStream(in);
             locations                   =   (int[]) stream.readObject();
+            stream.close();
+            in.close();
             notifyListeners();
         } catch (IOException | ClassNotFoundException e) {
             RandomEncounters.getInstance().logError("Error while loading locations: "+e.getMessage());

@@ -20,6 +20,8 @@ public abstract class LocationManager {
             FileOutputStream out        =   new FileOutputStream(filename);
             ObjectOutputStream stream   =   new ObjectOutputStream(out);
             stream.writeObject(locations);
+            stream.close();
+            out.close();
         } catch (IOException e) {
             RandomEncounters.getInstance().logError("Error while saving locations: "+e.getMessage());
         }

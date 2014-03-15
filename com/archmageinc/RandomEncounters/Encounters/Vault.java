@@ -52,11 +52,11 @@ public class Vault implements LoadListener {
     
     private void findChests(){
         int[] blockLocations    =   placedEncounter.getBlockLocations();
-        if(RandomEncounters.getInstance().getLogLevel()>8){
-            RandomEncounters.getInstance().logMessage(getVaultName()+": locating chests from "+(blockLocations.length/3)+" locations");
-        }
         if(blockLocations==null){
             return;
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>8){
+            RandomEncounters.getInstance().logMessage(getVaultName()+": locating chests from "+(blockLocations.length/3)+" locations");
         }
         for(int i=0;i<blockLocations.length;i+=3){
             int x               =   blockLocations[i];
@@ -83,7 +83,7 @@ public class Vault implements LoadListener {
         if(RandomEncounters.getInstance().getLogLevel()>7){
             RandomEncounters.getInstance().logMessage(getVaultName()+": located "+locations.size()+" storage inventories");
         }
-        initializeLedger();
+        inventory();
     }
     
     private void processQueues(){
@@ -196,10 +196,6 @@ public class Vault implements LoadListener {
         return true;
     }
     
-    public HashMap<Material,Integer> contains(HashMap<Material,Integer> amounts){
-        return  Accountant.complement(amounts, ledger);
-    }
-    
     private void ledgerTransaction(HashMap<Material,Integer> amounts,int type){
        if(amounts.isEmpty()){
            return;
@@ -215,25 +211,27 @@ public class Vault implements LoadListener {
         }
     }
     
-    private void initializeLedger(){
+    public HashMap<Material,Integer> inventory(){
+        ledger.clear();
         if(!locations.isEmpty()){
-            Iterator<Location> itr            =   locations.iterator();
-            List<ItemStack> items             =   new ArrayList();
+            Iterator<Location> itr  =   locations.iterator();
             while(itr.hasNext()){
-                Location location =   itr.next();
+                Location location   =   itr.next();
                 if(validInventory(location,itr)){
-                   Inventory inventory                  =   ((Chest) location.getBlock().getState()).getBlockInventory();
-                   
-                   for(ItemStack item : inventory.getContents()){
-                       if(item==null){
-                           continue;
+                    Inventory i                  =   ((Chest) location.getBlock().getState()).getBlockInventory();
+                    for(ItemStack item : i.getContents()){
+                       if(item!=null){
+                           int v    =   ledger.containsKey(item.getType()) ? ledger.get(item.getType())+item.getAmount() : item.getAmount();
+                           ledger.put(item.getType(), v);
                        }
-                       items.add(item);
                    }
                 }
             }
-            ledgerTransaction(Accountant.convert(items),1);
         }
+        if(RandomEncounters.getInstance().getLogLevel()>11){
+            logBalance();
+        }
+        return (HashMap<Material,Integer>) ledger.clone();
     }
     
     public void logBalance(){
@@ -242,7 +240,7 @@ public class Vault implements LoadListener {
         for(Material material : ledger.keySet()){
             RandomEncounters.getInstance().logMessage("  "+material.name()+": "+ledger.get(material));
         }
-        RandomEncounters.getInstance().logMessage("======END STATUEMENT=======");
+        RandomEncounters.getInstance().logMessage("======END STATEMENT=======");
     }
     private String getVaultName(){
         return placedEncounter.getName()+"(Vault)";

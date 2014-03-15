@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 public class Accountant {
     private final PlacedEncounter owner;
     private final List<Vault> vaults;
+    private final HashMap<Material,Integer> ledger  =   new HashMap();
     
     public Accountant(PlacedEncounter placedEncounter,List<Vault> vaults){
         owner       =   placedEncounter;
@@ -40,7 +39,7 @@ public class Accountant {
         }
         if(n<vaults.size()){
             vaults.get(n).deposit(this, resources, n);
-            if(RandomEncounters.getInstance().getLogLevel()>10){
+            if(RandomEncounters.getInstance().getLogLevel()>11){
                 vaults.get(n).logBalance();
             }
             return;
@@ -54,17 +53,7 @@ public class Accountant {
         }
         
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", with no parent sending to child.");
-        }
-        for(UUID id : owner.getChildren()){
-            PlacedEncounter child   =   PlacedEncounter.getInstance(id);
-            if(child!=null){
-                child.getAccountant().depositResources(resources);
-                return;
-            }
-        }
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", no space, no parent, no children, it's lost.");
+            RandomEncounters.getInstance().logMessage("Leftover deposit from "+owner.getName()+", no space, no parent, it's lost.");
         }
         
     }
@@ -84,7 +73,7 @@ public class Accountant {
         }
         if(n<vaults.size()){
             vaults.get(n).withdraw(this, resources, n);
-            if(RandomEncounters.getInstance().getLogLevel()>10){
+            if(RandomEncounters.getInstance().getLogLevel()>11){
                 vaults.get(n).logBalance();
             }
             return;
@@ -96,48 +85,58 @@ public class Accountant {
             owner.getParent().getAccountant().withdrawResources(resources);
             return;
         }
+        
         if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", with no parent taking from child.");
-        }
-        for(UUID id : owner.getChildren()){
-            PlacedEncounter child   =   PlacedEncounter.getInstance(id);
-            if(child!=null){
-                child.getAccountant().withdrawResources(resources);
-                return;
-            }
-        }
-        if(RandomEncounters.getInstance().getLogLevel()>7){
-            RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", no space, no parent, no children, it's free.");
+            RandomEncounters.getInstance().logMessage("Leftover withdraw from "+owner.getName()+", no space, no parent, it's free.");
         }
         
+    }
+    
+    private void inventory(){
+        ledger.clear();
+        for(Vault vault : vaults){
+            ledger.putAll(add(ledger,vault.inventory()));
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>10){
+            logBalance();
+        }
     }
     public boolean hasResources(HashMap<Material,Integer> resources){
         if(resources.isEmpty()){
             return true;
         }
-        HashMap<Material,Integer> leftover  =   (HashMap<Material,Integer>) resources.clone();
-        for(Vault vault : vaults){
-            leftover    =   vault.contains(leftover);
-            if(leftover.isEmpty()){
-                break;
+        if(RandomEncounters.getInstance().getLogLevel()>10){
+            RandomEncounters.getInstance().logMessage("*********REQUEST*********");
+            RandomEncounters.getInstance().logMessage("  **"+getName()+"**");
+            for(Material m : resources.keySet()){
+                RandomEncounters.getInstance().logMessage("  "+m.name()+": "+resources.get(m));
             }
+            RandomEncounters.getInstance().logMessage("*******END REQUEST*******");
         }
-        if(RandomEncounters.getInstance().getLogLevel()>9){
-            for(Material material : leftover.keySet()){
-                RandomEncounters.getInstance().logMessage("        - "+leftover.get(material)+" more "+material.name()+" needed");
-            }
-        }
-        return leftover.isEmpty();
+        inventory();
+        
+        return contains(ledger,resources);
     }
     public boolean hasVaultSpace(){
         for(Vault vault : vaults){
-            if(!vault.getEncounter().equals(owner)){
-                if(!vault.isFull()){
-                    return true;
-                }
+            if(!vault.getEncounter().equals(owner) && !vault.isFull()){
+                return true;
             }
         }
         return false;
+    }
+    
+    public void logBalance(){
+        RandomEncounters.getInstance().logMessage("======LEDGER BALANCE=======");
+        RandomEncounters.getInstance().logMessage("======"+getName()+"=======");
+        for(Material material : ledger.keySet()){
+            RandomEncounters.getInstance().logMessage("  "+material.name()+": "+ledger.get(material));
+        }
+        RandomEncounters.getInstance().logMessage("======END BALANCE=======");
+    }
+    
+    private String getName(){
+        return owner.getName()+"(ACCOUNTANT)";
     }
     
     public static List<ItemStack> convert(HashMap<Material,Integer> resources){
@@ -166,17 +165,6 @@ public class Accountant {
         return resources;
     }
     
-    public static HashMap<Material,Integer> complement(HashMap<Material,Integer> amount,HashMap<Material,Integer> ledger){
-        HashMap<Material,Integer> remainder =   new HashMap();
-        for(Material material : amount.keySet()){
-            int v  =   ledger.containsKey(material) ? amount.get(material)-ledger.get(material) : amount.get(material);
-            if(v>0){
-                remainder.put(material, v);
-            }
-        }
-        return remainder;
-    }
-    
     public static HashMap<Material,Integer> subtract(HashMap<Material,Integer> input, HashMap<Material,Integer> output){
         HashMap<Material,Integer> result    =   new HashMap();
         for(Material material : input.keySet()){
@@ -191,6 +179,24 @@ public class Accountant {
             }
         }
         return result;
+    }
+    
+    public static boolean contains(HashMap<Material,Integer> source,HashMap<Material,Integer> check){
+        for(Material m : check.keySet()){
+            if(!source.containsKey(m) || source.get(m)<check.get(m)){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static HashMap<Material,Integer> add(HashMap<Material,Integer> l1,HashMap<Material,Integer> l2){
+        HashMap<Material,Integer> combined  =   (HashMap<Material,Integer>) l1.clone();
+        for(Material m : l2.keySet()){
+            int v   =   combined.containsKey(m) ? combined.get(m)+l2.get(m) : l2.get(m);
+            combined.put(m, v);
+        }
+        return combined;
     }
     
 }
