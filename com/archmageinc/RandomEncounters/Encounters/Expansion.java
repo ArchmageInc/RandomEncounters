@@ -150,14 +150,16 @@ public class Expansion implements Cloneable,EncounterPlacer{
             }
             return;
         }
-        updateLastCheck();
+        
         if(!canExpand){
+            updateLastCheck();
             if(RandomEncounters.getInstance().getLogLevel()>7){
                 RandomEncounters.getInstance().logMessage("    * Expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" reportedly has nowhere to expand");
             }
             return;
         }
         if(expandingEncounter.isSacked()){
+            updateLastCheck();
             if(RandomEncounters.getInstance().getLogLevel()>7){
                 RandomEncounters.getInstance().logMessage("    * "+expandingEncounter.getName()+" is sacked and cannot expand");
             }
@@ -169,6 +171,7 @@ public class Expansion implements Cloneable,EncounterPlacer{
         }
         if(random<probability){
             if(expandingEncounter.getChildren(encounter).size()>=max){
+                updateLastCheck();
                 if(RandomEncounters.getInstance().getLogLevel()>7){
                     RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" has reached the maximum number of expansions");
                 }
@@ -192,6 +195,7 @@ public class Expansion implements Cloneable,EncounterPlacer{
                 }
                 return;
             }
+            updateLastCheck();
             deductResources();
             checking    =   true;
             if(RandomEncounters.getInstance().getLogLevel()>7){

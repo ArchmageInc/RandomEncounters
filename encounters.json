@@ -1,7 +1,7 @@
 {
   "encounters":	[
       {
-        "name":             "vault3",
+        "name":             "GV1",
         "structure":        "Vault1",
         "probability":      0.0,
         "enabled":          true,
@@ -11,9 +11,1533 @@
         "mobs":             null,
         "invalidBiomes":    null,
         "mobs":             [
-            "GeordianBattalion"
+            "GeordianVaultGuard"
         ]
       },
+      {
+        "name":             "GV2",
+        "structure":        "Vault2",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    null,
+        "mobs":             [
+            "GeordianVaultGuard"
+        ]
+      },
+      {
+        "name":             "GF1",
+        "structure":        "AnimalFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             [
+            "GeordianPigs"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF2",
+        "structure":        "SugarFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF3",
+        "structure":        "PumpkinFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF4",
+        "structure":        "PotatoFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF5",
+        "structure":        "WheatFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF6",
+        "structure":        "CarrotFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GH1",
+        "structure":        "GH1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "GeordianNobles"
+        ],
+        "invalidBiomes":    [
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "LOG"
+                ]
+            }
+        ],
+        "expansions":   [
+            {
+                "encounter":    "GF1",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          3,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF2",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF3",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF4",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF5",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF6",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GH2",
+        "structure":        "GH2",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "GeordianNobles"
+        ],
+        "invalidBiomes":    [
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "LOG"
+                ]
+            }
+        ],
+        "expansions":   [
+            {
+                "encounter":    "GF1",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          3,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF2",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF3",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF4",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF5",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF6",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GH3",
+        "structure":        "GH3",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "GeordianNobles"
+        ],
+        "invalidBiomes":    [
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "LOG"
+                ]
+            }
+        ],
+        "expansions":   [
+            {
+                "encounter":    "GF1",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          3,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF2",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF3",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF4",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF5",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF6",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      
+      {
+        "name":         "GT1",
+        "structure":    "GT1",
+        "probability":  0,
+        "enabled":      true,
+        "validBiomes":  null,
+        "treasures":    null,
+        "mobs":         [
+            "GeordianBattalion"
+        ],
+        "invalidBiomes":[
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":  [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 10,
+                "destination":  "root",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    50,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 10,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 72,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+	      "distance": 5,
+	      "total":    2,
+	      "duration": 10,
+	      "destination": "self",
+	      "resources": [
+		"STONE"
+	      ]
+            }
+        ],
+        "expansions":   [
+            {
+	      "encounter":	"GV2",
+	      "probability":	0.5,
+	      "duration":	5,
+	      "max":		1,
+	      "maxDistance":	4,
+	      "vault":		true,
+	      "pattern":	1,
+              "requirements":	{
+		  "self": {
+		    "resources": {
+		      "COBBLESTONE": 256,
+		      "COAL":	     512,
+		      "IRON_ORE":    16,
+		      "LOG":	     64,
+                      "REDSTONE":    256
+		    }
+		  }
+                }
+	    },
+            {
+                "encounter":    "GT1",
+                "probability":  0.01,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  30,
+                "minDistance":  10,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 256,
+		      "COAL":	  512,
+		      "GOLD_ORE": 16,
+		      "LOG":	  128,
+                      "REDSTONE": 512
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 10
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GS2",
+                "probability":  0.0001,
+                "duration":     30,
+                "max":          1,
+                "maxDistance":  30,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COBBLESTONE": 1024,
+                      "GOLD_ORE":    256,
+                      "COAL":        1024,
+                      "IRON_ORE":    256,
+                      "REDSTONE":    1024
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH1",
+                "probability":  0.001,
+                "duration":     15,
+                "max":          2,
+                "maxDistance":  16,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 4
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GH2",
+                "probability":  0.001,
+                "duration":     15,
+                "max":          2,
+                "maxDistance":  16,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 4
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GH3",
+                "probability":  0.001,
+                "duration":     15,
+                "max":          1,
+                "maxDistance":  16,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 4
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GC1",
+        "structure":        "Castle3",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        [
+            "GeordianKingCoins"
+        ],
+        "mobs":             [
+          "Geordian"
+        ],
+        "invalidBiomes":    [
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 1,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+	      "distance": 5,
+	      "total":    2,
+	      "duration": 10,
+	      "destination": "self",
+	      "resources": [
+		"STONE"
+	      ]
+            }
+        ],
+        "expansions":       [
+            {
+                "encounter":        "GV1",
+                "probability":      0.5,
+                "duration":         10,
+                "max":              2,
+                "maxDistance":      20,
+                "minDistance":      3,
+                "pattern":          1,
+                "vault":            true,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COBBLESTONE": 1024,
+                      "COAL":        512
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":        "GV2",
+                "probability":      0.5,
+                "duration":         10,
+                "max":              2,
+                "maxDistance":      20,
+                "minDistance":      3,
+                "pattern":          1,
+                "vault":            true,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COBBLESTONE": 512,
+                      "COAL":        256
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":        "GT1",
+                "probability":      0.001,
+                "duration":         15,
+                "max":              8,
+                "maxDistance":      30,
+                "minDistance":      10,
+                "proximities":	[
+		  {
+		    "encounter":    "GT1",
+		    "minDistance":  10
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ],
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 256,
+		      "COAL":	  512,
+		      "GOLD_ORE": 16,
+		      "LOG":	  128,
+                      "REDSTONE": 512
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH1",
+                "probability":  0.005,
+                "duration":     15,
+                "max":          8,
+                "maxDistance":  16,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH2",
+                "probability":  0.005,
+                "duration":     15,
+                "max":          8,
+                "maxDistance":  16,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH3",
+                "probability":  0.005,
+                "duration":     15,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GS1",
+                "probability":  0.05,
+                "duration":     20,
+                "max":          1,
+                "maxDistance":  20,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 64,
+		      "COAL":	  512,
+		      "GOLD_ORE": 32,
+		      "LOG":	  128,
+                      "REDSTONE": 1024
+		    }
+		  }
+                }
+            }
+        ]  
+      },
+      {
+        "name":             "GS1",
+        "structure":        "Shrine3",
+        "enabled":          true,
+        "probability":      0,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "GeordianNobles",
+          "GeordianDeamon",
+          "GeordianBattalion"
+        ],
+        "invalidBiomes":    [
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "GS2",
+                "probability":  0.001,
+                "duration":     30,
+                "max":          1,
+                "maxDistance":  30,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COBBLESTONE": 1024,
+                      "GOLD_ORE":    256,
+                      "COAL":        1024,
+                      "IRON_ORE":    256,
+                      "REDSTONE":    1024
+		    }
+		  }
+                }
+            }
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "root",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GS2",
+        "structure":        "Temple3",
+        "enabled":          true,
+        "probability":      0,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "GeordianNobles",
+          "GeordianDeamon",
+          "GeordianBattalion",
+          "GeordianDeamon"
+        ],
+        "invalidBiomes":    [
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "GH1",
+                "probability":  0.001,
+                "duration":     10,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  4,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH2",
+                "probability":  0.001,
+                "duration":     10,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  4,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH3",
+                "probability":  0.001,
+                "duration":     10,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  4,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            }
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "root",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            }
+        ]
+      },
+      
       {
         "name":             "farm1",
         "structure":        "Farm1",
@@ -627,228 +2151,6 @@
         ]
       },
       {
-        "name":         "tower3",
-        "structure":    "Tower3",
-        "probability":      0.0001,
-        "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "mobs":             [
-            "GeordianBattalion"
-        ],
-        "invalidBiomes":    [
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
-        ],
-        "collections":       [
-            {
-                "distance": 8,
-                "total":    100,
-                "duration": 10,
-                "destination":  "root",
-                "resources":    [
-                    "COAL_ORE",
-                    "IRON_ORE",
-                    "GOLD_ORE",
-                    "DIAMOND_ORE",
-                    "EMERALD_ORE",
-                    "REDSTONE_ORE",
-                    "LOG"
-                ]
-            },
-            {
-                "distance": 8,
-                "total":    50,
-                "duration": 5,
-                "destination":  "self",
-                "resources":    [
-                    "COAL_ORE",
-                    "IRON_ORE",
-                    "LOG"
-                ]
-            },
-            {
-                "distance": 20,
-                "total":    500,
-                "duration": 5,
-                "maxHeight": 72,
-                "minHeight": 60,
-                "destination":  "self",
-                "resources":    [
-                    "LOG"
-                ]
-            },
-            {
-	      "distance": 5,
-	      "total":    2,
-	      "duration": 10,
-	      "destination": "self",
-	      "resources": [
-		"STONE"
-	      ]
-            }
-        ],
-        "expansions":   [
-            {
-	      "encounter":	"vault3",
-	      "probability":	0.5,
-	      "duration":	1,
-	      "max":		1,
-	      "maxDistance":	4,
-	      "vault":		true,
-	      "pattern":	1
-	    },
-            {
-                "encounter":    "tower3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  30,
-                "minDistance":  10,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 100,
-		      "COAL":	  60,
-		      "GOLD_ORE": 8,
-		      "LOG":	  25
-		    }
-		  }
-                },
-                "proximities":	[
-		  {
-		    "encounter": "tower3",
-		    "minDistance": 10
-		  },
-                  {
-                    "encounter":    "castle3",
-		    "minDistance":  10  
-                  }
-                ]
-            },
-            {
-                "encounter":    "house1",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  4,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COAL":	  20,
-		      "IRON_ORE": 5,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house2",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  4,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COAL":	  20,
-		      "IRON_ORE": 5,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COAL":	  20,
-		      "IRON_ORE": 5,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house4",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  4
-            },
-            {
-                "encounter":    "house5",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  4,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COAL":	  20,
-		      "IRON_ORE": 5,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house6",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  4,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COAL":	  20,
-		      "IRON_ORE": 5,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house7",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  4,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COAL":	  20,
-		      "IRON_ORE": 5,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house8",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  4,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COAL":	  20,
-		      "IRON_ORE": 5,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            }
-        ]
-      },
-      {
         "name":         "tower4",
         "structure":    "Tower4",
         "probability":      0.0001,
@@ -1055,42 +2357,6 @@
         ]  
       },
       {
-        "name":             "shrine3",
-        "structure":        "Shrine3",
-        "enabled":          true,
-        "probability":      0.00005,
-        "validBiomes":      null,
-        "treasures":        null,
-        "mobs":             [
-          "zombies"
-        ],
-        "invalidBiomes":    [
-          "OCEAN",
-          "DEEP_OCEAN"
-        ],
-        "expansions":       [
-            {
-                "encounter":    "temple3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":  15,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "COBBLESTONE": 576,
-                      "GOLD_ORE": 200,
-                      "COAL": 400,
-                      "IRON_ORE": 200
-		    }
-		  }
-                }
-            }
-        ] 
-      },
-      
-      
-      {
         "name":             "temple1",
         "structure":        "Temple1",
         "enabled":          true,
@@ -1179,79 +2445,6 @@
         ],
         "invalidBiomes":    [
           "HELL",
-          "OCEAN",
-          "DEEP_OCEAN"
-        ],
-        "expansions":       [
-            {
-                "encounter":    "house1",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            },
-            {
-                "encounter":    "house2",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            },
-            {
-                "encounter":    "house3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            },
-            {
-                "encounter":    "house4",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            },
-            {
-                "encounter":    "house5",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            },
-            {
-                "encounter":    "house6",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            },
-            {
-                "encounter":    "house7",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            },
-            {
-                "encounter":    "house8",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "maxDistance":     4
-            }
-        ]  
-      },
-      {
-        "name":             "temple3",
-        "structure":        "Temple3",
-        "enabled":          true,
-        "probability":      0.00005,
-        "validBiomes":      null,
-        "treasures":        null,
-        "mobs":             [
-          "GeordianBattalion"
-        ],
-        "invalidBiomes":    [
           "OCEAN",
           "DEEP_OCEAN"
         ],
@@ -1957,311 +3150,6 @@
                 "duration":     45,
                 "max":          1,
                 "maxDistance":     15
-            }
-        ]  
-      },
-      {
-        "name":             "castle3",
-        "structure":        "Castle3",
-        "enabled":          true,
-        "probability":      0.0005,
-        "validBiomes":      null,
-        "treasures":        [
-            "GeordianKingCoins"
-        ],
-        "mobs":             [
-          "Geordian"
-        ],
-        "invalidBiomes":    [
-          "OCEAN",
-          "DEEP_OCEAN"
-        ],
-        "collections":       [
-            {
-                "distance": 8,
-                "total":    100,
-                "duration": 1,
-                "destination":  "self",
-                "resources":    [
-                    "COAL_ORE",
-                    "IRON_ORE",
-                    "GOLD_ORE",
-                    "DIAMOND_ORE",
-                    "EMERALD_ORE",
-                    "REDSTONE_ORE",
-                    "LOG"
-                ]
-            },
-            {
-		"distance": 20,
-                "total":    1000,
-                "duration": 1,
-                "maxHeight": 70,
-                "minHeight": 60,
-                "destination":  "self",
-                "resources":    [
-                    "LOG"
-                ]
-            },
-            {
-	      "distance": 5,
-	      "total":    2,
-	      "duration": 10,
-	      "destination": "self",
-	      "resources": [
-		"STONE"
-	      ]
-            }
-        ],
-        "expansions":       [
-            {
-                "encounter":        "vault3",
-                "probability":      0.5,
-                "duration":         10,
-                "max":              8,
-                "maxDistance":      20,
-                "minDistance":      3,
-                "pattern":          1,
-                "vault":            true,
-                "requirements":	{
-		  "parent": {
-		    "resources": {
-		      "COBBLESTONE": 576
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":        "tower3",
-                "probability":      0.001,
-                "duration":         60,
-                "max":              8,
-                "maxDistance":      30,
-                "minDistance":      10,
-                "proximities":	[
-		  {
-		    "encounter":    "tower3",
-		    "minDistance":  10
-		  },
-                  {
-                    "encounter":    "castle3",
-		    "minDistance":  10  
-                  }
-                ],
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 100,
-		      "COAL":	  200,
-		      "GOLD_ORE": 8,
-		      "LOG":	  25,
-		      "COBBLESTONE": 576
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "shop1",
-                "probability":  0.001,
-                "duration":     20,
-                "max":          1,
-                "maxDistance":  5,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 20,
-		      "COAL":	  200,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "shop2",
-                "probability":  0.001,
-                "duration":     75,
-                "max":          1,
-                "maxDistance":  15,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 20,
-		      "COAL":	  200,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house1",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house2",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house3",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house4",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house5",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house6",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house7",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "house8",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "maxDistance":  10,
-                "minDistance":  2,
-                "pattern":      1,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 10,
-		      "COAL":	  100,
-		      "GOLD_ORE": 2,
-		      "LOG":	  25
-		    }
-		  }
-                }
-            },
-            {
-                "encounter":    "shrine3",
-                "probability":  0.0005,
-                "duration":     45,
-                "max":          1,
-                "maxDistance":  15,
-                "requirements":	{
-		  "root": {
-		    "resources": {
-		      "IRON_ORE": 60,
-		      "COAL":	  400,
-		      "GOLD_ORE": 30,
-		      "LOG":	  50
-		    }
-		  }
-                }
             }
         ]  
       },
