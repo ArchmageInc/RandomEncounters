@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.Chunk;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
@@ -62,6 +63,10 @@ public class Encounter implements EncounterPlacer{
      * If both sets are empty, the encounter may be placed in any biome. 
      */
     private final Set<Biome> invalidBiomes                  =   new HashSet();
+    
+    private final Set<World> validWorlds                    =   new HashSet();
+    
+    private final Set<World> invalidWorlds                  =   new HashSet();
     
     /**
      * The set of Mobs that will be placed with this encounter.
@@ -140,6 +145,8 @@ public class Encounter implements EncounterPlacer{
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
             JSONArray jsonExpansions    =   (JSONArray) jsonConfiguration.get("expansions");
             JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobs");
+            JSONArray jsonValidWorlds   =   (JSONArray) jsonConfiguration.get("validWorlds");
+            JSONArray jsonInvalidWorlds =   (JSONArray) jsonConfiguration.get("invalidWorlds");
             if(jsonValidBiomes!=null){
                 for(int i=0;i<jsonValidBiomes.size();i++){
                     Biome biome =   Biome.valueOf((String) jsonValidBiomes.get(i));
@@ -184,6 +191,26 @@ public class Encounter implements EncounterPlacer{
                         mobs.add(mob);
                     }else{
                         RandomEncounters.getInstance().logError("Mob definition "+(String) jsonMobs.get(i)+" for encounter "+name+" was not found!");
+                    }
+                }
+            }
+            if(jsonValidWorlds!=null){
+                for(int i=0;i<jsonValidWorlds.size();i++){
+                    World world =   RandomEncounters.getInstance().getServer().getWorld((String) jsonValidWorlds.get(i));
+                    if(world!=null){
+                        validWorlds.add(world);
+                    }else{
+                        RandomEncounters.getInstance().logError("World "+(String) jsonValidWorlds.get(i)+" for encounter "+name+" was not found!");
+                    }
+                }
+            }
+            if(jsonInvalidWorlds!=null){
+                for(int i=0;i<jsonInvalidWorlds.size();i++){
+                    World world =   RandomEncounters.getInstance().getServer().getWorld((String) jsonInvalidWorlds.get(i));
+                    if(world!=null){
+                        invalidWorlds.add(world);
+                    }else{
+                        RandomEncounters.getInstance().logError("World "+(String) jsonInvalidWorlds.get(i)+" for encounter "+name+" was not found!");
                     }
                 }
             }
@@ -265,6 +292,14 @@ public class Encounter implements EncounterPlacer{
      */
     public Set<Biome> getInvalidBiomes(){
         return invalidBiomes;
+    }
+    
+    public Set<World> getValidWorlds(){
+        return validWorlds;
+    }
+    
+    public Set<World> getInvalidWorlds(){
+        return invalidWorlds;
     }
     
     public boolean hasTreasures(){

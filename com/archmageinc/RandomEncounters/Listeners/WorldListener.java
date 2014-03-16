@@ -40,7 +40,9 @@ public class WorldListener implements Listener {
         encounterList.addAll(encounters);
         Collections.shuffle(encounterList,new Random(System.nanoTime()));
         for(Encounter encounter : encounterList){
-            encounter.checkPlace(event.getChunk());
+            if(!encounter.getInvalidWorlds().contains(event.getChunk().getWorld()) && (encounter.getValidWorlds().isEmpty() || encounter.getValidWorlds().contains(event.getChunk().getWorld()))){
+                encounter.checkPlace(event.getChunk());
+            }
         }
         processing  =   false;
     }
