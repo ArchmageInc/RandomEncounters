@@ -5,11 +5,6 @@
         "structure":        "Vault1",
         "probability":      0.0,
         "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
-        "mobs":             null,
-        "invalidBiomes":    null,
         "mobs":             [
             "GeordianVaultGuard"
         ]
@@ -19,11 +14,6 @@
         "structure":        "Vault2",
         "probability":      0.0,
         "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
-        "mobs":             null,
-        "invalidBiomes":    null,
         "mobs":             [
             "GeordianVaultGuard"
         ]
@@ -33,9 +23,6 @@
         "structure":        "AnimalFarm1",
         "probability":      0.0,
         "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
         "mobs":             [
             "GeordianPigs"
         ],
@@ -44,95 +31,43 @@
             "OCEAN",
             "DEEP_OCEAN",
             "SKY"
-        ] 
+        ]
       },
       {
         "name":             "GF2",
         "structure":        "SugarFarm1",
         "probability":      0.0,
-        "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
-        "mobs":             null,
-        "invalidBiomes":    [
-            "HELL",
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
-        ] 
+        "enabled":          true
       },
       {
         "name":             "GF3",
         "structure":        "PumpkinFarm1",
         "probability":      0.0,
-        "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
-        "mobs":             null,
-        "invalidBiomes":    [
-            "HELL",
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
-        ] 
+        "enabled":          true
       },
       {
         "name":             "GF4",
         "structure":        "PotatoFarm1",
         "probability":      0.0,
-        "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
-        "mobs":             null,
-        "invalidBiomes":    [
-            "HELL",
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
-        ] 
+        "enabled":          true
       },
       {
         "name":             "GF5",
         "structure":        "WheatFarm1",
         "probability":      0.0,
-        "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
-        "mobs":             null,
-        "invalidBiomes":    [
-            "HELL",
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
-        ] 
+        "enabled":          true
       },
       {
         "name":             "GF6",
         "structure":        "CarrotFarm1",
         "probability":      0.0,
-        "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "expansions":       null,
-        "mobs":             null,
-        "invalidBiomes":    [
-            "HELL",
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
-        ] 
+        "enabled":          true
       },
       {
         "name":             "GH1",
         "structure":        "GH1",
         "probability":      0.0,
         "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
         "mobs":             [
             "GeordianNobles"
         ],
@@ -168,6 +103,7 @@
                 "resources":    [
                     "IRON_ORE",
                     "GOLD_ORE",
+                    "COAL_ORE",
                     "DIAMOND_ORE",
                     "EMERALD_ORE",
                     "LOG"
@@ -177,7 +113,7 @@
         "expansions":   [
             {
                 "encounter":    "GF1",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          3,
                 "maxDistance":  6,
@@ -212,7 +148,7 @@
             },
             {
                 "encounter":    "GF2",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -247,7 +183,7 @@
             },
             {
                 "encounter":    "GF3",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -282,7 +218,7 @@
             },
             {
                 "encounter":    "GF4",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -317,7 +253,7 @@
             },
             {
                 "encounter":    "GF5",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -352,7 +288,7 @@
             },
             {
                 "encounter":    "GF6",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -392,8 +328,6 @@
         "structure":        "GH2",
         "probability":      0.0,
         "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
         "mobs":             [
             "GeordianNobles"
         ],
@@ -429,6 +363,7 @@
                 "resources":    [
                     "IRON_ORE",
                     "GOLD_ORE",
+                    "COAL_ORE",
                     "DIAMOND_ORE",
                     "EMERALD_ORE",
                     "LOG"
@@ -438,7 +373,7 @@
         "expansions":   [
             {
                 "encounter":    "GF1",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          3,
                 "maxDistance":  6,
@@ -473,7 +408,7 @@
             },
             {
                 "encounter":    "GF2",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -508,7 +443,7 @@
             },
             {
                 "encounter":    "GF3",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -543,7 +478,7 @@
             },
             {
                 "encounter":    "GF4",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -578,7 +513,7 @@
             },
             {
                 "encounter":    "GF5",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -613,7 +548,7 @@
             },
             {
                 "encounter":    "GF6",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -653,15 +588,13 @@
         "structure":        "GH3",
         "probability":      0.0,
         "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
         "mobs":             [
             "GeordianNobles"
         ],
         "invalidBiomes":    [
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
+          "OCEAN",
+          "DEEP_OCEAN",
+          "SKY"
         ],
         "collections":       [
             {
@@ -690,6 +623,7 @@
                 "resources":    [
                     "IRON_ORE",
                     "GOLD_ORE",
+                    "COAL_ORE",
                     "DIAMOND_ORE",
                     "EMERALD_ORE",
                     "LOG"
@@ -699,7 +633,7 @@
         "expansions":   [
             {
                 "encounter":    "GF1",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          3,
                 "maxDistance":  6,
@@ -734,7 +668,7 @@
             },
             {
                 "encounter":    "GF2",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -769,7 +703,7 @@
             },
             {
                 "encounter":    "GF3",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -804,7 +738,7 @@
             },
             {
                 "encounter":    "GF4",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -839,7 +773,7 @@
             },
             {
                 "encounter":    "GF5",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -874,7 +808,7 @@
             },
             {
                 "encounter":    "GF6",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     10,
                 "max":          1,
                 "maxDistance":  6,
@@ -915,8 +849,6 @@
         "structure":    "GT1",
         "probability":  0,
         "enabled":      true,
-        "validBiomes":  null,
-        "treasures":    null,
         "mobs":         [
             "GeordianBattalion"
         ],
@@ -956,9 +888,20 @@
                 "distance": 10,
                 "total":    1000,
                 "duration": 1,
-                "maxHeight": 72,
+                "maxHeight": 80,
                 "minHeight": 60,
                 "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 10,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 80,
+                "minHeight": 60,
+                "destination":  "root",
                 "resources":    [
                     "LOG"
                 ]
@@ -983,7 +926,7 @@
 	      "vault":		true,
 	      "pattern":	1,
               "requirements":	{
-		  "self": {
+		  "root": {
 		    "resources": {
 		      "COBBLESTONE": 256,
 		      "COAL":	     512,
@@ -991,7 +934,13 @@
 		      "LOG":	     64,
                       "REDSTONE":    256
 		    }
-		  }
+		  },
+                  "parent":{
+                      "COBBLESTONE": 256,
+		      "COAL":	     64,
+		      "IRON_ORE":    8,
+		      "LOG":	     32
+                  }
                 }
 	    },
             {
@@ -1024,8 +973,8 @@
                 ]
             },
             {
-                "encounter":    "GS2",
-                "probability":  0.0001,
+                "encounter":    "GS1",
+                "probability":  0.01,
                 "duration":     30,
                 "max":          1,
                 "maxDistance":  30,
@@ -1044,7 +993,7 @@
             },
             {
                 "encounter":    "GH1",
-                "probability":  0.001,
+                "probability":  0.01,
                 "duration":     15,
                 "max":          2,
                 "maxDistance":  16,
@@ -1070,7 +1019,7 @@
             },
             {
                 "encounter":    "GH2",
-                "probability":  0.001,
+                "probability":  0.01,
                 "duration":     15,
                 "max":          2,
                 "maxDistance":  16,
@@ -1096,7 +1045,7 @@
             },
             {
                 "encounter":    "GH3",
-                "probability":  0.001,
+                "probability":  0.01,
                 "duration":     15,
                 "max":          1,
                 "maxDistance":  16,
@@ -1158,7 +1107,7 @@
 		"distance": 20,
                 "total":    1000,
                 "duration": 1,
-                "maxHeight": 70,
+                "maxHeight": 90,
                 "minHeight": 60,
                 "destination":  "self",
                 "resources":    [
@@ -1172,6 +1121,15 @@
 	      "destination": "self",
 	      "resources": [
 		"STONE"
+	      ]
+            },
+            {
+	      "distance": 5,
+	      "total":    2,
+	      "duration": 20,
+	      "destination": "self",
+	      "resources": [
+		"GRASS"
 	      ]
             }
         ],
@@ -1214,7 +1172,7 @@
             },
             {
                 "encounter":        "GT1",
-                "probability":      0.001,
+                "probability":      0.01,
                 "duration":         15,
                 "max":              8,
                 "maxDistance":      30,
@@ -1243,7 +1201,7 @@
             },
             {
                 "encounter":    "GH1",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     15,
                 "max":          8,
                 "maxDistance":  16,
@@ -1261,7 +1219,7 @@
             },
             {
                 "encounter":    "GH2",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     15,
                 "max":          8,
                 "maxDistance":  16,
@@ -1279,7 +1237,7 @@
             },
             {
                 "encounter":    "GH3",
-                "probability":  0.005,
+                "probability":  0.05,
                 "duration":     15,
                 "max":          4,
                 "maxDistance":  16,
@@ -1322,8 +1280,6 @@
         "structure":        "Shrine3",
         "enabled":          true,
         "probability":      0,
-        "validBiomes":      null,
-        "treasures":        null,
         "mobs":             [
           "GeordianNobles",
           "GeordianDeamon",
@@ -1336,7 +1292,7 @@
         "expansions":       [
             {
                 "encounter":    "GS2",
-                "probability":  0.001,
+                "probability":  0.01,
                 "duration":     30,
                 "max":          1,
                 "maxDistance":  30,
@@ -1376,12 +1332,9 @@
                 "duration": 5,
                 "destination":  "self",
                 "resources":    [
-                    "COAL_ORE",
-                    "IRON_ORE",
                     "GOLD_ORE",
                     "DIAMOND_ORE",
                     "EMERALD_ORE",
-                    "REDSTONE_ORE",
                     "LOG"
                 ]
             },
@@ -1389,7 +1342,7 @@
 		"distance": 20,
                 "total":    1000,
                 "duration": 1,
-                "maxHeight": 70,
+                "maxHeight": 90,
                 "minHeight": 60,
                 "destination":  "self",
                 "resources":    [
@@ -1400,7 +1353,7 @@
 		"distance": 20,
                 "total":    1000,
                 "duration": 1,
-                "maxHeight": 70,
+                "maxHeight": 90,
                 "minHeight": 60,
                 "destination":  "root",
                 "resources":    [
@@ -1414,8 +1367,6 @@
         "structure":        "Temple3",
         "enabled":          true,
         "probability":      0,
-        "validBiomes":      null,
-        "treasures":        null,
         "mobs":             [
           "GeordianNobles",
           "GeordianDeamon",
@@ -1428,8 +1379,27 @@
         ],
         "expansions":       [
             {
+                "encounter":    "GV1",
+                "probability":  0.5,
+                "duration":     10,
+                "max":          1,
+                "vault":        true,
+                "maxDistance":  16,
+                "minDistance":  4,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COBBLESTONE":1024,
+		      "IRON_ORE":   16,
+		      "LOG":        64
+		    }
+		  }
+                }
+            },
+            {
                 "encounter":    "GH1",
-                "probability":  0.001,
+                "probability":  0.01,
                 "duration":     10,
                 "max":          4,
                 "maxDistance":  16,
@@ -1447,7 +1417,7 @@
             },
             {
                 "encounter":    "GH2",
-                "probability":  0.001,
+                "probability":  0.01,
                 "duration":     10,
                 "max":          4,
                 "maxDistance":  16,
@@ -1465,7 +1435,7 @@
             },
             {
                 "encounter":    "GH3",
-                "probability":  0.001,
+                "probability":  0.01,
                 "duration":     10,
                 "max":          4,
                 "maxDistance":  16,
@@ -1500,35 +1470,20 @@
             },
             {
                 "distance": 8,
-                "total":    100,
+                "total":    200,
                 "duration": 5,
                 "destination":  "self",
                 "resources":    [
-                    "COAL_ORE",
-                    "IRON_ORE",
                     "GOLD_ORE",
                     "DIAMOND_ORE",
-                    "EMERALD_ORE",
-                    "REDSTONE_ORE",
-                    "LOG"
+                    "EMERALD_ORE"
                 ]
             },
             {
 		"distance": 20,
                 "total":    1000,
                 "duration": 1,
-                "maxHeight": 70,
-                "minHeight": 60,
-                "destination":  "self",
-                "resources":    [
-                    "LOG"
-                ]
-            },
-            {
-		"distance": 20,
-                "total":    1000,
-                "duration": 1,
-                "maxHeight": 70,
+                "maxHeight": 90,
                 "minHeight": 60,
                 "destination":  "root",
                 "resources":    [
