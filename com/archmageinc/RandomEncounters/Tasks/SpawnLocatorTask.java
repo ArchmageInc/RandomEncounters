@@ -31,7 +31,7 @@ public class SpawnLocatorTask extends BukkitRunnable  {
             blockLocations  =   placedEncounter.getBlockLocations();
         }
         if(RandomEncounters.getInstance().getLogLevel()>8){
-            RandomEncounters.getInstance().logWarning("Spawn Locator for "+placedEncounter.getName()+" checking "+(blockLocations.length/3)+" locations.");
+            RandomEncounters.getInstance().logMessage("Spawn Locator for "+placedEncounter.getName()+" checking "+(blockLocations.length/3)+" locations.");
         }
     }
     
