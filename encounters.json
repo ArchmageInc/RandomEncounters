@@ -1,6 +1,22 @@
 {
   "encounters":	[
       {
+          "name":           "GR1",
+          "structure":      null,
+          "enabled":        true,
+          "mobs":           [
+              "GeordianNobles"
+          ]
+      },
+      {
+          "name":           "GR2",
+          "structure":      null,
+          "enabled":        true,
+          "mobs":           [
+              "GeordianBattalion"
+          ]
+      },
+      {
         "name":             "GV1",
         "structure":        "Vault1",
         "probability":      0.0,
@@ -131,7 +147,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -166,7 +182,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -201,7 +217,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -236,7 +252,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -271,7 +287,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -306,7 +322,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -391,7 +407,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -426,7 +442,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE": 50
 		    }
 		  }
                 },
@@ -461,7 +477,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -496,7 +512,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -531,7 +547,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -566,7 +582,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -651,7 +667,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -686,7 +702,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -721,7 +737,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -756,7 +772,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -791,7 +807,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -826,7 +842,7 @@
 		    "resources": {
 		      "IRON_ORE": 4,
 		      "COAL":	  40,
-		      "LOG":	  50
+		      "COBBLESTONE":	  50
 		    }
 		  }
                 },
@@ -917,6 +933,36 @@
             }
         ],
         "expansions":   [
+            {
+                "encounter":        "GR1",
+                "probability":      0.01,
+                "duration":         20,
+                "max":              6,
+                "maxDistance":      80,
+                "minDistance":      60,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "REDSTONE": 1024
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":        "GR2",
+                "probability":      0.01,
+                "duration":         20,
+                "max":              6,
+                "maxDistance":      80,
+                "minDistance":      60,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "REDSTONE": 1024
+		    }
+		  }
+                }
+            },
             {
 	      "encounter":	"GV2",
 	      "probability":	0.5,
@@ -1134,6 +1180,36 @@
             }
         ],
         "expansions":       [
+            {
+                "encounter":        "GR1",
+                "probability":      0.01,
+                "duration":         20,
+                "max":              6,
+                "maxDistance":      80,
+                "minDistance":      60,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "REDSTONE": 1024
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":        "GR2",
+                "probability":      0.01,
+                "duration":         20,
+                "max":              6,
+                "maxDistance":      80,
+                "minDistance":      60,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "REDSTONE": 1024
+		    }
+		  }
+                }
+            },
             {
                 "encounter":        "GV1",
                 "probability":      0.5,
