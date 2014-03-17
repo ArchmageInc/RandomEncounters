@@ -25,6 +25,8 @@ public class Treasure {
     
     private final Set<TreasureGroup> treasureGroups     =   new HashSet();
     
+    private final List<String> lore                     =   new ArrayList();
+    
     /**
      * The material of the item.
      */
@@ -83,6 +85,7 @@ public class Treasure {
             instances.remove(this);
             treasureGroups.clear();
             enchantments.clear();
+            lore.clear();
             name                            =   (String) jsonConfiguration.get("name");
             material                        =   Material.getMaterial((String) jsonConfiguration.get("material"));
             min                             =   jsonConfiguration.get("min")==null ? 0 : ((Number) jsonConfiguration.get("min")).longValue();
@@ -91,6 +94,7 @@ public class Treasure {
             tagName                         =   (String) jsonConfiguration.get("tagName");
             JSONArray jsonEnchantments      =   (JSONArray) jsonConfiguration.get("enchantments");
             JSONArray jsonTreasures         =   (JSONArray) jsonConfiguration.get("treasureGroups");
+            JSONArray jsonLore              =   (JSONArray) jsonConfiguration.get("lore");
             if(jsonEnchantments!=null){
                 for(int i=0;i<jsonEnchantments.size();i++){
                     enchantments.add(new TreasureEnchantment((JSONObject) jsonEnchantments.get(i)));
@@ -104,6 +108,11 @@ public class Treasure {
                     }else{
                         treasureGroups.add(new TreasureGroup(treasureGroup));
                     }
+                }
+            }
+            if(jsonLore!=null){
+                for(int i=0;i<jsonLore.size();i++){
+                    lore.add((String) jsonLore.get(i));
                 }
             }
             if(jsonTreasures==null && material==null){
@@ -144,6 +153,17 @@ public class Treasure {
         }
     }
     
+    private void setItemMeta(ItemStack item){
+        ItemMeta meta   =   item.getItemMeta();
+        if(tagName!=null){
+            meta.setDisplayName(tagName);
+        }
+        if(!lore.isEmpty()){
+            meta.setLore(lore);
+        }
+        item.setItemMeta(meta);
+    }
+    
     /**
      * Get the list of items based on this configuration.
      * 
@@ -161,11 +181,7 @@ public class Treasure {
             return list;
         }
         ItemStack stack         =   new ItemStack(material,0);
-        if(tagName!=null){
-            ItemMeta meta   =   stack.getItemMeta();
-            meta.setDisplayName(tagName);
-            stack.setItemMeta(meta);
-        }
+        setItemMeta(stack);
         for(int i=0;i<max;i++){
             if(i<min || Math.random()<probability){
                 if(stack.getAmount()<stack.getMaxStackSize()){
@@ -173,11 +189,7 @@ public class Treasure {
                 }else{
                     list.add(stack.clone());
                     stack   =   new ItemStack(material,1);
-                    if(tagName!=null){
-                        ItemMeta meta   =   stack.getItemMeta();
-                        meta.setDisplayName(tagName);
-                        stack.setItemMeta(meta);
-                    }
+                    setItemMeta(stack);
                 }
                 setEnchantments(stack);
             }
@@ -192,6 +204,7 @@ public class Treasure {
         return name;
     }
     
+    
     /**
      * Get one item from the treasure.
      * 
@@ -202,6 +215,7 @@ public class Treasure {
         if(material!=null){
             if(Math.random()<probability){
                 item    =   new ItemStack(material,1);
+                setItemMeta(item);
                 setEnchantments(item);
             }
         }

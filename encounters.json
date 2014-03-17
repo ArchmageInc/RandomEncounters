@@ -1,6 +1,1544 @@
 {
   "encounters":	[
       {
+        "name":             "GV1",
+        "structure":        "Vault1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    null,
+        "mobs":             [
+            "GeordianVaultGuard"
+        ]
+      },
+      {
+        "name":             "GV2",
+        "structure":        "Vault2",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    null,
+        "mobs":             [
+            "GeordianVaultGuard"
+        ]
+      },
+      {
+        "name":             "GF1",
+        "structure":        "AnimalFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             [
+            "GeordianPigs"
+        ],
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF2",
+        "structure":        "SugarFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF3",
+        "structure":        "PumpkinFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF4",
+        "structure":        "PotatoFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF5",
+        "structure":        "WheatFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GF6",
+        "structure":        "CarrotFarm1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "expansions":       null,
+        "mobs":             null,
+        "invalidBiomes":    [
+            "HELL",
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ] 
+      },
+      {
+        "name":             "GH1",
+        "structure":        "GH1",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "GeordianNobles"
+        ],
+        "invalidBiomes":    [
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "LOG"
+                ]
+            }
+        ],
+        "expansions":   [
+            {
+                "encounter":    "GF1",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          3,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF2",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF3",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF4",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF5",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF6",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GH2",
+        "structure":        "GH2",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "GeordianNobles"
+        ],
+        "invalidBiomes":    [
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "LOG"
+                ]
+            }
+        ],
+        "expansions":   [
+            {
+                "encounter":    "GF1",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          3,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF2",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF3",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF4",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF5",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF6",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GH3",
+        "structure":        "GH3",
+        "probability":      0.0,
+        "enabled":          true,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+            "GeordianNobles"
+        ],
+        "invalidBiomes":    [
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    1000,
+                "duration": 2,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "LOG"
+                ]
+            }
+        ],
+        "expansions":   [
+            {
+                "encounter":    "GF1",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          3,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF2",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF3",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF4",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF5",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GF6",
+                "probability":  0.005,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  6,
+                "minDistance":  2,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "IRON_ORE": 2,
+		      "COAL":	  20,
+		      "LOG":	  25
+		    }
+		  },
+                  "root": {
+		    "resources": {
+		      "IRON_ORE": 4,
+		      "COAL":	  40,
+		      "LOG":	  50
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 5
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      
+      {
+        "name":         "GT1",
+        "structure":    "GT1",
+        "probability":  0,
+        "enabled":      true,
+        "validBiomes":  null,
+        "treasures":    null,
+        "mobs":         [
+            "GeordianBattalion"
+        ],
+        "invalidBiomes":[
+            "OCEAN",
+            "DEEP_OCEAN",
+            "SKY"
+        ],
+        "collections":  [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 10,
+                "destination":  "root",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    50,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 10,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 72,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+	      "distance": 5,
+	      "total":    2,
+	      "duration": 10,
+	      "destination": "self",
+	      "resources": [
+		"STONE"
+	      ]
+            }
+        ],
+        "expansions":   [
+            {
+	      "encounter":	"GV2",
+	      "probability":	0.5,
+	      "duration":	5,
+	      "max":		1,
+	      "maxDistance":	4,
+	      "vault":		true,
+	      "pattern":	1,
+              "requirements":	{
+		  "self": {
+		    "resources": {
+		      "COBBLESTONE": 256,
+		      "COAL":	     512,
+		      "IRON_ORE":    16,
+		      "LOG":	     64,
+                      "REDSTONE":    256
+		    }
+		  }
+                }
+	    },
+            {
+                "encounter":    "GT1",
+                "probability":  0.01,
+                "duration":     10,
+                "max":          1,
+                "maxDistance":  30,
+                "minDistance":  10,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 256,
+		      "COAL":	  512,
+		      "GOLD_ORE": 16,
+		      "LOG":	  128,
+                      "REDSTONE": 512
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 10
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GS2",
+                "probability":  0.0001,
+                "duration":     30,
+                "max":          1,
+                "maxDistance":  30,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COBBLESTONE": 1024,
+                      "GOLD_ORE":    256,
+                      "COAL":        1024,
+                      "IRON_ORE":    256,
+                      "REDSTONE":    1024
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH1",
+                "probability":  0.001,
+                "duration":     15,
+                "max":          2,
+                "maxDistance":  16,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 4
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GH2",
+                "probability":  0.001,
+                "duration":     15,
+                "max":          2,
+                "maxDistance":  16,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 4
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            },
+            {
+                "encounter":    "GH3",
+                "probability":  0.001,
+                "duration":     15,
+                "max":          1,
+                "maxDistance":  16,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                },
+                "proximities":	[
+		  {
+		    "encounter": "GT1",
+		    "minDistance": 4
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GC1",
+        "structure":        "Castle3",
+        "enabled":          true,
+        "probability":      0.0005,
+        "validBiomes":      null,
+        "treasures":        [
+            "GeordianKingCoins"
+        ],
+        "mobs":             [
+          "Geordian"
+        ],
+        "invalidBiomes":    [
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 1,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+	      "distance": 5,
+	      "total":    2,
+	      "duration": 10,
+	      "destination": "self",
+	      "resources": [
+		"STONE"
+	      ]
+            }
+        ],
+        "expansions":       [
+            {
+                "encounter":        "GV1",
+                "probability":      0.5,
+                "duration":         10,
+                "max":              2,
+                "maxDistance":      20,
+                "minDistance":      3,
+                "pattern":          1,
+                "vault":            true,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COBBLESTONE": 1024,
+                      "COAL":        512
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":        "GV2",
+                "probability":      0.5,
+                "duration":         10,
+                "max":              2,
+                "maxDistance":      20,
+                "minDistance":      3,
+                "pattern":          1,
+                "vault":            true,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COBBLESTONE": 512,
+                      "COAL":        256
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":        "GT1",
+                "probability":      0.001,
+                "duration":         15,
+                "max":              8,
+                "maxDistance":      30,
+                "minDistance":      10,
+                "proximities":	[
+		  {
+		    "encounter":    "GT1",
+		    "minDistance":  10
+		  },
+                  {
+                    "encounter":    "GC1",
+		    "minDistance":  10  
+                  }
+                ],
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 256,
+		      "COAL":	  512,
+		      "GOLD_ORE": 16,
+		      "LOG":	  128,
+                      "REDSTONE": 512
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH1",
+                "probability":  0.005,
+                "duration":     15,
+                "max":          8,
+                "maxDistance":  16,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH2",
+                "probability":  0.005,
+                "duration":     15,
+                "max":          8,
+                "maxDistance":  16,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH3",
+                "probability":  0.005,
+                "duration":     15,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "parent": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GS1",
+                "probability":  0.05,
+                "duration":     20,
+                "max":          1,
+                "maxDistance":  20,
+                "minDistance":  8,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "IRON_ORE": 64,
+		      "COAL":	  512,
+		      "GOLD_ORE": 32,
+		      "LOG":	  128,
+                      "REDSTONE": 1024
+		    }
+		  }
+                }
+            }
+        ]  
+      },
+      {
+        "name":             "GS1",
+        "structure":        "Shrine3",
+        "enabled":          true,
+        "probability":      0,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "GeordianNobles",
+          "GeordianDeamon",
+          "GeordianBattalion"
+        ],
+        "invalidBiomes":    [
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "GS2",
+                "probability":  0.001,
+                "duration":     30,
+                "max":          1,
+                "maxDistance":  30,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COBBLESTONE": 1024,
+                      "GOLD_ORE":    256,
+                      "COAL":        1024,
+                      "IRON_ORE":    256,
+                      "REDSTONE":    1024
+		    }
+		  }
+                }
+            }
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "root",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            }
+        ]
+      },
+      {
+        "name":             "GS2",
+        "structure":        "Temple3",
+        "enabled":          true,
+        "probability":      0,
+        "validBiomes":      null,
+        "treasures":        null,
+        "mobs":             [
+          "GeordianNobles",
+          "GeordianDeamon",
+          "GeordianBattalion",
+          "GeordianDeamon"
+        ],
+        "invalidBiomes":    [
+          "OCEAN",
+          "DEEP_OCEAN"
+        ],
+        "expansions":       [
+            {
+                "encounter":    "GH1",
+                "probability":  0.001,
+                "duration":     10,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  4,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH2",
+                "probability":  0.001,
+                "duration":     10,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  4,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            },
+            {
+                "encounter":    "GH3",
+                "probability":  0.001,
+                "duration":     10,
+                "max":          4,
+                "maxDistance":  16,
+                "minDistance":  4,
+                "pattern":      1,
+                "requirements":	{
+		  "root": {
+		    "resources": {
+		      "COAL":	  64,
+		      "IRON_ORE": 16,
+		      "LOG":	  64
+		    }
+		  }
+                }
+            }
+        ],
+        "collections":       [
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "root",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+                "distance": 8,
+                "total":    100,
+                "duration": 5,
+                "destination":  "self",
+                "resources":    [
+                    "COAL_ORE",
+                    "IRON_ORE",
+                    "GOLD_ORE",
+                    "DIAMOND_ORE",
+                    "EMERALD_ORE",
+                    "REDSTONE_ORE",
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "self",
+                "resources":    [
+                    "LOG"
+                ]
+            },
+            {
+		"distance": 20,
+                "total":    1000,
+                "duration": 1,
+                "maxHeight": 70,
+                "minHeight": 60,
+                "destination":  "root",
+                "resources":    [
+                    "LOG"
+                ]
+            }
+        ]
+      },
+      
+      {
         "name":             "farm1",
         "structure":        "Farm1",
         "probability":      0.0,
@@ -76,21 +1614,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":  2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -116,21 +1654,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -156,21 +1694,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -196,21 +1734,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -236,21 +1774,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -276,21 +1814,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -316,21 +1854,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -356,21 +1894,21 @@
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.0005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -397,21 +1935,21 @@
                 "probability":  0.00005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm2",
                 "probability":  0.00005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             },
             {
                 "encounter":    "farm3",
                 "probability":  0.00005,
                 "duration":     20,
                 "max":          1,
-                "distance":     2
+                "maxDistance":     2
             }
         ]
       },
@@ -440,77 +1978,77 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "house1",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]
       },
@@ -538,158 +2076,77 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "house1",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
-            }
-        ]
-      },
-      {
-        "name":         "tower3",
-        "structure":    "Tower3",
-        "probability":      0.0001,
-        "enabled":          true,
-        "validBiomes":      null,
-        "treasures":        null,
-        "mobs":             [
-            "GeordianBattalion"
-        ],
-        "invalidBiomes":    [
-            "OCEAN",
-            "DEEP_OCEAN",
-            "SKY"
-        ],
-        "expansions":   [
-            {
-                "encounter":    "tower3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     30
-            },
-            {
-                "encounter":    "house1",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house2",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house4",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house5",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house6",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house7",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house8",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]
       },
@@ -717,77 +2174,77 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "house1",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]
       },
@@ -814,35 +2271,35 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
@@ -867,64 +2324,38 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "temple6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
-      {
-        "name":             "shrine3",
-        "structure":        "Shrine3",
-        "enabled":          true,
-        "probability":      0.00005,
-        "validBiomes":      null,
-        "treasures":        null,
-        "mobs":             [
-          "zombies"
-        ],
-        "invalidBiomes":    [
-          "OCEAN",
-          "DEEP_OCEAN"
-        ],
-        "expansions":       [
-            {
-                "encounter":    "temple3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     15
-            }
-        ]  
-      },
-      
-      
       {
         "name":             "temple1",
         "structure":        "Temple1",
@@ -947,56 +2378,56 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]  
       },
@@ -1023,129 +2454,56 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
-            }
-        ]  
-      },
-      {
-        "name":             "temple3",
-        "structure":        "Temple3",
-        "enabled":          true,
-        "probability":      0.00005,
-        "validBiomes":      null,
-        "treasures":        null,
-        "mobs":             [
-          "GeordianBattalion"
-        ],
-        "invalidBiomes":    [
-          "OCEAN",
-          "DEEP_OCEAN"
-        ],
-        "expansions":       [
-            {
-                "encounter":    "house1",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house2",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house3",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house4",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house5",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house6",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house7",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
-            },
-            {
-                "encounter":    "house8",
-                "probability":  0.00001,
-                "duration":     30,
-                "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]  
       },
@@ -1173,56 +2531,56 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]  
       },
@@ -1250,56 +2608,56 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]  
       },
@@ -1327,56 +2685,56 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]  
       },
@@ -1404,56 +2762,56 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]  
       },
@@ -1479,56 +2837,56 @@
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house2",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house3",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house4",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house5",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house6",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house7",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             },
             {
                 "encounter":    "house8",
                 "probability":  0.00001,
                 "duration":     30,
                 "max":          1,
-                "distance":     4
+                "maxDistance":     4
             }
         ]  
       },
@@ -1563,105 +2921,105 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "house1",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house2",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house3",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "shrine1",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shrine2",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
@@ -1693,208 +3051,105 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "house1",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house2",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house3",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "shrine1",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shrine2",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
-            }
-        ]  
-      },
-      {
-        "name":             "castle3",
-        "structure":        "Castle3",
-        "enabled":          true,
-        "probability":      0.0005,
-        "validBiomes":      null,
-        "treasures":        [
-            "GeordianKingCoins"
-        ],
-        "mobs":             [
-          "Geordian"
-        ],
-        "invalidBiomes":    [
-          "OCEAN",
-          "DEEP_OCEAN"
-        ],
-        "expansions":       [
-            {
-                "encounter":    "tower3",
-                "probability":  0.001,
-                "duration":     60,
-                "max":          8,
-                "distance":     30
-            },
-            {
-                "encounter":    "shop1",
-                "probability":  0.001,
-                "duration":     75,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "shop2",
-                "probability":  0.001,
-                "duration":     75,
-                "max":          1,
-                "distance":     15
-            },
-            {
-                "encounter":    "house1",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "house2",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "house3",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "house4",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "house5",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "house6",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "house7",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "house8",
-                "probability":  0.0005,
-                "duration":     90,
-                "max":          4,
-                "distance":     10
-            },
-            {
-                "encounter":    "shrine3",
-                "probability":  0.0005,
-                "duration":     45,
-                "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
@@ -1928,105 +3183,105 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "house1",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house2",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house3",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "shrine1",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shrine2",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
@@ -2060,105 +3315,105 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "house1",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house2",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house3",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "shrine1",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shrine2",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
@@ -2192,105 +3447,105 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "house1",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house2",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house3",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "shrine1",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shrine2",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
@@ -2324,105 +3579,105 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "house1",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house2",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house3",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "shrine1",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shrine2",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },
@@ -2456,105 +3711,105 @@
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower2",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "tower4",
                 "probability":  0.001,
                 "duration":     60,
                 "max":          4,
-                "distance":     25
+                "maxDistance":     25
             },
             {
                 "encounter":    "shop1",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shop2",
                 "probability":  0.001,
                 "duration":     75,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "house1",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house2",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house3",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house4",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house5",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house6",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house7",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "house8",
                 "probability":  0.0005,
                 "duration":     90,
                 "max":          4,
-                "distance":     10
+                "maxDistance":     10
             },
             {
                 "encounter":    "shrine1",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             },
             {
                 "encounter":    "shrine2",
                 "probability":  0.0005,
                 "duration":     45,
                 "max":          1,
-                "distance":     15
+                "maxDistance":     15
             }
         ]  
       },

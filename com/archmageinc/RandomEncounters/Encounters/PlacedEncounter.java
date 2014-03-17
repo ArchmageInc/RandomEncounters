@@ -2,14 +2,24 @@ package com.archmageinc.RandomEncounters.Encounters;
 
 import com.archmageinc.RandomEncounters.Mobs.PlacedMob;
 import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.ResourceCollection;
+import com.archmageinc.RandomEncounters.Tasks.BlockOwnerTask;
+import com.archmageinc.RandomEncounters.Tasks.LocationLoadingTask;
 import com.archmageinc.RandomEncounters.Tasks.SpawnLocatorTask;
+import com.archmageinc.RandomEncounters.Tasks.TreasurePlacementTask;
+import com.archmageinc.RandomEncounters.Utilities.Accountant;
+import com.archmageinc.RandomEncounters.Utilities.LoadListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.metadata.MetadataValue;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -18,7 +28,7 @@ import org.json.simple.JSONObject;
  * 
  * @author ArchmageInc
  */
-public class PlacedEncounter {
+public class PlacedEncounter implements LoadListener{
     
     /**
      * The generated Unique ID.
@@ -38,18 +48,12 @@ public class PlacedEncounter {
     /**
      * The set of PlacedMobs that were spawned with this encounter.
      */
-    private final Set<PlacedMob> mobs                   =   new HashSet();
+    private final Set<PlacedMob> mobs                       =   new HashSet();
     
     /**
      * Has this encounter been sacked.
      */
-    private Boolean sacked                        =   false;
-    
-    /**
-     * The set of placed encounter unique IDs that have expanded from this placed encounter.
-     * 
-     */
-    private final Set<UUID> placedExpansions            =   new HashSet();
+    private Boolean sacked                                  =   false;
     
     /**
      * The set of valid expansion configurations for this Placed Encounter.
@@ -57,18 +61,36 @@ public class PlacedEncounter {
      * This is a clone of the Encounter configuration expansions
      * @see Encounter#expansions
      */
-    private final Set<Expansion> expansions             =   new HashSet();
-    
-    /**
-     * The singlton instances of loaded PlacedEncounters.
-     */
-    private static Set<PlacedEncounter> instances =   new HashSet();
+    private final HashSet<Expansion> expansions             =   new HashSet();
     
     /**
      * An internal list of safe creature spawn locations.
      */
-    private List<Location> spawnLocations         =   new ArrayList();
+    private List<Location> spawnLocations                   =   new ArrayList();
     
+    private PlacedEncounter root                            =   null;
+    
+    private PlacedEncounter parent                          =   null;
+    
+    /**
+     * The set of placed encounter unique IDs that have expanded from this placed encounter.
+     * 
+     */
+    private final Set<UUID> children                        =   new HashSet();
+    
+    private final List<Vault> vaults                        =   new ArrayList();
+    
+    private static Map<UUID,PlacedEncounter> uuidInstances  =   new HashMap();
+    
+    private final Set<ResourceCollection> collectionRules   =   new HashSet();
+    
+    private int[] blockLocations;
+    
+    private final ArrayList<Integer> tmpBlockLocations      =   new ArrayList();
+    
+    private LocationLoadingTask loadingTask;
+    
+    private Accountant accountant;
     
     /**
      * Get an instance of the placed encounter based on the Unique ID.
@@ -77,12 +99,7 @@ public class PlacedEncounter {
      * @return Returns the PlacedEncounter if found, null otherwise.
      */
     public static PlacedEncounter getInstance(UUID uuid){
-        for(PlacedEncounter instance : instances){
-            if(instance.getUUID().equals(uuid)){
-                return instance;
-            }
-        }
-        return null;
+        return uuidInstances.get(uuid);
     }
     
     /**
@@ -115,7 +132,33 @@ public class PlacedEncounter {
      * @see PlacedEncounter#PlacedEncounter(com.archmageinc.RandomEncounters.Encounter, org.bukkit.Location) 
      */
     public static PlacedEncounter create(Encounter encounter,Location location){
+        if(encounter==null){
+            RandomEncounters.getInstance().logError("Missing encounter during placed encounter creation");
+            return null;
+        }
+        if(location==null){
+            RandomEncounters.getInstance().logError("An invalid location was passed to create a placed encounter: "+encounter.getName());
+            return null;
+        }
         return new PlacedEncounter(encounter,location);
+    }
+    
+    public static boolean isBlockOwned(Block block){
+        return block.hasMetadata("placedEncounter");
+    }
+    
+    public static PlacedEncounter getBlockOwner(Block block){
+        if(block.hasMetadata("placedEncounter")){
+            for(MetadataValue mv : block.getMetadata("placedEncounter")){
+                if(mv.value() instanceof UUID){
+                    PlacedEncounter instance    =   getInstance((UUID) mv.value());
+                    if(instance!=null){
+                        return instance;
+                    }
+                }
+            }
+        }
+        return null;
     }
     
     /**
@@ -125,35 +168,38 @@ public class PlacedEncounter {
      */
     private PlacedEncounter(JSONObject jsonConfiguration){
         try{
-            uuid                    =   UUID.fromString((String) jsonConfiguration.get("uuid"));
-            sacked                  =   (Boolean) jsonConfiguration.get("sacked");
-            encounter               =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
-            JSONObject jsonLocation =   (JSONObject) jsonConfiguration.get("location");
-            location                =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
+            uuid                            =   UUID.fromString((String) jsonConfiguration.get("uuid"));
+            sacked                          =   (Boolean) jsonConfiguration.get("sacked");
+            encounter                       =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
+            JSONObject jsonLocation         =   (JSONObject) jsonConfiguration.get("location");
+            location                        =   new Location(RandomEncounters.getInstance().getServer().getWorld((String) jsonLocation.get("world")),(Long) jsonLocation.get("x"),(Long) jsonLocation.get("y"),(Long) jsonLocation.get("z"));
+            JSONArray jsonMobs              =   (JSONArray) jsonConfiguration.get("mobs");
+            JSONArray jsonExpansions        =   (JSONArray) jsonConfiguration.get("expansions");
             if(encounter==null){
                 RandomEncounters.getInstance().logError("Missing Encounter ("+(String) jsonConfiguration.get("encounter")+") from PlacedEncounter configuration");
             }
-            JSONArray jsonMobs   =   (JSONArray) jsonConfiguration.get("mobs");
+            if(location==null){
+                RandomEncounters.getInstance().logError("Invalid location for placedEncounter "+uuid.toString());
+            }
             if(jsonMobs!=null){
                 for(int i=0;i<jsonMobs.size();i++){
                     mobs.add(PlacedMob.getInstance((JSONObject) jsonMobs.get(i),this));
                 }
             }
             
-            JSONArray jsonExpansions    =   (JSONArray) jsonConfiguration.get("expansions");
             if(jsonExpansions!=null){
                 for(int i=0;i<jsonExpansions.size();i++){
                     JSONObject jsonExpansion    =   (JSONObject) jsonExpansions.get(i);
                     try{
                         UUID expansionUUID          =   UUID.fromString((String) jsonExpansion.get("uuid"));
-                        placedExpansions.add(expansionUUID);
+                        children.add(expansionUUID);
                     }catch(IllegalArgumentException e){
                         RandomEncounters.getInstance().logError("Invalid UUID in PlacedEncounter expansion configuration: "+e.getMessage());
                     }
                 }
             }
-            setupExpansions();
-            instances.add(this);
+            setupEncounter(false);
+            uuidInstances.put(uuid, this);
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid PlacedEncounter configuration: "+e.getMessage());
         }catch(IllegalArgumentException e){
@@ -173,22 +219,73 @@ public class PlacedEncounter {
         this.location   =   location;
         if(encounter.getStructure()!=null){
             encounter.getStructure().place(this);
+        }else{
+            setupEncounter(true);
         }
-        
+        uuidInstances.put(uuid, this);
+    }
+    
+    public final void addBlockLocation(int x,int y,int z){
+        tmpBlockLocations.add(x);
+        tmpBlockLocations.add(y);
+        tmpBlockLocations.add(z);
+    }
+    
+    public final void removeBlockLocation(Location blockLocation){
+        //blockLocations.remove(blockLocation);
+    }
+    
+    public int[] getBlockLocations(){
+        return blockLocations;
+    }
+    
+    /**
+     * Finishes setting up the encounter.
+     * 
+     * This is called when the structure placement task is finished, or when loaded from JSON.
+     * 
+     * @param isNew Is this a new placed encounter
+     */    
+    public final void setupEncounter(boolean isNew){
+        if(isNew){
+            setupBlockLocations();
+            placeMobs();
+            placeTreasures();
+            setupBlockMeta();
+            RandomEncounters.getInstance().addPlacedEncounter(this);
+        }
         setupExpansions();
-        instances.add(this);        
+        setupCollections();
     }
     
-    public void placeMobs(){
-        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
+    private void setupBlockLocations(){
+        if(tmpBlockLocations.isEmpty()){
+            if(RandomEncounters.getInstance().getLogLevel()>4){
+                RandomEncounters.getInstance().logWarning(getName()+": Temporary Block Locations was empty!");
+            }
+            return;
+        }
+        blockLocations  =   new int[tmpBlockLocations.size()];
+        int i   =   0;
+        for(Integer l : tmpBlockLocations){
+            blockLocations[i]   =   l;
+            i++;
+        }
+        tmpBlockLocations.clear();
     }
     
-    public void addMobs(Set<PlacedMob> newMobs){
-        mobs.addAll(newMobs);
+    private void setupBlockMeta(){
+        (new BlockOwnerTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
     }
     
-    public void setSpawnLocations(List<Location> locations){
-        spawnLocations =   locations;
+    private void setupCollections(){
+        collectionRules.clear();
+        JSONArray jsonCollections   =   encounter.getCollectionConfiguration();
+        if(jsonCollections!=null){
+            for(int i=0;i<jsonCollections.size();i++){
+                collectionRules.add(new ResourceCollection(this,(JSONObject) jsonCollections.get(i)));
+            }
+        }
     }
     
     /**
@@ -204,6 +301,45 @@ public class PlacedEncounter {
                 RandomEncounters.getInstance().logError("Clone failed for expansion: "+e.getMessage());
             }
         }
+    }
+    
+    public void runCollectionChecks(){
+        for(ResourceCollection collection : collectionRules){
+            collection.check();
+        }
+    }
+    
+    private void placeMobs(){
+        (new SpawnLocatorTask(this)).runTaskTimer(RandomEncounters.getInstance(),1,1);
+    }
+    
+    private void placeTreasures(){
+        (new TreasurePlacementTask(this)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
+    }
+    
+    public void setSpawnLocations(List<Location> locations){
+        spawnLocations =   locations;
+    }
+    
+    public void addVault(PlacedEncounter vault){
+        if(vaults.isEmpty()){
+            getVaults();
+        }
+        vaults.add(new Vault(vault));
+    }
+    
+    private List<Vault> getVaults(){
+        if(vaults.isEmpty()){
+            for(Expansion exp : expansions){
+                if(exp.isVault()){
+                    for(PlacedEncounter enc : getChildren(exp.getEncounter())){
+                        vaults.add(new Vault(enc));
+                    }
+                }
+            }
+            vaults.add(new Vault(this));
+        }
+        return vaults;
     }
     
     /**
@@ -222,10 +358,15 @@ public class PlacedEncounter {
     /**
      * Adds an expansion to the list.
      * 
-     * @param expansion The PlacedEncounter that expanded.
+     * @param placedEncounter The PlacedEncounter that expanded.
      */
-    public void addExpansion(PlacedEncounter expansion){
-        placedExpansions.add(expansion.getUUID());
+    public void addChild(PlacedEncounter placedEncounter){
+        children.add(placedEncounter.getUUID());
+        placedEncounter.setParent(this);
+    }
+    
+    public void removeChild(PlacedEncounter placedEncounter){
+        children.remove(placedEncounter.getUUID());
     }
     
     /**
@@ -248,15 +389,10 @@ public class PlacedEncounter {
      * Removes the PlacedMob from the list of Mobs in this encounter.
      * @param mob The PlacedMob to be removed
      */
-    public void notifyMobDeath(PlacedMob mob){
+    public void removeMob(PlacedMob mob){
         mobs.remove(mob);
         if(mobs.isEmpty()){
-            sacked  =   true;
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage(encounter.getName()+" has been sacked!");
-            }
-            RandomEncounters.getInstance().removePlacedEncounter(this);
-            instances.remove(this);
+            sack();
         }
     }
     
@@ -266,6 +402,10 @@ public class PlacedEncounter {
      */
     public void addMob(PlacedMob mob){
         mobs.add(mob);
+    }
+    
+    public void addMobs(Set<PlacedMob> newMobs){
+        mobs.addAll(newMobs);
     }
     
     /**
@@ -281,23 +421,84 @@ public class PlacedEncounter {
      * @return 
      */
     public String getName(){
+        if(RandomEncounters.getInstance().getLogLevel()>11){
+            if(parent!=null && !parent.isSacked()){
+                return parent.getName()+"->"+encounter.getName();
+            }
+            return encounter.getName();
+        }
+        if(parent!=null && !parent.isSacked()){
+            return getRoot().getName()+"->["+(getGeneration()-1)+"]->"+encounter.getName();
+        }
         return encounter.getName();
+    }
+    
+    public int getGeneration(){
+        if(parent!=null && !parent.isSacked()){
+            return parent.getGeneration()+1;
+        }
+        return 0;
     }
     
     /**
      * Gets the set of unique IDs of expansions spawned from this PlacedEncounter.
      * @return 
      */
-    public Set<UUID> getPlacedExpansions(){
-        return placedExpansions;
+    public Set<UUID> getChildren(){
+        return children;
+    }
+    
+    public Set<PlacedEncounter> getChildren(Encounter type){
+        Set<PlacedEncounter> placements =   new HashSet();
+        for(UUID id : children){
+            PlacedEncounter placedEncounter =   PlacedEncounter.getInstance(id);
+            if(placedEncounter!=null && placedEncounter.getEncounter().equals(type)){
+                placements.add(placedEncounter);
+            }
+        }
+        return placements;
     }
     
     /**
      * Gets the set of Expansion configurations for this PlacedEncounter.
      * @return 
      */
-    public Set<Expansion> getExpansions(){
+    public HashSet<Expansion> getExpansions(){
         return expansions;
+    }
+    
+    public Accountant getAccountant(){
+        if(accountant==null){
+            accountant  =   new Accountant(this,getVaults());
+        }
+        return accountant;
+    }
+    
+    public LocationLoadingTask getLoadingTask(){
+        return loadingTask;
+    }
+    
+    public PlacedEncounter getRoot(){
+        if(root==null){
+            root    =   this;
+            if(this.parent!=null && !this.parent.isSacked()){
+                root    =   parent.getRoot();
+            }
+        }
+        
+        return root;
+    }
+    
+    public PlacedEncounter getParent(){
+        return this.parent;
+    }
+    
+    public void setParent(PlacedEncounter parent){
+        this.parent =   parent;
+    }
+    
+    public void setLoadingTask(LocationLoadingTask task){
+        loadingTask =   task;
     }
     
     /**
@@ -308,12 +509,46 @@ public class PlacedEncounter {
         return sacked;
     }
     
+    public boolean isLoaded(){
+        return loadingTask==null;
+    }
+    
+    private void sack(){
+        sacked  =   true;
+        if(RandomEncounters.getInstance().getLogLevel()>6){
+            RandomEncounters.getInstance().logMessage(getName()+" has been sacked!");
+        }
+        if(parent!=null){
+            parent.removeChild(this);
+        }
+        for(UUID id : children){
+            PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+            if(child!=null){
+                child.setParent(null);
+            }
+        }
+        RandomEncounters.getInstance().removePlacedEncounter(this);
+        uuidInstances.remove(uuid);
+    }
+    
     /**
      * Convert the PlacedEncounter into a JSONObject for serialization.
      * @return Returns the JSONObject
      */
     public JSONObject toJSON(){
         JSONObject jsonConfiguration    =   new JSONObject();
+        if(location==null){
+            RandomEncounters.getInstance().logError("Attempted to save: "+getName()+" but the location was null");
+            return jsonConfiguration;
+        }
+        if(location.getWorld()==null){
+            RandomEncounters.getInstance().logError("Attempted to save: "+getName()+" but the world in the location was null: "+location.toString());
+            return jsonConfiguration;
+        }
+        if(location.getWorld().getName()==null){
+            RandomEncounters.getInstance().logError("Attempted to save: "+getName()+" but the world name in the location was null: "+location.toString());
+            return jsonConfiguration;
+        }
         jsonConfiguration.put("uuid", uuid.toString());
         jsonConfiguration.put("encounter",encounter.getName());
         jsonConfiguration.put("sacked",sacked);
@@ -332,7 +567,7 @@ public class PlacedEncounter {
         jsonConfiguration.put("mobs",jsonMobs);
         
         JSONArray jsonExpansions        =   new JSONArray();
-        for(UUID expansion : placedExpansions){
+        for(UUID expansion : children){
             JSONObject jsonExpansion    =   new JSONObject();
             jsonExpansion.put("uuid",expansion.toString());
             jsonExpansions.add(jsonExpansion);
@@ -340,5 +575,18 @@ public class PlacedEncounter {
         jsonConfiguration.put("expansions", jsonExpansions);
         
         return jsonConfiguration;
+    }
+
+    @Override
+    public void processLoad(LocationLoadingTask loadTask) {
+        if(loadTask==null || !loadTask.equals(loadingTask)){
+            return;
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("  "+getName()+" has been notified of loading completion.");
+        }
+        blockLocations  =   loadTask.getLocations();
+        loadingTask     =   null;
+        setupBlockMeta();
     }
 }

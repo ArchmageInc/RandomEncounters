@@ -4,7 +4,10 @@ import com.archmageinc.RandomEncounters.Encounters.EncounterPlacer;
 import com.archmageinc.RandomEncounters.Encounters.Encounter;
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
+import com.archmageinc.RandomEncounters.Tasks.ChunkExposerTask;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -106,8 +109,51 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
                 reloadConfigurations();
                 return true;
             }
+            if(args[0].equalsIgnoreCase("expose")){
+                if((sender instanceof Player) && args.length<2){
+                    sender.sendMessage("Usage: /re expose <radius> [<world> <chunk x> <chunk z>]");
+                    return true;
+                }
+                if(!(sender instanceof Player) && args.length<5){
+                    sender.sendMessage("Usage: /re expose <radius> <world> <chunk x> <chunk z>");
+                    return true;
+                }
+                Integer radius;
+                try{
+                    radius    =   Integer.parseInt(args[1]);
+                }catch(NumberFormatException e){
+                    sender.sendMessage("Radius must be numeric!");
+                    return true;
+                }
+                Chunk chunk;
+                if(args.length>=5){
+                    try{
+                        String worldName    =   args[2];
+                        Integer x           =   Integer.parseInt(args[3]);
+                        Integer z           =   Integer.parseInt(args[4]);
+                        World world         =   RandomEncounters.getInstance().getServer().getWorld(worldName);
+                        if(world==null){
+                            sender.sendMessage("World "+worldName+" was not found!");
+                            return true;
+                        }
+                        chunk    =   world.getChunkAt(x, z);
+                    }catch(NumberFormatException e){
+                        sender.sendMessage("Coordinates must be numeric!");
+                        return true;
+                    }
+                }else{
+                    chunk    =   ((Player) sender).getLocation().getChunk();
+                }
+                exposeRadius(chunk,radius);
+                return true;
+                
+            }
         }
         return false;
+    }
+    
+    private void exposeRadius(Chunk chunk,Integer radius){
+        (new ChunkExposerTask(chunk,radius)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
     }
     
     private void checkRadius(CommandSender sender,String encounterName,Chunk chunk,Integer distance){
@@ -122,7 +168,7 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
             return;
         }
         radiusEncounter =   encounter;
-        (new ChunkLocatorTask(this,chunk,distance)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
+        (new ChunkLocatorTask(this,chunk,distance,1)).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
         
     }
     
@@ -150,24 +196,40 @@ public class CommandListener implements CommandExecutor,EncounterPlacer{
             sender.sendMessage("Not a valid location!");
             return;
         }
-        RandomEncounters.getInstance().addPlacedEncounter(PlacedEncounter.create(encounter, location));
-        sender.sendMessage("Encounter created dispite the terrain");
+        PlacedEncounter.create(encounter, location);
+        sender.sendMessage("Creating encounter dispite the terrain");
     }
     
     private void reloadConfigurations(){
         RandomEncounters.getInstance().loadConfigurations();
     }
-
+    
     @Override
-    public void addPlacedEncounter(PlacedEncounter newEncounter) {
-        if(newEncounter!=null){
-            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
-        }
+    public String getLineageName(){
+        return "Command->"+radiusEncounter.getName();
     }
+    
+    @Override
+    public Map<String,Long> getProximities(){
+        return new HashMap<>();
+    }
+    
+    @Override
+    public long getPattern(){
+        return -1;
+    }
+    
+    @Override
+    public void addPlacedEncounter(PlacedEncounter newEncounter) {}
 
     @Override
     public Encounter getEncounter() {
         return radiusEncounter;
+    }
+
+    @Override
+    public double getInitialAngle() {
+        return 0;
     }
     
 }

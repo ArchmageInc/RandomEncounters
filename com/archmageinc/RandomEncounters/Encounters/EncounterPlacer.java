@@ -1,5 +1,7 @@
 package com.archmageinc.RandomEncounters.Encounters;
 
+import java.util.Map;
+
 /**
  *
  * @author ArchmageInc
@@ -7,4 +9,8 @@ package com.archmageinc.RandomEncounters.Encounters;
 public interface EncounterPlacer {
     public void addPlacedEncounter(PlacedEncounter newEncounter);
     public Encounter getEncounter();
+    public double getInitialAngle();
+    public long getPattern();
+    public Map<String,Long> getProximities();
+    public String getLineageName();
 }

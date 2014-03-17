@@ -5,11 +5,114 @@
         "tagName":      "Geordian Pig",
         "enabled":      true,
         "type":         "PIG",
-        "min":          4,
-        "max":          8,
+        "min":          2,
+        "max":          4,
         "probability":  0.50,
         "deathSpawn":   "GeordianWarrior",
         "treasures":    null
+      },
+      {
+        "name":         "GeordianNobles",
+        "tagName":      "Geordian Noble",
+        "enabled":      true,
+        "type":         "VILLAGER",
+        "min":          2,
+        "max":          4,
+        "probability":  0.50,
+        "deathSpawn":   "GeordianDeamon",
+        "treasures":    [
+            "GeordianKingCoins"
+        ]
+      },
+      {
+        "name":         "GeordianDeamon",
+        "tagName":      "Geordian Deamon",
+        "enabled":      true,
+        "type":         "BLAZE",
+        "min":          2,
+        "max":          4,
+        "probability":  0.50,
+        "deathSpawn":   "GeordianPigs",
+        "treasures":    null,
+        "potionEffects":    [
+            {
+                "type":         "SPEED",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  1.00
+            },
+            {
+                "type":         "REGENERATION",
+                "amplifier":    1,
+                "duration":     1576800000,
+                "probability":  1
+            },
+            {
+                "type":         "INCREASE_DAMAGE",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  1
+            }
+        ]
+      },
+      {
+        "name":         "GeordianVaultGuard",
+        "tagName":      "Geordian Vault Guard",
+        "enabled":      true,
+        "type":         "PigZombie",
+        "min":          1,
+        "max":          1,
+        "probability":  1,
+        "deathSpawn":   "GeordianWarrior",
+        "treasures":    [
+            "GeordianCoins"
+        ],
+        "potionEffects":    [
+            {
+                "type":         "SPEED",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  1.00
+            },
+            {
+                "type":         "REGENERATION",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  0.50
+            },
+            {
+                "type":         "INVISIBILITY",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  1
+            },
+            {
+                "type":         "INCREASE_DAMAGE",
+                "amplifier":    10,
+                "duration":     1576800000,
+                "probability":  1
+            }
+        ],
+        "equipment":    {
+            "hand": {
+                "treasure":         "GeordianSwordStandard",
+                "dropProbability":  1
+            },
+            "helmet": {
+                "treasure":         "GeordianHelmetStandard",
+                "dropProbability":  1.00
+                
+            },
+            "chestplate": {
+                "treasure":         "GeordianChestplateStandard",
+                "dropProbability":  1.00
+                
+            },
+            "boots": {
+                "treasure":         "GeordianBootsStandard",
+                "dropProbability":  1.00
+            }
+        }
       },
       {
         "name":         "GeordianWarrior",

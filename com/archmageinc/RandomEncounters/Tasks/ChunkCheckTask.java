@@ -33,7 +33,7 @@ public class ChunkCheckTask extends BukkitRunnable{
     
     public ChunkCheckTask(EncounterPlacer placer,Chunk chunk, Encounter encounter){
         if(RandomEncounters.getInstance().getLogLevel()>9){
-            RandomEncounters.getInstance().logMessage("Prepairing to check chunk: "+chunk.getX()+","+chunk.getZ()+" for encounter "+encounter.getName());
+            RandomEncounters.getInstance().logMessage("Chunk Check for "+placer.getLineageName()+" started: "+chunk.getX()+","+chunk.getZ());
         }
         this.placer     =   placer;
         this.chunk      =   chunk;
@@ -41,7 +41,7 @@ public class ChunkCheckTask extends BukkitRunnable{
         if(encounter.getStructure()==null){
             Block currentBlock;
             if(RandomEncounters.getInstance().getLogLevel()>0){
-                RandomEncounters.getInstance().logWarning(encounter.getName()+" Has no structure, sending first air block for location!");
+                RandomEncounters.getInstance().logWarning("Chunk Check for "+placer.getLineageName()+": No structure, sending first air block for location!");
             }
             for(y=chunk.getWorld().getMaxHeight();y>0;y--){
                 currentBlock  =   chunk.getBlock(7, y, 7);
@@ -62,15 +62,15 @@ public class ChunkCheckTask extends BukkitRunnable{
             sz              =   0;
             x               =   sx;
             z               =   sz;
-            y               =   sy;
+            y               =   my;
         }
     }
     
     @Override
     public void run() {
         if(wait){
-            if(RandomEncounters.getInstance().getLogLevel()>10){
-                RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" still waiting for space check");
+            if(RandomEncounters.getInstance().getLogLevel()>11){
+                RandomEncounters.getInstance().logMessage("Chunk Check for "+placer.getLineageName()+": Waiting for space check");
             }
             return;
         }else if(location!=null){
@@ -81,7 +81,7 @@ public class ChunkCheckTask extends BukkitRunnable{
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
         timeLimit.add(Calendar.MILLISECOND, RandomEncounters.getInstance().lockTime());
         
-        while(y<my){
+        while(y>=sy){
             
             x   =   x>=mx ? sx : x;
             while(x<mx){
@@ -109,11 +109,11 @@ public class ChunkCheckTask extends BukkitRunnable{
                         wait    =   true;
                         (new SpaceCheckTask(this,currentBlock,encounter.getStructure())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);
                         if(RandomEncounters.getInstance().getLogLevel()>11){
-                            RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" starting to wait for space check at "+currentBlock.getX()+","+currentBlock.getY()+","+currentBlock.getZ());
+                            RandomEncounters.getInstance().logMessage("Chunk Check for "+placer.getLineageName()+": Waiting for space check at "+currentBlock.getX()+","+currentBlock.getY()+","+currentBlock.getZ());
                         }
                     }else{
-                        if(RandomEncounters.getInstance().getLogLevel()>10){
-                            RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" "+currentBlock.getX()+","+currentBlock.getY()+","+currentBlock.getZ()+" is not a valid location");
+                        if(RandomEncounters.getInstance().getLogLevel()>11){
+                            RandomEncounters.getInstance().logMessage("Chunk Check for "+placer.getLineageName()+": "+currentBlock.getX()+","+currentBlock.getY()+","+currentBlock.getZ()+" is not a valid location");
                         }
                     }
                     
@@ -128,7 +128,7 @@ public class ChunkCheckTask extends BukkitRunnable{
                 }
                 if(Calendar.getInstance().after(timeLimit)|| wait){
                     if(x>=mx){
-                        y++;
+                        y--;
                     }
                     break;
                 }
@@ -136,14 +136,14 @@ public class ChunkCheckTask extends BukkitRunnable{
             }
             if(Calendar.getInstance().after(timeLimit)|| wait)
                break;
-            y++;
+            y--;
         }
         
-        if(y>=my){
+        if(y<sy){
             fail();
         }else{
             if(RandomEncounters.getInstance().getLogLevel()>11){
-                RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" needs more time");
+                RandomEncounters.getInstance().logMessage("Chunk Check for "+placer.getLineageName()+": More time needed");
             }
         }
     }
@@ -161,7 +161,7 @@ public class ChunkCheckTask extends BukkitRunnable{
     
     private void fail(){
         if(RandomEncounters.getInstance().getLogLevel()>9){
-            RandomEncounters.getInstance().logMessage("Chunk Check for "+encounter.getName()+" found no valid locations in chunk "+chunk.getX()+","+chunk.getZ());
+            RandomEncounters.getInstance().logMessage("Chunk Check for "+placer.getLineageName()+": No valid locations in chunk "+chunk.getX()+","+chunk.getZ());
         }
         placer.addPlacedEncounter(null);
         cancel();

@@ -31,7 +31,7 @@ public class WorldListener implements Listener {
         if(processing){
             return;
         }
-        if(RandomEncounters.getInstance().getLogLevel()>8){
+        if(RandomEncounters.getInstance().getLogLevel()>11){
             RandomEncounters.getInstance().logMessage("New chunk detected, prepairing to run checks");
         }
         processing                      =   true;
@@ -40,7 +40,9 @@ public class WorldListener implements Listener {
         encounterList.addAll(encounters);
         Collections.shuffle(encounterList,new Random(System.nanoTime()));
         for(Encounter encounter : encounterList){
-            encounter.checkPlace(event.getChunk());
+            if(!encounter.getInvalidWorlds().contains(event.getChunk().getWorld()) && (encounter.getValidWorlds().isEmpty() || encounter.getValidWorlds().contains(event.getChunk().getWorld()))){
+                encounter.checkPlace(event.getChunk());
+            }
         }
         processing  =   false;
     }

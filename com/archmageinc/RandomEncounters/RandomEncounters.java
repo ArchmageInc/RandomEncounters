@@ -10,8 +10,14 @@ import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.Mobs.Mob;
 import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ExpansionTask;
+import com.archmageinc.RandomEncounters.Tasks.LocationLoadingTask;
+import com.archmageinc.RandomEncounters.Tasks.ResourceCollectionTask;
+import com.archmageinc.RandomEncounters.Utilities.LocationManager;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.json.simple.JSONArray;
@@ -32,32 +38,36 @@ public class RandomEncounters extends JavaPlugin {
     /**
      * The loglevel determines how much to spam the console.
      */
-    private int logLevel                                =   0;
+    private int logLevel                                        =   0;
     
     /**
      * Debug Midas turns checked blocks to gold for verification.
      */
-    private boolean midas                               =   false;
+    private boolean midas                                       =   false;
     
     /**
      * Maximum amount of time we are allowed to lock the server in ms.
      */
-    private int maxLockTime                         =   10;
+    private int maxLockTime                                     =   10;
     
     /**
      * The set of encounter configurations for the plugin.
      */
-    private final Set<Encounter> encounters                   =   new HashSet();
+    private final Set<Encounter> encounters                     =   new HashSet();
     
     /**
      * The set of PlacedEncounters / savedEncounters.
      */
-    private final HashSet<PlacedEncounter> placedEncounters   =   new HashSet();
+    private final HashSet<PlacedEncounter> placedEncounters     =   new HashSet();
+    
+    private final Set<Material> defaultTrump                    =   new HashSet();
     
     /**
      * The task responsible for checking expansions.
      */
     private BukkitTask expansionTask;
+    
+    private BukkitTask resourceCollectionTask;
     
     
     /**
@@ -115,10 +125,11 @@ public class RandomEncounters extends JavaPlugin {
             return;
         }
         reloadConfig();
-	logLevel        =   getConfig().getInt("debug.loglevel");
-        midas           =   getConfig().getBoolean("debug.midas");
-        maxLockTime     =   getConfig().getInt("maxLockTime");
-        expansionTask   =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
+	logLevel                =   getConfig().getInt("debug.loglevel");
+        midas                   =   getConfig().getBoolean("debug.midas");
+        maxLockTime             =   getConfig().getInt("maxLockTime");
+        expansionTask           =   new ExpansionTask().runTaskTimer(this, 1200, 1200);
+        resourceCollectionTask  =   new ResourceCollectionTask().runTaskTimer(this,1600,1600);
         if(logLevel>0){
             logMessage("Log Level set to: "+logLevel);
         }
@@ -144,10 +155,32 @@ public class RandomEncounters extends JavaPlugin {
     }
     
     public void loadConfigurations(){
+        loadDefaultTrump();
         loadStructures();
         loadTreasures();
         loadMobs();
         loadEncounters();
+    }
+    
+    private void loadDefaultTrump(){
+        try{
+            String structureFileName    =   getConfig().getString("structureConfig");
+            JSONObject structureConfig  =   JSONReader.getInstance().read(getDataFolder()+"/"+structureFileName);
+            JSONArray jsonTrump         =   (JSONArray) structureConfig.get("defaultTrump");
+            if(jsonTrump!=null){
+                for(int i=0;i<jsonTrump.size();i++){
+                    Material material   =   Material.getMaterial((String) jsonTrump.get(i));
+                    if(material!=null){
+                        defaultTrump.add(material);
+                    }else{
+                        logWarning("Invalid material "+(String) jsonTrump.get(i)+" in default trump");
+                    }
+                }
+                logMessage("Loaded "+defaultTrump.size()+" Default trump materials");
+            }
+        }catch(ClassCastException e){
+            logError("Invalid base default trump configuration: "+e.getMessage());
+        }
     }
     
     /**
@@ -257,9 +290,10 @@ public class RandomEncounters extends JavaPlugin {
             JSONArray jsonEncounters    =   (JSONArray) encounterConfig.get("savedEncounters");
             if(jsonEncounters!=null){
                 for(int i=0;i<jsonEncounters.size();i++){
-                    PlacedEncounter encounter   =   PlacedEncounter.getInstance((JSONObject) jsonEncounters.get(i));
-                    if(!encounter.isSacked()){
-                        placedEncounters.add(encounter);
+                    PlacedEncounter placedEncounter   =   PlacedEncounter.getInstance((JSONObject) jsonEncounters.get(i));
+                    if(!placedEncounter.isSacked()){
+                        placedEncounter.setLoadingTask(new LocationLoadingTask(placedEncounter,getDataFolder()+"/locations/"+placedEncounter.getUUID().toString()+".dat"));
+                        placedEncounters.add(placedEncounter);
                     }
                 }
                 logMessage("Loaded "+jsonEncounters.size()+" PlacedEncounter configurations");
@@ -269,7 +303,18 @@ public class RandomEncounters extends JavaPlugin {
         }catch(ClassCastException e){
             logError("Invalid base PlacedEncounter configuration: "+e.getMessage());
         }
-        
+        setupPlacedEncounterRelationships();
+    }
+    
+    private void setupPlacedEncounterRelationships(){
+        for(PlacedEncounter encounter : placedEncounters){
+            for(UUID id : encounter.getChildren()){
+                PlacedEncounter child   =   PlacedEncounter.getInstance(id);
+                if(child!=null){
+                    child.setParent(encounter);
+                }
+            }
+        }
     }
     
     /**
@@ -284,6 +329,7 @@ public class RandomEncounters extends JavaPlugin {
         JSONArray savedEncounters       =   new JSONArray();
         for(PlacedEncounter encounter : placedEncounters){
             savedEncounters.add(encounter.toJSON());
+            LocationManager.saveLocations(getDataFolder()+"/locations/"+encounter.getUUID().toString()+".dat", encounter.getBlockLocations());
         }
         jsonConfiguration.put("savedEncounters", savedEncounters);
         JSONReader.getInstance().write(getDataFolder()+"/"+encounterFileName, jsonConfiguration);
@@ -320,7 +366,7 @@ public class RandomEncounters extends JavaPlugin {
      * @param message 
      */
     public void logMessage(String message){
-        getLogger().info("[v"+getDescription().getVersion()+"]: "+message);
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"[RandomEncounters] [v"+getDescription().getVersion()+"]: "+ChatColor.RESET+message);
     }
     
     /**
@@ -328,7 +374,7 @@ public class RandomEncounters extends JavaPlugin {
      * @param message 
      */
     public void logError(String message){
-        getLogger().severe("[v"+getDescription().getVersion()+"]: "+message);
+        getServer().getConsoleSender().sendMessage(ChatColor.RED+"[RandomEncounters] [v"+getDescription().getVersion()+"]: "+ChatColor.RESET+message);
     }
     
     /**
@@ -336,7 +382,7 @@ public class RandomEncounters extends JavaPlugin {
      * @param message 
      */
     public void logWarning(String message){
-        getLogger().warning("[v"+getDescription().getVersion()+"]: "+message);
+        getServer().getConsoleSender().sendMessage(ChatColor.YELLOW+"[RandomEncounters] [v"+getDescription().getVersion()+"]: "+ChatColor.RESET+message);
     }
     
     /**
@@ -362,7 +408,12 @@ public class RandomEncounters extends JavaPlugin {
      * @return 
      */
     public int lockTime(){
-        return maxLockTime;
+        int tasks   =   getServer().getScheduler().getPendingTasks().size();
+        return ((Double) Math.ceil(maxLockTime/tasks)).intValue();
+    }
+    
+    public Set<Material> getDefaultTrump(){
+        return defaultTrump;
     }
     
     /**
@@ -379,6 +430,16 @@ public class RandomEncounters extends JavaPlugin {
      */
     public HashSet<PlacedEncounter> getPlacedEncounters(){
         return placedEncounters;
+    }
+    
+    public HashSet<PlacedEncounter> getPlacedEncounters(Encounter type){
+        HashSet<PlacedEncounter> placements =   new HashSet();
+        for(PlacedEncounter check : placedEncounters){
+            if(check.getEncounter().equals(type)){
+                placements.add(check);
+            }
+        }
+        return placements;
     }
     
 }

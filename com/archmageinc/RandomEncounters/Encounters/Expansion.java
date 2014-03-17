@@ -1,14 +1,13 @@
 package com.archmageinc.RandomEncounters.Encounters;
 
-import com.archmageinc.RandomEncounters.Encounters.EncounterPlacer;
-import com.archmageinc.RandomEncounters.Encounters.Encounter;
-import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
 import com.archmageinc.RandomEncounters.Tasks.ChunkLocatorTask;
 import java.util.Calendar;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
+import org.bukkit.Material;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -46,12 +45,31 @@ public class Expansion implements Cloneable,EncounterPlacer{
     /**
      * The maximum distance in chunks from the parent encounter this expansion can be placed.
      */
-    private Long distance;
+    private Long maxDistance;
+    
+    /**
+     * The minimum distance in chunks from the parent encounter this expansion can be placed.
+     */
+    private Long minDistance;
+    
+    private Long pattern;
+    
+    private boolean checking                                    =   false;
+    
+    private boolean vault                                       =   false;
     
     /**
      * The last time this expansion was checked to expand.
      */
-    private Calendar lastCheck                    =   (Calendar) Calendar.getInstance().clone();
+    private Calendar lastCheck                                  =   (Calendar) Calendar.getInstance().clone();
+    
+    private final HashMap<String,Long> proximities              =   new HashMap();
+    
+    private boolean canExpand                                   =   true;
+    
+    private HashMap<Material,Integer> rootResources             =   new HashMap();
+    
+    private HashMap<Material,Integer> parentResources           =   new HashMap();
     
     /**
      * The encounter that will expand.
@@ -65,15 +83,51 @@ public class Expansion implements Cloneable,EncounterPlacer{
      */
     public Expansion(JSONObject jsonConfiguration){
         try{
-            encounter       =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
-            encounterName   =   (String) jsonConfiguration.get("encounter");
-            probability     =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
-            duration        =   jsonConfiguration.get("duration")==null ? Long.MAX_VALUE : ((Number) jsonConfiguration.get("duration")).longValue();
-            max             =   jsonConfiguration.get("max")==null ? 0 : ((Number) jsonConfiguration.get("max")).longValue();
-            distance        =   jsonConfiguration.get("distance")==null ? 0 : ((Number) jsonConfiguration.get("distance")).longValue();
+            encounter                     =   Encounter.getInstance((String) jsonConfiguration.get("encounter"));
+            encounterName                 =   (String) jsonConfiguration.get("encounter");
+            probability                   =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
+            duration                      =   jsonConfiguration.get("duration")==null ? Long.MAX_VALUE : ((Number) jsonConfiguration.get("duration")).longValue();
+            max                           =   jsonConfiguration.get("max")==null ? 0 : ((Number) jsonConfiguration.get("max")).longValue();
+            maxDistance                   =   jsonConfiguration.get("maxDistance")==null ? 1 : ((Number) jsonConfiguration.get("maxDistance")).longValue();
+            minDistance                   =   jsonConfiguration.get("minDistance")==null ? 1 : ((Number) jsonConfiguration.get("minDistance")).longValue();
+            pattern                       =   jsonConfiguration.get("pattern")==null ? -1 : ((Number) jsonConfiguration.get("pattern")).longValue();
+            vault                         =   jsonConfiguration.get("vault")==null ? false : (boolean) jsonConfiguration.get("vault");
+            JSONObject jsonRequirements   =   (JSONObject) jsonConfiguration.get("requirements");
+            JSONArray jsonProximities     =   (JSONArray) jsonConfiguration.get("proximities");
+            if(jsonProximities!=null){
+                for(int i=0;i<jsonProximities.size();i++){
+                    JSONObject jsonProx     =   (JSONObject) jsonProximities.get(i);
+                    String proxName         =   (String) jsonProx.get("encounter");
+                    Long proxMinDistance    =   jsonProx.get("minDistance")==null ? 1 : ((Number) jsonProx.get("minDistance")).longValue();
+                    proximities.put(proxName, proxMinDistance);
+                }
+            }
+            if(jsonRequirements!=null){
+                rootResources               =   getResourceAmounts((JSONObject) jsonRequirements.get("root"));
+                parentResources             =   getResourceAmounts((JSONObject) jsonRequirements.get("parent"));
+            }
         }catch(ClassCastException e){
             RandomEncounters.getInstance().logError("Invalid expansion configuration: "+e.getMessage());
         }
+    }
+    
+    private HashMap<Material,Integer> getResourceAmounts(JSONObject requirements){
+        HashMap<Material,Integer> resourceRequirements  =   new HashMap();
+        if(requirements!=null){
+            JSONObject jsonResources   =   (JSONObject) requirements.get("resources");
+            if(jsonResources!=null){
+                for(String materialName : (Set<String>) jsonResources.keySet()){
+                    Material material   =   Material.getMaterial(materialName);
+                    if(material!=null){
+                        Integer amount  =   ((Number) jsonResources.get(materialName)).intValue();
+                        resourceRequirements.put(material, amount);
+                    }else{
+                        RandomEncounters.getInstance().logWarning("Invalid material in resource requirements: "+materialName);
+                    }
+                }
+            }
+        }
+        return resourceRequirements;
     }
     
     /**
@@ -81,28 +135,87 @@ public class Expansion implements Cloneable,EncounterPlacer{
      * If successful, the encounter will be placed in the world.
      */
     public void checkExpansion(){
-        updateLastCheck();
+        if(checking){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("    * Expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" is still running checks");
+            }
+            return;
+        }
+        Calendar nextRun    =   (Calendar) getLastCheck().clone();
+        nextRun.add(Calendar.MINUTE, getDuration().intValue());
+        if(nextRun.after(Calendar.getInstance())){
+            if(RandomEncounters.getInstance().getLogLevel()>11){
+                int difference      =   Math.round(nextRun.compareTo(Calendar.getInstance())/(1000*60));
+                RandomEncounters.getInstance().logMessage("    * Expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" waiting "+difference+" minutes");
+            }
+            return;
+        }
+        
+        if(!canExpand){
+            updateLastCheck();
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("    * Expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" reportedly has nowhere to expand");
+            }
+            return;
+        }
+        if(expandingEncounter.isSacked()){
+            updateLastCheck();
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("    * "+expandingEncounter.getName()+" is sacked and cannot expand");
+            }
+            return;
+        }
+        if(getEncounter().getInvalidWorlds().contains(expandingEncounter.getLocation().getWorld()) || (!getEncounter().getValidWorlds().isEmpty() && getEncounter().getValidWorlds().contains(expandingEncounter.getLocation().getWorld()))){
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("    * "+expandingEncounter.getName()+"->"+getEncounter().getName()+" cannot expand into an invalid world");
+            }
+            return;
+        }
         Double random   =   Math.random();
-        if(RandomEncounters.getInstance().getLogLevel()>6){
-            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+" : ("+random+","+probability+") ");
+        if(RandomEncounters.getInstance().getLogLevel()>7){
+            RandomEncounters.getInstance().logMessage("    * Checking expansion for "+expandingEncounter.getName()+"->"+getEncounter().getName()+" : ("+random+","+probability+") ");
         }
         if(random<probability){
-            Set<PlacedEncounter> validExpansions    =   new HashSet();
-            for(UUID expansionUUID : expandingEncounter.getPlacedExpansions()){
-                PlacedEncounter placedExpansion =   PlacedEncounter.getInstance(expansionUUID);
-                if(placedExpansion!=null){
-                    if(placedExpansion.getEncounter().equals(getEncounter())){
-                        validExpansions.add(placedExpansion);
-                    }
+            if(expandingEncounter.getChildren(encounter).size()>=max){
+                updateLastCheck();
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" has reached the maximum number of expansions");
                 }
+                return;
             }
-            if(RandomEncounters.getInstance().getLogLevel()>6){
-                RandomEncounters.getInstance().logMessage("      # Expansion probability hit for encounter "+expandingEncounter.getEncounter().getName()+" -> "+getEncounter().getName()+". There are "+validExpansions.size()+" existing expansions, "+max+" are allowed.");
+            if(isVault() && expandingEncounter.getAccountant().hasVaultSpace()){
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" still has vault space");
+                }
+                return;
             }
-            if(validExpansions.size()<max){
-               (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),distance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
+            if(!expandingEncounter.getRoot().getAccountant().hasResources((HashMap<Material,Integer>) rootResources.clone())){
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" does not have the required root resources");
+                }
+                return;
             }
+            if(!expandingEncounter.getAccountant().hasResources((HashMap<Material,Integer>) parentResources.clone())){
+                if(RandomEncounters.getInstance().getLogLevel()>7){
+                    RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" does not have the required local resources");
+                }
+                return;
+            }
+            updateLastCheck();
+            deductResources();
+            checking    =   true;
+            if(RandomEncounters.getInstance().getLogLevel()>7){
+                RandomEncounters.getInstance().logMessage("      # Expansion "+expandingEncounter.getName()+"->"+getEncounter().getName()+" has started looking for a suitable location");
+            }
+           (new ChunkLocatorTask(this,expandingEncounter.getLocation().getChunk(),maxDistance.intValue(),minDistance.intValue())).runTaskTimer(RandomEncounters.getInstance(), 1, 1);               
+            
         }
+        
+    }
+    
+    private void deductResources(){
+        expandingEncounter.getRoot().getAccountant().withdrawResources((HashMap<Material,Integer>) rootResources.clone());
+        expandingEncounter.getAccountant().withdrawResources((HashMap<Material,Integer>) parentResources.clone());
     }
     
     /**
@@ -133,6 +246,10 @@ public class Expansion implements Cloneable,EncounterPlacer{
             RandomEncounters.getInstance().logError("Unable to locate encounter "+encounterName+" for expansion!!");
         }
         return encounter;
+    }
+    
+    public boolean isVault(){
+        return vault;
     }
     
     /**
@@ -167,12 +284,45 @@ public class Expansion implements Cloneable,EncounterPlacer{
     public void updateLastCheck(){
         lastCheck   =   (Calendar) Calendar.getInstance().clone();
     }
+    
+    @Override
+    public String getLineageName(){
+        return expandingEncounter.getName()+"->"+encounter.getName();
+    }
+    
+    @Override
+    public Map<String,Long> getProximities(){
+        return proximities;
+    }
+    
+    @Override
+    public long getPattern(){
+        return pattern;
+    }
+    
+    @Override
+    public double getInitialAngle(){
+        if(expandingEncounter.getParent()!=null){
+           double adjust   =   expandingEncounter.getChildren(encounter).size()*(Math.PI/8)+(Math.PI/2);
+           return Math.atan2(expandingEncounter.getLocation().getChunk().getX()-expandingEncounter.getRoot().getLocation().getChunk().getX(),expandingEncounter.getLocation().getChunk().getZ()-expandingEncounter.getRoot().getLocation().getChunk().getZ())-adjust;
+        }else{
+            return Math.random()*(Math.PI*2);
+        }
+    }
 
     @Override
     public void addPlacedEncounter(PlacedEncounter newEncounter) {
+       
+        checking    =   false;
         if(newEncounter!=null){
-            expandingEncounter.addExpansion(newEncounter);
-            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
+            if(vault){
+                expandingEncounter.addVault(newEncounter);
+            }
+            expandingEncounter.addChild(newEncounter);
+        }else{
+            expandingEncounter.getRoot().getAccountant().depositResources((HashMap<Material,Integer>) rootResources.clone());
+            expandingEncounter.getAccountant().depositResources((HashMap<Material,Integer>) parentResources.clone());
+            canExpand   =   false;
         }
     }
 }

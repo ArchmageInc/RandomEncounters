@@ -62,6 +62,8 @@ public class Structure {
      */
     private final HashSet<Material> invalid             =   new HashSet();
     
+    private boolean pasteAir                            =   true;
+    
     /** 
      * The singleton instances of structure configurations.
      */
@@ -135,16 +137,29 @@ public class Structure {
             fileName                =   (String) jsonConfiguration.get("file");
             minY                    =   jsonConfiguration.get("minY")==null ? 0 : ((Number) jsonConfiguration.get("minY")).longValue();
             maxY                    =   jsonConfiguration.get("maxY")==null ? 0 : ((Number) jsonConfiguration.get("maxY")).longValue();
+            pasteAir                =   jsonConfiguration.get("pasteAir")==null ? true : (Boolean) jsonConfiguration.get("pasteAir");
             JSONArray jsonTrump     =   (JSONArray) jsonConfiguration.get("trump");
             JSONArray jsonInvalid   =   (JSONArray) jsonConfiguration.get("invalid");
             if(jsonTrump!=null){
                 for(int i=0;i<jsonTrump.size();i++){
-                    trump.add(Material.getMaterial((String) jsonTrump.get(i)));
+                    Material material   =   Material.getMaterial((String) jsonTrump.get(i));
+                    if(material!=null){
+                        trump.add(material);
+                    }else{
+                        RandomEncounters.getInstance().logWarning("Invalid trump material "+(String) jsonTrump.get(i)+" in "+name+" structure configuration");
+                    }
                 }
+            }else{
+                trump.addAll(RandomEncounters.getInstance().getDefaultTrump());
             }
             if(jsonInvalid!=null){
                 for(int i=0;i<jsonInvalid.size();i++){
-                    invalid.add(Material.getMaterial((String) jsonInvalid.get(i)));
+                    Material material   =   Material.getMaterial((String) jsonInvalid.get(i));
+                    if(material!=null){
+                        invalid.add(material);
+                    }else{
+                        RandomEncounters.getInstance().logWarning("Invalid material "+(String) jsonInvalid.get(i)+" in "+name+" structure configuration");
+                    }
                 }
             }
             loaded  =   load();
@@ -207,20 +222,20 @@ public class Structure {
      * The Origin of the cuboid lines up with this some how. I have no idea what I was doing here,
      * but it seemed to work so.... yeah.
      * 
-     * @param encounter The encounter configuration for this structure.
+     * @param placedEncounter The encounter configuration for this structure.
      */
-    public void place(PlacedEncounter encounter){
+    public void place(PlacedEncounter placedEncounter){
         if(!loaded){
             RandomEncounters.getInstance().logWarning("Attempted to place a non-loaded structure: "+name);
             return;
         }
         if(placing){
-            queue.add(encounter);
+            queue.add(placedEncounter);
             return;
         }
         
         placing =   true;
-        (new StructurePlacementTask(encounter)).runTaskTimer(RandomEncounters.getInstance(), 1, 2);
+        (new StructurePlacementTask(placedEncounter)).runTaskTimer(RandomEncounters.getInstance(), 1, 2);
     }
     
     public void placed(){
@@ -300,5 +315,9 @@ public class Structure {
     
     public CuboidClipboard getCuboid(){
         return cuboid;
+    }
+    
+    public boolean pasteAir(){
+        return pasteAir;
     }
 }

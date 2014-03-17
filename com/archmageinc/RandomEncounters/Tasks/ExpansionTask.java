@@ -3,7 +3,6 @@ package com.archmageinc.RandomEncounters.Tasks;
 import com.archmageinc.RandomEncounters.Encounters.Expansion;
 import com.archmageinc.RandomEncounters.Encounters.PlacedEncounter;
 import com.archmageinc.RandomEncounters.RandomEncounters;
-import java.util.Calendar;
 import java.util.HashSet;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -21,22 +20,8 @@ public class ExpansionTask extends BukkitRunnable{
             RandomEncounters.getInstance().logMessage("Running Expansion Checks: "+RandomEncounters.getInstance().getPlacedEncounters().size());
         }
         for(PlacedEncounter placedEncounter : (HashSet<PlacedEncounter>) RandomEncounters.getInstance().getPlacedEncounters().clone()){
-            if(!placedEncounter.isSacked()){
-                if(RandomEncounters.getInstance().getLogLevel()>8){
-                    RandomEncounters.getInstance().logMessage("  - "+placedEncounter.getName()+" has "+placedEncounter.getEncounter().getExpansions().size()+" available expansions.");
-                }
-
-                for(Expansion expansion : placedEncounter.getExpansions()){
-                    Calendar nextRun    =   (Calendar) expansion.getLastCheck().clone();
-                    nextRun.add(Calendar.MINUTE, expansion.getDuration().intValue());
-                    if(nextRun.before(Calendar.getInstance())){
-                        expansion.checkExpansion();
-                    }
-                }
-            }else{
-                if(RandomEncounters.getInstance().getLogLevel()>8){
-                    RandomEncounters.getInstance().logMessage(placedEncounter.getName()+" is sacked and cannot expand");
-                }
+            for(Expansion expansion : placedEncounter.getExpansions()){
+                expansion.checkExpansion();
             }
         }
     }

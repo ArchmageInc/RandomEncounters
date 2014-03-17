@@ -6,10 +6,13 @@ import com.archmageinc.RandomEncounters.Structures.Structure;
 import com.archmageinc.RandomEncounters.Treasures.Treasure;
 import com.archmageinc.RandomEncounters.Tasks.ChunkCheckTask;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.bukkit.Chunk;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.inventory.ItemStack;
 import org.json.simple.JSONArray;
@@ -52,29 +55,35 @@ public class Encounter implements EncounterPlacer{
      * An empty set implies only invalid biome restrictions. 
      * If both sets are empty, the encounter may be placed in any biome.
      */
-    private final Set<Biome> validBiomes            =   new HashSet();
+    private final Set<Biome> validBiomes                    =   new HashSet();
     
     /**
      * The set of Biomes where this encounter is not allowed to be placed.
      * An empty set implies only valid biome restrictions.
      * If both sets are empty, the encounter may be placed in any biome. 
      */
-    private final Set<Biome> invalidBiomes          =   new HashSet();
+    private final Set<Biome> invalidBiomes                  =   new HashSet();
+    
+    private final Set<World> validWorlds                    =   new HashSet();
+    
+    private final Set<World> invalidWorlds                  =   new HashSet();
     
     /**
      * The set of Mobs that will be placed with this encounter.
      */
-    private final Set<Mob> mobs                     =   new HashSet();
+    private final Set<Mob> mobs                             =   new HashSet();
     
     /**
      * The set of Treasures that will be placed in chests of the structure.
      */
-    private final Set<Treasure> treasures           =   new HashSet();
+    private final Set<Treasure> treasures                   =   new HashSet();
     
     /**
      * The set of Expansions that this encounter is allowed to spawn.
      */
-    private final HashSet<Expansion> expansions     =   new HashSet();
+    private final HashSet<Expansion> expansions             =   new HashSet();
+    
+    private JSONArray jsonCollections;
     
     /**
      * Get an instance of the encounter based on the name.
@@ -126,15 +135,18 @@ public class Encounter implements EncounterPlacer{
             treasures.clear();
             expansions.clear();
             mobs.clear();
-            name        =   (String) jsonConfiguration.get("name");
-            enabled     =   (Boolean) jsonConfiguration.get("enabled");
-            probability =    jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
-            structure   =   Structure.getInstance((String) jsonConfiguration.get("structure"));
+            name            =   (String) jsonConfiguration.get("name");
+            enabled         =   jsonConfiguration.get("enabled")==null ? true : (Boolean) jsonConfiguration.get("enabled");
+            probability     =   jsonConfiguration.get("probability")==null ? 0 : ((Number) jsonConfiguration.get("probability")).doubleValue();
+            structure       =   Structure.getInstance((String) jsonConfiguration.get("structure"));
+            jsonCollections =   (JSONArray) jsonConfiguration.get("collections");
             JSONArray jsonValidBiomes   =   (JSONArray) jsonConfiguration.get("validBiomes");
             JSONArray jsonInvalidBiomes =   (JSONArray) jsonConfiguration.get("invalidBiomes");
             JSONArray jsonTreasures     =   (JSONArray) jsonConfiguration.get("treasures");
             JSONArray jsonExpansions    =   (JSONArray) jsonConfiguration.get("expansions");
             JSONArray jsonMobs          =   (JSONArray) jsonConfiguration.get("mobs");
+            JSONArray jsonValidWorlds   =   (JSONArray) jsonConfiguration.get("validWorlds");
+            JSONArray jsonInvalidWorlds =   (JSONArray) jsonConfiguration.get("invalidWorlds");
             if(jsonValidBiomes!=null){
                 for(int i=0;i<jsonValidBiomes.size();i++){
                     Biome biome =   Biome.valueOf((String) jsonValidBiomes.get(i));
@@ -168,7 +180,8 @@ public class Encounter implements EncounterPlacer{
             if(jsonExpansions!=null){
                 for(int i=0;i<jsonExpansions.size();i++){
                     JSONObject jsonExpansion    =   (JSONObject) jsonExpansions.get(i);
-                    expansions.add(new Expansion(jsonExpansion));
+                    Expansion expansion         =   new Expansion(jsonExpansion);
+                    expansions.add(expansion);
                 }
             }
             if(jsonMobs!=null){
@@ -178,6 +191,26 @@ public class Encounter implements EncounterPlacer{
                         mobs.add(mob);
                     }else{
                         RandomEncounters.getInstance().logError("Mob definition "+(String) jsonMobs.get(i)+" for encounter "+name+" was not found!");
+                    }
+                }
+            }
+            if(jsonValidWorlds!=null){
+                for(int i=0;i<jsonValidWorlds.size();i++){
+                    World world =   RandomEncounters.getInstance().getServer().getWorld((String) jsonValidWorlds.get(i));
+                    if(world!=null){
+                        validWorlds.add(world);
+                    }else{
+                        RandomEncounters.getInstance().logError("World "+(String) jsonValidWorlds.get(i)+" for encounter "+name+" was not found!");
+                    }
+                }
+            }
+            if(jsonInvalidWorlds!=null){
+                for(int i=0;i<jsonInvalidWorlds.size();i++){
+                    World world =   RandomEncounters.getInstance().getServer().getWorld((String) jsonInvalidWorlds.get(i));
+                    if(world!=null){
+                        invalidWorlds.add(world);
+                    }else{
+                        RandomEncounters.getInstance().logError("World "+(String) jsonInvalidWorlds.get(i)+" for encounter "+name+" was not found!");
                     }
                 }
             }
@@ -261,8 +294,20 @@ public class Encounter implements EncounterPlacer{
         return invalidBiomes;
     }
     
+    public Set<World> getValidWorlds(){
+        return validWorlds;
+    }
+    
+    public Set<World> getInvalidWorlds(){
+        return invalidWorlds;
+    }
+    
     public boolean hasTreasures(){
         return !treasures.isEmpty();
+    }
+    
+    public JSONArray getCollectionConfiguration(){
+        return jsonCollections;
     }
     
     /**
@@ -309,16 +354,31 @@ public class Encounter implements EncounterPlacer{
     public HashSet<Expansion> getExpansions(){
         return expansions;
     }
-
+    
     @Override
-    public void addPlacedEncounter(PlacedEncounter newEncounter) {
-        if(newEncounter!=null){
-            RandomEncounters.getInstance().addPlacedEncounter(newEncounter);
-        }
+    public String getLineageName(){
+        return "Root->"+getName();
     }
+    
+    @Override
+    public Map<String,Long> getProximities(){
+        return new HashMap<>();
+    }
+    
+    @Override
+    public long getPattern(){
+        return -1;
+    }
+    @Override
+    public void addPlacedEncounter(PlacedEncounter newEncounter) {}
 
     @Override
     public Encounter getEncounter() {
         return this;
+    }
+
+    @Override
+    public double getInitialAngle() {
+        return 0;
     }
 }
