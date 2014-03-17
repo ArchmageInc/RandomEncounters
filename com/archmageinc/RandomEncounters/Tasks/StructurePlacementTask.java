@@ -84,6 +84,9 @@ public class StructurePlacementTask extends BukkitRunnable {
     }
     
     private void setBlock(Vector v,BaseBlock block){
+        if(block.getType()==0 && !structure.pasteAir()){
+            return;
+        }
         session.rawSetBlock(v, block);
         if(block.getType()!=0){
             placedEncounter.addBlockLocation(v.getBlockX(),v.getBlockY(),v.getBlockZ());

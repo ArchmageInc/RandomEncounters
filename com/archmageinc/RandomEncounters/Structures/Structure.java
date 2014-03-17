@@ -62,6 +62,8 @@ public class Structure {
      */
     private final HashSet<Material> invalid             =   new HashSet();
     
+    private boolean pasteAir                            =   true;
+    
     /** 
      * The singleton instances of structure configurations.
      */
@@ -135,6 +137,7 @@ public class Structure {
             fileName                =   (String) jsonConfiguration.get("file");
             minY                    =   jsonConfiguration.get("minY")==null ? 0 : ((Number) jsonConfiguration.get("minY")).longValue();
             maxY                    =   jsonConfiguration.get("maxY")==null ? 0 : ((Number) jsonConfiguration.get("maxY")).longValue();
+            pasteAir                =   jsonConfiguration.get("pasteAir")==null ? true : (Boolean) jsonConfiguration.get("pasteAir");
             JSONArray jsonTrump     =   (JSONArray) jsonConfiguration.get("trump");
             JSONArray jsonInvalid   =   (JSONArray) jsonConfiguration.get("invalid");
             if(jsonTrump!=null){
@@ -312,5 +315,9 @@ public class Structure {
     
     public CuboidClipboard getCuboid(){
         return cuboid;
+    }
+    
+    public boolean pasteAir(){
+        return pasteAir;
     }
 }
