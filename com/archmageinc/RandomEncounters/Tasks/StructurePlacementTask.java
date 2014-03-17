@@ -70,16 +70,20 @@ public class StructurePlacementTask extends BukkitRunnable {
     private void checkBlock(int x, int y, int z){
         Vector bv        =   new Vector(x,y,z);
         Vector cv        =   new Vector(x+cuboid.getSize().getBlockX()/2,y-cuboid.getOffset().getBlockY(),z+cuboid.getSize().getBlockZ()/2);
-        BaseBlock block  =   cuboid.getBlock(cv);
-        if(block==null){
+        try{
+            BaseBlock block  =   cuboid.getBlock(cv);
+            if(block==null){
+                return;
+            }
+            if(BlockType.shouldPlaceLast(block.getType())){
+                lastQueue.put(bv.add(v), block);
+            }else if(block.getType()==BlockType.WATER.getID() || block.getType()==BlockType.STATIONARY_WATER.getID() || block.getType()==BlockType.STATIONARY_LAVA.getID() || block.getType()==BlockType.LAVA.getID() || BlockType.shouldPlaceFinal(block.getType())){
+                finalQueue.put(bv.add(v), block);
+            }else{
+                setBlock(bv.add(v),block);
+            }
+        }catch(ArrayIndexOutOfBoundsException e){
             return;
-        }
-        if(BlockType.shouldPlaceLast(block.getType())){
-            lastQueue.put(bv.add(v), block);
-        }else if(block.getType()==BlockType.WATER.getID() || block.getType()==BlockType.STATIONARY_WATER.getID() || block.getType()==BlockType.STATIONARY_LAVA.getID() || block.getType()==BlockType.LAVA.getID() || BlockType.shouldPlaceFinal(block.getType())){
-            finalQueue.put(bv.add(v), block);
-        }else{
-            setBlock(bv.add(v),block);
         }
     }
     
@@ -102,11 +106,11 @@ public class StructurePlacementTask extends BukkitRunnable {
         Location location      =   placedEncounter.getLocation();
         List<Player> players   =   location.getWorld().getPlayers();
         for(Player player : players){
-            if(RandomEncounters.getInstance().getLogLevel()>11){
+            if(RandomEncounters.getInstance().getLogLevel()>13){
                 RandomEncounters.getInstance().logMessage(player.getDisplayName()+" is "+location.distance(player.getLocation())+" away from placing structure "+placedEncounter.getName());
             }
             if(location.distance(player.getLocation())<structure.getLength() || location.distance(player.getLocation())<structure.getWidth()){
-                if(RandomEncounters.getInstance().getLogLevel()>10){
+                if(RandomEncounters.getInstance().getLogLevel()>11){
                     RandomEncounters.getInstance().logMessage("A player is "+location.distance(player.getLocation())+" away from placing structure "+placedEncounter.getName()+". Backing down to 1ms");
                 }
                 return true;
@@ -178,24 +182,24 @@ public class StructurePlacementTask extends BukkitRunnable {
     private void firstPass(){
         Calendar timeLimit  =   (Calendar) Calendar.getInstance().clone();
         timeLimit.add(Calendar.MILLISECOND, maxLockTime);
-        while(x<mx){
+        while(x<=mx){
             
-            y   =   y>=my ? sy : y;
-            while(y<my){
+            y   =   y>my ? sy : y;
+            while(y<=my){
                 
-                z   =   z>=mz ? sz : z;
-                while(z<mz){
+                z   =   z>mz ? sz : z;
+                while(z<=mz){
                     checkBlock(x,y,z);
                     z++;
                     if(Calendar.getInstance().after(timeLimit)){
-                        if(z>=mz){
+                        if(z>mz){
                             y++;
                         }
                         break;
                     }
                 }
                 if(Calendar.getInstance().after(timeLimit)){
-                    if(y>=my){
+                    if(y>my){
                         x++;
                     }
                     break;
@@ -206,11 +210,11 @@ public class StructurePlacementTask extends BukkitRunnable {
                 break;
             x++;
         }
-        if(x>=mx){
+        if(x>mx){
             setupIterators();
             pass++;
             if(RandomEncounters.getInstance().getLogLevel()>10){
-                RandomEncounters.getInstance().logMessage("Structure placement for "+placedEncounter.getName()+" completed first pass [P2: "+lastQueue.size()+", P3: "+finalQueue.size()+"]");
+                RandomEncounters.getInstance().logMessage("Structure placement for "+placedEncounter.getName()+" completed first pass ("+x+"/"+mx+","+y+"/"+my+","+z+"/"+mz+") [P2: "+lastQueue.size()+", P3: "+finalQueue.size()+"]");
             }
         }else{
             if(RandomEncounters.getInstance().getLogLevel()>11){

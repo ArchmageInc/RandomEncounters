@@ -103,6 +103,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -115,6 +116,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -127,6 +129,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -139,6 +142,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -223,6 +227,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -235,6 +240,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -247,6 +253,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -259,6 +266,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -271,6 +279,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -283,6 +292,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -295,6 +305,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -307,6 +318,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -319,6 +331,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -348,6 +361,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -360,6 +374,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -372,6 +387,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -384,6 +400,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -397,6 +414,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -409,6 +427,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -421,6 +440,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -434,6 +454,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -447,6 +468,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -459,6 +481,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -471,6 +494,7 @@
       "minY":	96,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	null
     },
     {
@@ -479,6 +503,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -491,6 +516,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -504,6 +530,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -516,6 +543,7 @@
       "minY":		96,
       "maxY":		97,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"STATIONARY_WATER",
 	"WATER"
@@ -527,6 +555,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -539,6 +568,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -551,6 +581,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -563,6 +594,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -575,6 +607,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -587,6 +620,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -600,6 +634,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -612,6 +647,7 @@
       "minY":	0,
       "maxY":	196,
       "trump":	null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -625,6 +661,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -637,6 +674,7 @@
       "minY":		0,
       "maxY":		196,
       "trump":		null,
+      "pasteAir":       false,
       "invalid":	[
 	"AIR",
 	"STATIONARY_WATER",
@@ -660,6 +698,7 @@
       "file":	"schematics/floating-island.schematic",
       "minY":	96,
       "maxY":	196,
+      "pasteAir":       false,
       "trump":	null,
       "invalid":	null
     }
