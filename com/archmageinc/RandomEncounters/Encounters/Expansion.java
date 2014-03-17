@@ -165,7 +165,7 @@ public class Expansion implements Cloneable,EncounterPlacer{
             }
             return;
         }
-        if(encounter.getInvalidWorlds().contains(expandingEncounter.getLocation().getWorld()) || (!encounter.getValidWorlds().isEmpty() && encounter.getValidWorlds().contains(expandingEncounter.getLocation().getWorld()))){
+        if(getEncounter().getInvalidWorlds().contains(expandingEncounter.getLocation().getWorld()) || (!getEncounter().getValidWorlds().isEmpty() && getEncounter().getValidWorlds().contains(expandingEncounter.getLocation().getWorld()))){
             if(RandomEncounters.getInstance().getLogLevel()>7){
                 RandomEncounters.getInstance().logMessage("    * "+expandingEncounter.getName()+"->"+getEncounter().getName()+" cannot expand into an invalid world");
             }

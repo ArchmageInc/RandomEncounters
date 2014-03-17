@@ -178,7 +178,9 @@ public class PlacedEncounter implements LoadListener{
             if(encounter==null){
                 RandomEncounters.getInstance().logError("Missing Encounter ("+(String) jsonConfiguration.get("encounter")+") from PlacedEncounter configuration");
             }
-            
+            if(location==null){
+                RandomEncounters.getInstance().logError("Invalid location for placedEncounter "+uuid.toString());
+            }
             if(jsonMobs!=null){
                 for(int i=0;i<jsonMobs.size();i++){
                     mobs.add(PlacedMob.getInstance((JSONObject) jsonMobs.get(i),this));
