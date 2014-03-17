@@ -37,6 +37,9 @@ public class Accountant {
         if(resources.isEmpty()){
             return;
         }
+        if(RandomEncounters.getInstance().getLogLevel()>10){
+            logRequest("DEPOSIT",resources);
+        }
         if(n<vaults.size()){
             vaults.get(n).deposit(this, resources, n);
             if(RandomEncounters.getInstance().getLogLevel()>11){
@@ -70,6 +73,9 @@ public class Accountant {
     public void withdrawResources(HashMap<Material,Integer> resources, int n){
         if(resources.isEmpty()){
             return;
+        }
+        if(RandomEncounters.getInstance().getLogLevel()>10){
+            logRequest("WITHDRAW",resources);
         }
         if(n<vaults.size()){
             vaults.get(n).withdraw(this, resources, n);
@@ -106,12 +112,7 @@ public class Accountant {
             return true;
         }
         if(RandomEncounters.getInstance().getLogLevel()>10){
-            RandomEncounters.getInstance().logMessage("*********REQUEST*********");
-            RandomEncounters.getInstance().logMessage("  **"+getName()+"**");
-            for(Material m : resources.keySet()){
-                RandomEncounters.getInstance().logMessage("  "+m.name()+": "+resources.get(m));
-            }
-            RandomEncounters.getInstance().logMessage("*******END REQUEST*******");
+            logRequest("CHECK",resources);
         }
         inventory();
         
@@ -124,6 +125,15 @@ public class Accountant {
             }
         }
         return false;
+    }
+    
+    public void logRequest(String type,HashMap<Material,Integer> resources){
+        RandomEncounters.getInstance().logMessage("*********"+type+"*********");
+        RandomEncounters.getInstance().logMessage("  **"+getName()+"**");
+        for(Material m : resources.keySet()){
+            RandomEncounters.getInstance().logMessage("  "+m.name()+": "+resources.get(m));
+        }
+        RandomEncounters.getInstance().logMessage("*******END "+type+"*******");
     }
     
     public void logBalance(){
