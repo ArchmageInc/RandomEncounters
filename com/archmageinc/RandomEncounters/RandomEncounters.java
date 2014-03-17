@@ -16,6 +16,7 @@ import com.archmageinc.RandomEncounters.Utilities.LocationManager;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -365,7 +366,7 @@ public class RandomEncounters extends JavaPlugin {
      * @param message 
      */
     public void logMessage(String message){
-        getLogger().info("[v"+getDescription().getVersion()+"]: "+message);
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN+"[RandomEncounters] [v"+getDescription().getVersion()+"]: "+ChatColor.RESET+message);
     }
     
     /**
@@ -373,7 +374,7 @@ public class RandomEncounters extends JavaPlugin {
      * @param message 
      */
     public void logError(String message){
-        getLogger().severe("[v"+getDescription().getVersion()+"]: "+message);
+        getServer().getConsoleSender().sendMessage(ChatColor.RED+"[RandomEncounters] [v"+getDescription().getVersion()+"]: "+ChatColor.RESET+message);
     }
     
     /**
@@ -381,7 +382,7 @@ public class RandomEncounters extends JavaPlugin {
      * @param message 
      */
     public void logWarning(String message){
-        getLogger().warning("[v"+getDescription().getVersion()+"]: "+message);
+        getServer().getConsoleSender().sendMessage(ChatColor.YELLOW+"[RandomEncounters] [v"+getDescription().getVersion()+"]: "+ChatColor.RESET+message);
     }
     
     /**

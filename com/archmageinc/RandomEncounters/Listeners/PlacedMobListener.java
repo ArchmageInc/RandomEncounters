@@ -38,7 +38,7 @@ public class PlacedMobListener implements Listener{
     
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event){
-        if(RandomEncounters.getInstance().getLogLevel()>10){
+        if(RandomEncounters.getInstance().getLogLevel()>11){
             PlacedMob entity    =   PlacedMob.getInstance(event.getEntity().getUniqueId());
             if(entity!=null){
                 RandomEncounters.getInstance().logMessage(entity.getPlacedEncounter().getName()+": "+entity.getMob().getName()+" ("+entity.getMob().getTypeName()+") has been hurt: "+event.getCause().toString());

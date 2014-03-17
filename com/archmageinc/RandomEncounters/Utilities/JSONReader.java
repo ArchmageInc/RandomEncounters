@@ -46,9 +46,9 @@ public class JSONReader {
         }catch(FileNotFoundException e){
             RandomEncounters.getInstance().logWarning("File not found: "+fileName);
         }catch(IOException e){
-            RandomEncounters.getInstance().logWarning("Error while reading from file "+fileName);
+            RandomEncounters.getInstance().logError("Error while reading from file "+fileName);
         }catch (ParseException e) {
-            RandomEncounters.getInstance().logWarning("Error while parsing JSON data from file "+fileName+": "+e.getMessage());
+            RandomEncounters.getInstance().logError("Error while parsing JSON data from file "+fileName+": "+e.getMessage());
         }
         
         return json;
@@ -65,7 +65,7 @@ public class JSONReader {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,append))) {
             writer.write(data.toJSONString());
         } catch(IOException ex) {
-            RandomEncounters.getInstance().logWarning("Error while writing to file "+fileName);
+            RandomEncounters.getInstance().logError("Error while writing to file "+fileName);
         }
     }
     
