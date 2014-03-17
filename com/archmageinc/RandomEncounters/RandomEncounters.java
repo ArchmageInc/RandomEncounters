@@ -354,10 +354,11 @@ public class RandomEncounters extends JavaPlugin {
      * @param encounter The PlacedEncounter to remove
      */
     public void removePlacedEncounter(PlacedEncounter encounter){
-        placedEncounters.remove(encounter);
         if(logLevel>6){
             logMessage("Removing saved encounter: "+encounter.getName()+" at "+encounter.getLocation().toString()+" there are "+placedEncounters.size()+" saved");
         }
+        placedEncounters.remove(encounter);
+        LocationManager.removeLocations(getDataFolder()+"/locations/"+encounter.getUUID().toString()+".dat");
         savePlacedEncounters();
     }
     
